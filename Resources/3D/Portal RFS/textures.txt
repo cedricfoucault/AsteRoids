@@ -1,0 +1,2 @@
+<../images/portaltexture0.jpg> <../images/portaltexture0.jpg>
+<../images/portaltexture1.jpg> <../images/portaltexture1.jpg>

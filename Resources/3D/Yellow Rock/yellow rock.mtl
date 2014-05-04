@@ -1,0 +1,10 @@
+#
+## Alias OBJ Material File
+# Exported from SketchUp, (c) 2000-2012 Trimble Navigation Limited
+
+newmtl sandstone8
+Ka 0.000000 0.000000 0.000000
+Kd 0.678431 0.596078 0.478431
+Ks 0.330000 0.330000 0.330000
+map_Kd yellow rock/sandstone8.jpg
+
