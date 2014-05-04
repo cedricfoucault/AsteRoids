@@ -17,7 +17,9 @@ extern const float PROJECTILE_SCALE;
 extern const float SPAWN_DELAY;
 extern const float SPAWN_DISTANCE;
 extern const float SKYWALL_DISTANCE;
+extern const float SKYDOME_DISTANCE;
 extern NSString * const PROJECTILE_MESH_FILENAME;
 extern NSString * const WINDOW_MESH_FILENAME;
+extern NSString * const SKYDOME_MESH_FILENAME;
 
 #endif

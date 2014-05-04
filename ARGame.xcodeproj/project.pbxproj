@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8214CA6518B59FC80022D7B9 /* hud.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8214CA6418B59FC80022D7B9 /* hud.xib */; };
+		8214CA6518B59FC80022D7B9 /* hudGame.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8214CA6418B59FC80022D7B9 /* hudGame.xib */; };
 		8214CA6818B5A2590022D7B9 /* HUDOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8214CA6718B5A2590022D7B9 /* HUDOverlayView.m */; };
 		8214CA6B18B5BFBD0022D7B9 /* Projectile.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8214CA6A18B5BFBD0022D7B9 /* Projectile.mm */; };
 		8238419A19159E4800581333 /* yellow rock.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 8238419919159E4800581333 /* yellow rock.mtl */; };
@@ -19,6 +19,8 @@
 		823841B71915B37D00581333 /* starfield.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 823841B11915B37D00581333 /* starfield.jpeg */; };
 		823841C31915FFFE00581333 /* StarPlane.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 823841C11915FFFE00581333 /* StarPlane.mtl */; };
 		823841C41915FFFE00581333 /* StarPlane.obj in Resources */ = {isa = PBXBuildFile; fileRef = 823841C21915FFFE00581333 /* StarPlane.obj */; };
+		823841C719161A3100581333 /* target viewfinder.png in Resources */ = {isa = PBXBuildFile; fileRef = 823841C619161A3100581333 /* target viewfinder.png */; };
+		823841C919161D4C00581333 /* hudInstructions.xib in Resources */ = {isa = PBXBuildFile; fileRef = 823841C819161D4C00581333 /* hudInstructions.xib */; };
 		8248A1FE18A7700800BDE25E /* doc.kml in Resources */ = {isa = PBXBuildFile; fileRef = 8248A1F718A7700800BDE25E /* doc.kml */; };
 		8248A1FF18A7700800BDE25E /* portaltexture0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8248A1F918A7700800BDE25E /* portaltexture0.jpg */; };
 		8248A20018A7700800BDE25E /* portaltexture1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8248A1FA18A7700800BDE25E /* portaltexture1.jpg */; };
@@ -170,6 +172,9 @@
 		8248A57318A963F800BDE25E /* premake4.lua in Resources */ = {isa = PBXBuildFile; fileRef = 8248A4E818A963F800BDE25E /* premake4.lua */; };
 		8252317318B5DB6500F475CE /* gunsight.png in Resources */ = {isa = PBXBuildFile; fileRef = 8252317218B5DB6500F475CE /* gunsight.png */; };
 		8252317518B5EC5000F475CE /* redTexture.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8252317418B5EC5000F475CE /* redTexture.jpg */; };
+		82BBD4DA1916A2110077B0B6 /* spacedome.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4D51916A2110077B0B6 /* spacedome.jpg */; };
+		82BBD4DD1916A2110077B0B6 /* StarDome.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4D81916A2110077B0B6 /* StarDome.mtl */; };
+		82BBD4DE1916A2110077B0B6 /* StarDome.obj in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4D91916A2110077B0B6 /* StarDome.obj */; };
 		82E68C7118A61B7800F77F10 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E68C7018A61B7800F77F10 /* Foundation.framework */; };
 		82E68C7318A61B7800F77F10 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E68C7218A61B7800F77F10 /* CoreGraphics.framework */; };
 		82E68C7518A61B7800F77F10 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E68C7418A61B7800F77F10 /* UIKit.framework */; };
@@ -211,7 +216,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8214CA6418B59FC80022D7B9 /* hud.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = hud.xib; sourceTree = "<group>"; };
+		8214CA6418B59FC80022D7B9 /* hudGame.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = hudGame.xib; sourceTree = "<group>"; };
 		8214CA6618B5A2590022D7B9 /* HUDOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDOverlayView.h; sourceTree = "<group>"; };
 		8214CA6718B5A2590022D7B9 /* HUDOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDOverlayView.m; sourceTree = "<group>"; };
 		8214CA6918B5BFBD0022D7B9 /* Projectile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Projectile.h; sourceTree = "<group>"; };
@@ -226,6 +231,8 @@
 		823841B11915B37D00581333 /* starfield.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = starfield.jpeg; sourceTree = "<group>"; };
 		823841C11915FFFE00581333 /* StarPlane.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StarPlane.mtl; sourceTree = "<group>"; };
 		823841C21915FFFE00581333 /* StarPlane.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StarPlane.obj; sourceTree = "<group>"; };
+		823841C619161A3100581333 /* target viewfinder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "target viewfinder.png"; sourceTree = "<group>"; };
+		823841C819161D4C00581333 /* hudInstructions.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = hudInstructions.xib; sourceTree = "<group>"; };
 		8248A1F718A7700800BDE25E /* doc.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = doc.kml; sourceTree = "<group>"; };
 		8248A1F918A7700800BDE25E /* portaltexture0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = portaltexture0.jpg; sourceTree = "<group>"; };
 		8248A1FA18A7700800BDE25E /* portaltexture1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = portaltexture1.jpg; sourceTree = "<group>"; };
@@ -577,6 +584,9 @@
 		8248A57618A967EB00BDE25E /* btBulletCollisionCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = btBulletCollisionCommon.h; sourceTree = "<group>"; };
 		8252317218B5DB6500F475CE /* gunsight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gunsight.png; sourceTree = "<group>"; };
 		8252317418B5EC5000F475CE /* redTexture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = redTexture.jpg; sourceTree = "<group>"; };
+		82BBD4D51916A2110077B0B6 /* spacedome.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = spacedome.jpg; sourceTree = "<group>"; };
+		82BBD4D81916A2110077B0B6 /* StarDome.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StarDome.mtl; sourceTree = "<group>"; };
+		82BBD4D91916A2110077B0B6 /* StarDome.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StarDome.obj; sourceTree = "<group>"; };
 		82E68C6D18A61B7800F77F10 /* ARGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82E68C7018A61B7800F77F10 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		82E68C7218A61B7800F77F10 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -711,6 +721,14 @@
 				823841B11915B37D00581333 /* starfield.jpeg */,
 			);
 			path = StarPlane;
+			sourceTree = "<group>";
+		};
+		823841C519161A0800581333 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				823841C619161A3100581333 /* target viewfinder.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 		8248A1F618A7700800BDE25E /* Portal RFS */ = {
@@ -1267,6 +1285,16 @@
 			path = LinearMath;
 			sourceTree = "<group>";
 		};
+		82BBD4D41916A2110077B0B6 /* StarDome */ = {
+			isa = PBXGroup;
+			children = (
+				82BBD4D51916A2110077B0B6 /* spacedome.jpg */,
+				82BBD4D81916A2110077B0B6 /* StarDome.mtl */,
+				82BBD4D91916A2110077B0B6 /* StarDome.obj */,
+			);
+			path = StarDome;
+			sourceTree = "<group>";
+		};
 		82E68C6418A61B7800F77F10 = {
 			isa = PBXGroup;
 			children = (
@@ -1319,7 +1347,8 @@
 				8214CA6718B5A2590022D7B9 /* HUDOverlayView.m */,
 				8214CA6918B5BFBD0022D7B9 /* Projectile.h */,
 				8214CA6A18B5BFBD0022D7B9 /* Projectile.mm */,
-				8214CA6418B59FC80022D7B9 /* hud.xib */,
+				8214CA6418B59FC80022D7B9 /* hudGame.xib */,
+				823841C819161D4C00581333 /* hudInstructions.xib */,
 				82E68CF518A6323400F77F10 /* QCARAppSession.h */,
 				82E68CF618A6323400F77F10 /* QCARAppSession.mm */,
 				823841A71915A4D600581333 /* Constants.h */,
@@ -1433,6 +1462,7 @@
 		82E68CFA18A63B8200F77F10 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				823841C519161A0800581333 /* Images */,
 				8248A20A18A7FE7500BDE25E /* Textures */,
 				82E68D5C18A64CD100F77F10 /* 3D */,
 				82E68D0C18A63B8200F77F10 /* ImageTargets */,
@@ -1453,6 +1483,7 @@
 		82E68D5C18A64CD100F77F10 /* 3D */ = {
 			isa = PBXGroup;
 			children = (
+				82BBD4D41916A2110077B0B6 /* StarDome */,
 				823841B01915B37D00581333 /* StarPlane */,
 				8238419F1915A2F500581333 /* Blue Rock */,
 				8248A24318A8EC8700BDE25E /* Yellow Rock */,
@@ -1561,10 +1592,11 @@
 			files = (
 				8248A57318A963F800BDE25E /* premake4.lua in Resources */,
 				8248A23D18A8EC2800BDE25E /* comet.obj in Resources */,
+				82BBD4DD1916A2110077B0B6 /* StarDome.mtl in Resources */,
 				823841AE1915A8DB00581333 /* BlueRock.obj in Resources */,
 				82E68D7118A6591D00F77F10 /* dummy.obj in Resources */,
 				8252317318B5DB6500F475CE /* gunsight.png in Resources */,
-				8214CA6518B59FC80022D7B9 /* hud.xib in Resources */,
+				8214CA6518B59FC80022D7B9 /* hudGame.xib in Resources */,
 				8248A20018A7700800BDE25E /* portaltexture1.jpg in Resources */,
 				823841C41915FFFE00581333 /* StarPlane.obj in Resources */,
 				8248A24A18A8EC8700BDE25E /* yellow rock.obj in Resources */,
@@ -1578,6 +1610,7 @@
 				8248A20818A7E69C00BDE25E /* Cube opened.obj in Resources */,
 				823841C31915FFFE00581333 /* StarPlane.mtl in Resources */,
 				823841AD1915A8DB00581333 /* BlueRock.mtl in Resources */,
+				82BBD4DA1916A2110077B0B6 /* spacedome.jpg in Resources */,
 				82E68D4018A63B8300F77F10 /* Tarmac.dat in Resources */,
 				823841AF1915A8DB00581333 /* RockTexture2.JPG in Resources */,
 				8248A57218A963F800BDE25E /* CMakeLists.txt in Resources */,
@@ -1585,6 +1618,7 @@
 				8248A20918A7E69C00BDE25E /* Cube.mtl in Resources */,
 				82E68C7B18A61B7800F77F10 /* InfoPlist.strings in Resources */,
 				8252317518B5EC5000F475CE /* redTexture.jpg in Resources */,
+				82BBD4DE1916A2110077B0B6 /* StarDome.obj in Resources */,
 				8248A1FF18A7700800BDE25E /* portaltexture0.jpg in Resources */,
 				8238419A19159E4800581333 /* yellow rock.mtl in Resources */,
 				82E68D4118A63B8300F77F10 /* Tarmac.xml in Resources */,
@@ -1593,6 +1627,8 @@
 				8238419E19159EEE00581333 /* sandstone8.jpg in Resources */,
 				8248A20C18A7FE7F00BDE25E /* black pixel.jpg in Resources */,
 				8248A20718A7E69C00BDE25E /* Cube opened backup normals.obj in Resources */,
+				823841C719161A3100581333 /* target viewfinder.png in Resources */,
+				823841C919161D4C00581333 /* hudInstructions.xib in Resources */,
 				8248A20118A7700800BDE25E /* Portal RFS.dae in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

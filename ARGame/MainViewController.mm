@@ -33,7 +33,8 @@
 @property (strong, nonatomic) QCARAppSession *arSession;
 @property (strong, nonatomic) NGLMesh *dummy;
 @property (strong, nonatomic) NGLMesh *window;
-@property (strong, nonatomic) NGLMesh *skywall;
+//@property (strong, nonatomic) NGLMesh *skywall;
+@property (strong, nonatomic) NGLMesh *skydome;
 @property (strong, nonatomic) NGLMesh *wall;
 @property (strong, nonatomic) NGLMesh *projectile;
 @property (strong, nonatomic) NGLCamera *camera;
@@ -180,7 +181,7 @@
     
     // Init overlays
     self.hitOverlayView = [[UIView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width * 2, self.view.bounds.size.height)];
-    [[NSBundle mainBundle] loadNibNamed:@"hud" owner:self options:nil];
+    [[NSBundle mainBundle] loadNibNamed:@"hudGame" owner:self options:nil];
     [self.view addSubview:self.hudOverlayView];
 //    NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:self.hitOverlayView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1 constant:0];
 //    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:self.hitOverlayView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:1 constant:0];
@@ -230,24 +231,42 @@
     [self.window compileCoreMesh];
     self.window.visible = NO;
     
-    // Setting the skywall
+//    // Setting the skywall
+//	settings = [NSDictionary dictionaryWithObjectsAndKeys:
+//                kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
+//                [NSString stringWithFormat:@"%f", WINDOW_SCALE * 75], kNGLMeshKeyNormalize,
+//                nil];
+//    self.skywall = [[NGLMesh alloc] initWithFile:WINDOW_MESH_FILENAME settings:settings delegate:self];
+//    NGLMaterial *skywallMaterial = [[NGLMaterial alloc] init];
+//    skywallMaterial.ambientColor = nglColorMake(1.0, 1.0, 1.0, 1.0);
+//    skywallMaterial.diffuseColor = nglColorMake(0.0, 0.0, 0.0, 1.0);
+//    skywallMaterial.emissiveColor = nglColorMake(0.0, 0.0, 0.0, 1.0);
+//    skywallMaterial.specularColor = nglColorMake(0.0, 0.0, 0.0, 1.0);
+//    skywallMaterial.shininess = 0.0;
+//    NGLTexture *texture = [NGLTexture texture2DWithFile:@"starfield.jpeg"];
+//    skywallMaterial.ambientMap = texture;
+//    skywallMaterial.diffuseMap = texture;
+//    self.skywall.material = skywallMaterial;
+//    [self.skywall compileCoreMesh];
+//    self.skywall.z = -SKYWALL_DISTANCE;
+    
+    // Setting the skydome
 	settings = [NSDictionary dictionaryWithObjectsAndKeys:
-                kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
-                [NSString stringWithFormat:@"%f", WINDOW_SCALE * 75], kNGLMeshKeyNormalize,
+                [NSString stringWithFormat:@"%f", SKYDOME_DISTANCE], kNGLMeshKeyNormalize,
                 nil];
-    self.skywall = [[NGLMesh alloc] initWithFile:WINDOW_MESH_FILENAME settings:settings delegate:self];
-    NGLMaterial *skywallMaterial = [[NGLMaterial alloc] init];
-    skywallMaterial.ambientColor = nglColorMake(1.0, 1.0, 1.0, 1.0);
-    skywallMaterial.diffuseColor = nglColorMake(0.0, 0.0, 0.0, 1.0);
-    skywallMaterial.emissiveColor = nglColorMake(0.0, 0.0, 0.0, 1.0);
-    skywallMaterial.specularColor = nglColorMake(0.0, 0.0, 0.0, 1.0);
-    skywallMaterial.shininess = 0.0;
-    NGLTexture *texture = [NGLTexture texture2DWithFile:@"starfield.jpeg"];
-    skywallMaterial.ambientMap = texture;
-    skywallMaterial.diffuseMap = texture;
-    self.skywall.material = skywallMaterial;
-    [self.skywall compileCoreMesh];
-    self.skywall.z = -SKYWALL_DISTANCE;
+    self.skydome = [[NGLMesh alloc] initWithFile:SKYDOME_MESH_FILENAME settings:settings delegate:self];
+//    NGLMaterial *skywallMaterial = [[NGLMaterial alloc] init];
+//    skywallMaterial.ambientColor = nglColorMake(1.0, 1.0, 1.0, 1.0);
+//    skywallMaterial.diffuseColor = nglColorMake(0.0, 0.0, 0.0, 1.0);
+//    skywallMaterial.emissiveColor = nglColorMake(0.0, 0.0, 0.0, 1.0);
+//    skywallMaterial.specularColor = nglColorMake(0.0, 0.0, 0.0, 1.0);
+//    skywallMaterial.shininess = 0.0;
+//    NGLTexture *texture = [NGLTexture texture2DWithFile:@"spacedome.jpg"];
+//    skywallMaterial.ambientMap = texture;
+//    skywallMaterial.diffuseMap = texture;
+//    self.skydome.material = skywallMaterial;
+//    [self.skydome compileCoreMesh];
+//    self.skydome.z = -SKYWALL_DISTANCE;
     
     // Setting the invisible "occlusion" wall
     settings = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -278,7 +297,8 @@
 //    self.projectile.y = 0.0;
     
 	// Set the camera
-    self.camera = [[NGLCamera alloc] initWithMeshes:self.dummy, self.window, self.wall, self.skywall, nil];
+//    self.camera = [[NGLCamera alloc] initWithMeshes:self.dummy, self.window, self.wall, self.skywall, nil];
+    self.camera = [[NGLCamera alloc] initWithMeshes:self.dummy, self.window, self.wall, self.skydome, nil];
 //	[self.camera autoAdjustAspectRatio:YES animated:YES];
     
     // Set the light

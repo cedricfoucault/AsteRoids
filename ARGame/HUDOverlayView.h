@@ -17,6 +17,7 @@
 
 @interface HUDOverlayView : UIView
 @property (weak, nonatomic) IBOutlet UILabel *lifeCountLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *viewFinder;
 @property (weak, nonatomic) IBOutlet UILabel *scoreCountLabel;
 - (IBAction)pauseTapped:(UIButton *)sender;
 @property (weak, nonatomic) IBOutlet id<HUDDelegate> delegate;
