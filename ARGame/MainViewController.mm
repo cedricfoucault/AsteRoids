@@ -233,7 +233,7 @@
     // Setting the skywall
 	settings = [NSDictionary dictionaryWithObjectsAndKeys:
                 kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
-                [NSString stringWithFormat:@"%f", WINDOW_SCALE * 60], kNGLMeshKeyNormalize,
+                [NSString stringWithFormat:@"%f", WINDOW_SCALE * 75], kNGLMeshKeyNormalize,
                 nil];
     self.skywall = [[NGLMesh alloc] initWithFile:WINDOW_MESH_FILENAME settings:settings delegate:self];
     NGLMaterial *skywallMaterial = [[NGLMaterial alloc] init];
@@ -248,7 +248,6 @@
     self.skywall.material = skywallMaterial;
     [self.skywall compileCoreMesh];
     self.skywall.z = -SKYWALL_DISTANCE;
-//    self.skywall.visible = NO;
     
     // Setting the invisible "occlusion" wall
     settings = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -439,18 +438,18 @@
             }
         }
         
-        if (self.gameHasStarted && self.gameIsPlaying) {
+        glEnable (GL_BLEND);
+        glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        if (self.gameHasStarted) {
             // Render
-            glEnable (GL_BLEND);
-            glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             glDisable(GL_DEPTH_TEST);
             // window object (without occlusion)
             [self.window drawMeshWithCamera:self.camera];
             // rest of the world
             glEnable(GL_DEPTH_TEST);
             [self.camera drawCamera];
-            glDisable (GL_BLEND);
         }
+        glDisable (GL_BLEND);
         
         QCAR::Renderer::getInstance().end();
     }
