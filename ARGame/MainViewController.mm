@@ -183,9 +183,6 @@
     self.hitOverlayView = [[UIView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width * 2, self.view.bounds.size.height)];
     [[NSBundle mainBundle] loadNibNamed:@"hudGame" owner:self options:nil];
     [self.view addSubview:self.hudOverlayView];
-//    NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:self.hitOverlayView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1 constant:0];
-//    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:self.hitOverlayView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeHeight multiplier:1 constant:0];
-//    [self.view addConstraints:@[widthConstraint, heightConstraint]];
     self.hitOverlayView.backgroundColor = [UIColor redColor];
     self.hitOverlayView.alpha = 0.85;
     self.hitOverlayView.hidden = YES;
@@ -203,7 +200,7 @@
     self.dummy = [[NGLMesh alloc] initWithFile:@"dummy.obj" settings:settings delegate:self];
     self.dummy.y = -0.5f;
     self.dummy.z = -1.0f;
-    self.dummy.material = [NGLMaterial materialGold];
+    self.dummy.material = [NGLMaterial material];
     
     // Setting the window
 	settings = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -218,55 +215,17 @@
     blackMaterial.specularColor = nglColorMake(0.0, 0.0, 0.0, 1.0);
     blackMaterial.shininess = 0.0;
     self.window.material = blackMaterial;
-//    NGLMaterial *windowMaterial = [[NGLMaterial alloc] init];
-//    windowMaterial.ambientColor = nglColorMake(0.5, 0.5, 0.5, 1.0);
-//    windowMaterial.diffuseColor = nglColorMake(0.5, 0.5, 0.5, 1.0);
-//    windowMaterial.emissiveColor = nglColorMake(0.0, 0.0, 0.0, 1.0);
-//    windowMaterial.specularColor = nglColorMake(0.0, 0.0, 0.0, 1.0);
-//    NGLTexture *texture = [NGLTexture texture2DWithFile:@"starfield.jpeg"];
-//    windowMaterial.ambientMap = texture;
-//    windowMaterial.diffuseMap = texture;
-//    self.window.material = windowMaterial;
-////    windowMaterial.diffuseColor=
     [self.window compileCoreMesh];
     self.window.visible = NO;
-    
-//    // Setting the skywall
-//	settings = [NSDictionary dictionaryWithObjectsAndKeys:
-//                kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
-//                [NSString stringWithFormat:@"%f", WINDOW_SCALE * 75], kNGLMeshKeyNormalize,
-//                nil];
-//    self.skywall = [[NGLMesh alloc] initWithFile:WINDOW_MESH_FILENAME settings:settings delegate:self];
-//    NGLMaterial *skywallMaterial = [[NGLMaterial alloc] init];
-//    skywallMaterial.ambientColor = nglColorMake(1.0, 1.0, 1.0, 1.0);
-//    skywallMaterial.diffuseColor = nglColorMake(0.0, 0.0, 0.0, 1.0);
-//    skywallMaterial.emissiveColor = nglColorMake(0.0, 0.0, 0.0, 1.0);
-//    skywallMaterial.specularColor = nglColorMake(0.0, 0.0, 0.0, 1.0);
-//    skywallMaterial.shininess = 0.0;
-//    NGLTexture *texture = [NGLTexture texture2DWithFile:@"starfield.jpeg"];
-//    skywallMaterial.ambientMap = texture;
-//    skywallMaterial.diffuseMap = texture;
-//    self.skywall.material = skywallMaterial;
-//    [self.skywall compileCoreMesh];
-//    self.skywall.z = -SKYWALL_DISTANCE;
     
     // Setting the skydome
 	settings = [NSDictionary dictionaryWithObjectsAndKeys:
                 [NSString stringWithFormat:@"%f", SKYDOME_DISTANCE], kNGLMeshKeyNormalize,
                 nil];
     self.skydome = [[NGLMesh alloc] initWithFile:SKYDOME_MESH_FILENAME settings:settings delegate:self];
-//    NGLMaterial *skywallMaterial = [[NGLMaterial alloc] init];
-//    skywallMaterial.ambientColor = nglColorMake(1.0, 1.0, 1.0, 1.0);
-//    skywallMaterial.diffuseColor = nglColorMake(0.0, 0.0, 0.0, 1.0);
-//    skywallMaterial.emissiveColor = nglColorMake(0.0, 0.0, 0.0, 1.0);
-//    skywallMaterial.specularColor = nglColorMake(0.0, 0.0, 0.0, 1.0);
-//    skywallMaterial.shininess = 0.0;
-//    NGLTexture *texture = [NGLTexture texture2DWithFile:@"spacedome.jpg"];
-//    skywallMaterial.ambientMap = texture;
-//    skywallMaterial.diffuseMap = texture;
-//    self.skydome.material = skywallMaterial;
-//    [self.skydome compileCoreMesh];
-//    self.skydome.z = -SKYWALL_DISTANCE;
+    self.skydome.shaders = [NGLShaders shadersWithFilesVertex:nil andFragment:@"StarDome.fsh"];
+    [self.skydome compileCoreMesh];
+    
     
     // Setting the invisible "occlusion" wall
     settings = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -275,12 +234,7 @@
                 nil];
     self.wall = [[NGLMesh alloc] initWithFile:@"Wall with hole.obj" settings:settings delegate:self];
     NGLMaterial *transparentMaterial = [[NGLMaterial alloc] init];
-//    transparentMaterial.alpha = 0.05;
     transparentMaterial.alpha = 0.05;
-//    transparentMaterial.ambientColor = nglColorMake(0.0, 0.0, 0.0, 0.0);
-//    transparentMaterial.diffuseColor = nglColorMake(0.0, 0.0, 0.0, 0.0);
-//    transparentMaterial.emissiveColor = nglColorMake(0.0, 0.0, 0.0, 0.0);
-//    transparentMaterial.specularColor = nglColorMake(0.0, 0.0, 0.0, 0.0);
     self.wall.material = transparentMaterial;
     [self.wall compileCoreMesh];
     
@@ -290,14 +244,8 @@
                 [NSString stringWithFormat:@"%f", PROJECTILE_SCALE], kNGLMeshKeyNormalize,
                 nil];
     self.projectile = [[NGLMesh alloc] initWithFile:PROJECTILE_MESH_FILENAME settings:settings delegate:self];
-//    self.projectile.rotationSpace = NGLRotationSpaceLocal;
-//    self.projectile.rotateX = 90;
-//    self.projectile.z = -7.0;
-//    self.projectile.x = 0.0;
-//    self.projectile.y = 0.0;
     
 	// Set the camera
-//    self.camera = [[NGLCamera alloc] initWithMeshes:self.dummy, self.window, self.wall, self.skywall, nil];
     self.camera = [[NGLCamera alloc] initWithMeshes:self.dummy, self.window, self.wall, self.skydome, nil];
 //	[self.camera autoAdjustAspectRatio:YES animated:YES];
     
@@ -315,16 +263,11 @@
     
     // Set the fog
     NGLFog *defaultFog = [NGLFog defaultFog];
-//    defaultFog.color = nglVec4Make(0, 0, 0, 1);
-//	defaultFog.type = NGLFogTypeLinear;
-    defaultFog.type = NGLFogTypeNone;
-//	defaultFog.start = 8.0f;
-//	defaultFog.end = 20.0f;
-//    defaultFog.start = FOG_START;
-//    defaultFog.end = FOG_END;
-    
-    // load red texture
-//    self.redTexture = [NGLTexture texture2DWithFile:@"redTexture.jpg"];
+    defaultFog.color = nglVec4Make(0, 0, 0, 1);
+	defaultFog.type = NGLFogTypeLinear;
+//    defaultFog.type = NGLFogTypeNone;
+    defaultFog.start = FOG_START;
+    defaultFog.end = FOG_END;
     
 	// Starts the debug monitor.
 //	[[NGLDebug debugMonitor] startWithView:(NGLView *)self.view];
@@ -352,8 +295,6 @@
         _physProjectileObject->setCollisionShape(boxCollisionShape);
         _physCollisionWorld->addCollisionObject(_physProjectileObject);
     }
-//    btCollisionObjectArray objs = self.physCollisionWorld->getCollisionObjectArray();
-//    NSLog(@"%d objects added to the phys world", objs.size());
 }
 
 // draw a frame
@@ -475,143 +416,6 @@
     }
 }
 
-//- (void) drawView {
-//    if (self.arSession.cameraIsStarted) {
-//        // Update objects position
-////        if (self.projectile.z < 3) {
-////            self.projectile.z += 0.02;
-////            [self.projectile moveRelativeTo:NGLMoveForward distance:0.02];
-////        }
-//        
-//        self.dummy.visible = NO;
-////        self.window.visible = NO;
-//        self.projectile.visible = NO;
-//        self.wall.visible = NO;
-//        
-//        QCAR::State state = QCAR::Renderer::getInstance().begin();
-//        // draw video background
-//        QCAR::Renderer::getInstance().drawVideoBackground();
-////        glEnable (GL_BLEND);
-////        glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//        
-//        // Update tracking state
-//        float scale = 247.f;
-//		for (int i = 0; i < state.getNumTrackableResults(); ++i)
-//		{
-//			// Get the trackable
-//			const QCAR::TrackableResult* result = state.getTrackableResult(i);
-//            const QCAR::Trackable& trackable = result->getTrackable();
-//
-//			QCAR::Matrix44F qMatrix = QCAR::Tool::convertPose2GLMatrix(result->getPose());
-////            NSLog(@"qMatrix:\n");
-////            nglMatrixDescribe(matrix);
-//            
-//			if (!strcmp(trackable.getName(), "tarmac")) {
-//                // get the target scale
-//                const QCAR::ImageTarget *target = static_cast<const QCAR::ImageTarget*>(&result->getTrackable());
-//                scale = target->getSize().data[0];
-//                
-//                // update rebase matrix
-//                [self nglRebaseMatrixFromQCARMatrix:qMatrix scale:scale result:self.rebaseMatrix];
-//                
-//                [self targetWasFound];
-//                
-//				// Making the meshes visible again.
-//                self.dummy.visible = YES;
-////				self.window.visible = YES;
-//                self.projectile.visible = YES;
-//                self.wall.visible = YES;
-//                
-////                NGLmat4 myRebase;
-////                [self nglRebaseMatrixFromQCARMatrix:qMatrix scale:scale result:myRebase];
-//                
-//                
-////                [self.dummy rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
-////                [self.window rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
-////                [self.wall rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
-////                [self.projectile rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
-//
-//                 // Rebase the camera has the same effect as objects, however you can't rebase a mesh and
-//                 // a camera at the same time. Choose one of these ways.
-//                [self.camera rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
-//                [[NGLLight defaultLight] rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
-//                
-//                // update objects position
-//                if (self.gameIsPlaying) {
-//                    self.projectile.x += self.u0.x * 0.03;
-//                    self.projectile.y += self.u0.y * 0.03;
-//                    self.projectile.z += self.u0.z * 0.03;
-//                }
-////                NSLog(@"projectile:\n");
-////                nglMatrixDescribe(*self.projectile.matrix);
-////                for (int i = 0; i < 16; i++) {
-////                    NSLog(@"[%d] = %f", i, projectileMatrix[i]);
-////                }
-////                NSLog(@"camera:\n");
-////                nglMatrixDescribe(*self.camera.matrix);
-////                nglMatrixCopy(projectileMatrix, *self.projectile.matrix);
-//                
-//                break;
-//			}
-//		}
-//        
-//        if (self.gameIsPlaying) {
-//            // Update physics
-//            NGLmat4 cameraTransform;
-//            //        nglMatrixMultiply(self.rebaseMatrix, *self.camera.matrix, cameraTransform);
-//            nglMatrixCopy(*self.camera.matrix, cameraTransform);
-//            //        NSLog(@"camera:\n");
-//            //        nglMatrixDescribe(cameraTransform);
-//            //        NSLog(@"projectile:\n");
-//            //        nglMatrixDescribe(*self.projectile.matrix);
-//            self.physPlayerObject->getWorldTransform().setFromOpenGLMatrix(cameraTransform);
-//            self.physProjectileObject->getWorldTransform().setFromOpenGLMatrix(*self.projectile.matrix);
-//            //        btVector3 vec3 = self.physPlayerObject->getWorldTransform().getOrigin();
-//            //        NSLog(@"player phys origin: (%f %f %f)", vec3.getX(), vec3.getY(), vec3.getZ());
-//            //        vec3 = self.physProjectileObject->getWorldTransform().getOrigin();
-//            //        NSLog(@"projectile phys origin: (%f %f %f)", vec3.getX(), vec3.getY(), vec3.getZ());
-//            
-//            // Detect collisions
-//            self.physCollisionWorld->performDiscreteCollisionDetection();
-//            int numManifolds = self.physCollisionWorld->getDispatcher()->getNumManifolds();
-//            for (int i = 0; i < numManifolds; i++) {
-//                //            NSLog(@"manifold %d", i);
-//                btPersistentManifold* contactManifold = self.physCollisionWorld->getDispatcher()->getManifoldByIndexInternal(i);
-//                //            btCollisionObject* obA = static_cast<btCollisionObject*>(contactManifold->getBody0());
-//                //            btCollisionObject* obB = static_cast<btCollisionObject*>(contactManifold->getBody1());
-//                
-//                int numContacts = contactManifold->getNumContacts();
-//                if (numContacts > 0) {
-//                    NSLog(@"COLLISION!");
-//                    [self playerWasHit];
-//                }
-//                contactManifold->clearManifold();
-//            }
-//        }
-//        
-//        // Render
-//            
-//        // window object (without occlusion)
-//        glEnable (GL_BLEND);
-//        glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//        glDisable(GL_DEPTH_TEST);
-//        [self.window drawMeshWithCamera:self.camera];
-//        
-//        // rest of the world
-//        
-//        // Enable depth test again.
-//        glEnable(GL_DEPTH_TEST);
-//        //        glEnable(GL_CULL_FACE);
-//        
-//        [self.camera drawCamera];
-//        glDisable (GL_BLEND);
-//        //        glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//        //        self.projectile.z = 0.5;
-//        //        [self.projectile drawMeshWithCamera:self.camera];
-//        QCAR::Renderer::getInstance().end();
-//    }
-//}
-
 - (void)shotHitTest {
     NSLog(@"tap");
     if (self.gameIsPlaying) {
@@ -635,11 +439,6 @@
                     [self incrementScore];
                     [self destroyProjectile:projectile];
                     break;
-                    
-                    //                    NGLMaterial *material = [[NGLMaterial alloc] init];
-                    //                    material.ambientColor = nglVec4Make(1, 0, 0, 1);
-                    //                    material.diffuseColor = nglVec4Make(1, 0, 0, 1);
-                    //                    projectile.mesh.material = material;
                 }
             }
         }
@@ -999,7 +798,7 @@
 
 - (void)spawnProjectile {
     NSLog(@"spawn");
-    if (self.gameIsPlaying) {
+    if (self.gameHasStarted && self.gameIsPlaying) {
         Projectile *projectile = [[Projectile alloc] initWithMesh:self.projectile camera:self.camera collisionWorld:self.physCollisionWorld rebase:self.rebaseMatrix];
         [self.projectiles addObject:projectile];
     }
