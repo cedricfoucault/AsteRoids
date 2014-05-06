@@ -28,7 +28,7 @@
 //static const float PROJECTILE_SCALE = 1.0f;
 //static const float SPAWN_DELAY = 1.15f;
 
-@interface MainViewController () <NGLViewDelegate, NGLMeshDelegate, QCARAppControl>
+@interface MainViewController () <NGLViewDelegate, NGLMeshDelegate, QCARAppControl, UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) QCARAppSession *arSession;
 @property (strong, nonatomic) NGLMesh *dummy;
@@ -51,9 +51,14 @@
 @property (nonatomic) NGLvec3 u0;
 @property (nonatomic) BOOL gameHasStarted;
 @property (nonatomic) BOOL gameIsPlaying;
+@property (nonatomic) BOOL gunIsLoaded;
 
 @property (strong, nonatomic) IBOutlet HUDOverlayView *hudOverlayView;
+@property (strong, nonatomic) IBOutlet UIView *overlayViewfinder;
 @property (strong, nonatomic) UIView *hitOverlayView;
+@property (weak, nonatomic) IBOutlet UIImageView *gunViewfinder;
+@property (weak, nonatomic) IBOutlet UIProgressView *reloadProgressView;
+
 @property (strong, nonatomic) NSTimer *hitTimer;
 @property (nonatomic) int playerLifes;
 @property (nonatomic) int score;
@@ -173,16 +178,33 @@
     [self.arSession initAR:QCAR::GL_20 ARViewBoundsSize:arViewFrame.size orientation:UIInterfaceOrientationLandscapeRight];
 }
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    // test if our control subview is on-screen
+    if (self.hudOverlayView != nil) {
+        if ([touch.view isDescendantOfView:self.hudOverlayView]) {
+            // we touched our control surface
+            return NO; // ignore the touch
+        }
+    }
+    return YES; // handle the touch
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Init touch gesture recognizers
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(shotHitTest)];
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)];
+    tapRecognizer.delegate = self;
     [self.view addGestureRecognizer:tapRecognizer];
     
     // Init overlays
-    self.hitOverlayView = [[UIView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width * 2, self.view.bounds.size.height)];
+    [[NSBundle mainBundle] loadNibNamed:@"OverlayViewfinder" owner:self options:nil];
+    [self.view addSubview:self.overlayViewfinder];
+    // HUD
     [[NSBundle mainBundle] loadNibNamed:@"hudGame" owner:self options:nil];
     [self.view addSubview:self.hudOverlayView];
+    self.hudOverlayView.hidden = YES;
+    // Hit
+    self.hitOverlayView = [[UIView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width * 2, self.view.bounds.size.height)];
     self.hitOverlayView.backgroundColor = [UIColor redColor];
     self.hitOverlayView.alpha = 0.85;
     self.hitOverlayView.hidden = YES;
@@ -314,7 +336,8 @@
             // Get the pose matrix
 			QCAR::Matrix44F qMatrix = QCAR::Tool::convertPose2GLMatrix(result->getPose());
             
-			if (!strcmp(trackable.getName(), "tarmac")) {
+//          if (!strcmp(trackable.getName(), "tarmac"))
+			if (!strcmp(trackable.getName(), TRACKER_TARGET_NAME)) {
                 // get the target scale
                 const QCAR::ImageTarget *target = static_cast<const QCAR::ImageTarget*>(&result->getTrackable());
                 scale = target->getSize().data[0];
@@ -395,7 +418,8 @@
             
             // Destroy all the objects marked
             for (Projectile *projectile in toDestroy) {
-                [self destroyProjectile:projectile];
+                [self.projectiles removeObject:projectile];
+                [projectile destroy];
             }
         }
         
@@ -416,54 +440,95 @@
     }
 }
 
-- (void)shotHitTest {
+- (void)handleTap {
     NSLog(@"tap");
-    if (self.gameIsPlaying) {
-        NSLog(@"raycast test");
-        btVector3 from(0,0,0.9);
-        btVector3 to(0,0, -20);
+    if (self.gameIsPlaying && self.gunIsLoaded) {
+        // test hit
+        [self shotHitTest];
+        // consume one load and start reload timer
+        self.gunIsLoaded = NO;
+        static UIImage *imageUnloadedGunViewfinder = nil;
+        if (imageUnloadedGunViewfinder == nil) {
+            imageUnloadedGunViewfinder = [UIImage imageNamed:UNLOADED_VIEWFINDER_FILENAME];
+        }
+        [self.gunViewfinder setImage:imageUnloadedGunViewfinder];
+        [NSTimer scheduledTimerWithTimeInterval:RELOAD_DELAY target:self selector:@selector(reload) userInfo:nil repeats:NO];
+        [NSTimer scheduledTimerWithTimeInterval:RELOAD_PROGRESS_TIMER_DELAY
+                                                 target: self
+                                               selector: @selector(updateReloadProgressTimer:)
+                                               userInfo: nil
+                                                repeats: YES];
+        // init progress bar
+        self.reloadProgressView.progress = 0;
+        self.reloadProgressView.hidden = NO;
+    }
+}
+-(void)updateReloadProgressTimer: (NSTimer*) timer {
+    self.reloadProgressView.progress += RELOAD_PROGRESS_TIMER_DELAY / RELOAD_DELAY;
+    if(self.reloadProgressView.progress >= 0.99f) {
+        // Invalidate timer progress bar is done
+        [timer invalidate];
+    }
+}
+
+- (void)reload {
+    self.gunIsLoaded = YES;
+    static UIImage *imageLoadedGunViewfinder = nil;
+    if (imageLoadedGunViewfinder == nil) {
+        imageLoadedGunViewfinder = [UIImage imageNamed:LOADED_VIEWFINDER_FILENAME];
+    }
+    [self.gunViewfinder setImage:imageLoadedGunViewfinder];
+    
+    // reset progress bar
+    self.reloadProgressView.hidden = YES;
+}
+
+- (void)shotHitTest {
+    NSLog(@"raycast test");
+    btVector3 from(0,0,0.9);
+    btVector3 to(0,0, -20);
 //        btCollisionWorld::ClosestRayResultCallback closestResults(from,to);
-        btCollisionWorld::AllHitsRayResultCallback allResults(from, to);
-        // perform raycast
+    btCollisionWorld::AllHitsRayResultCallback allResults(from, to);
+    // perform raycast
 //        self.physCollisionWorld->rayTest(from, to, closestResults);
-        self.physCollisionWorld->rayTest(from, to, allResults);
-        
-        for (int i=0;i<allResults.m_hitFractions.size();i++) {
-            const btCollisionObject *objectHit = allResults.m_collisionObjects.at(i);
-            if (self.physPlayerObject == objectHit) {
-                NSLog(@"player hit...");
-            }
-            for (Projectile *projectile in [self.projectiles copy]) {
-                if (projectile.meshHasLoaded && projectile.collisionObject == objectHit) {
-                    NSLog(@"found projectile");
-                    [self incrementScore];
-                    [self destroyProjectile:projectile];
-                    break;
-                }
+    self.physCollisionWorld->rayTest(from, to, allResults);
+    
+    for (int i=0;i<allResults.m_hitFractions.size();i++) {
+        const btCollisionObject *objectHit = allResults.m_collisionObjects.at(i);
+        if (self.physPlayerObject == objectHit) {
+            NSLog(@"player hit...");
+        }
+        for (Projectile *projectile in [self.projectiles copy]) {
+            if (projectile.meshHasLoaded && projectile.collisionObject == objectHit) {
+                NSLog(@"found projectile");
+                [self incrementScore];
+                [self.projectiles removeObject:projectile];
+                [projectile destroy];
+                break;
             }
         }
-        
-//        if (closestResults.hasHit()) {
-//            NSLog(@"hit!");
-//            const btCollisionObject *objectHit = closestResults.m_collisionObject;
-//            if (self.physPlayerObject == objectHit) {
-//                NSLog(@"player hit...");
-//            }
-//            for (Projectile *projectile in [self.projectiles copy]) {
-//                if (projectile.meshHasLoaded && projectile.collisionObject == objectHit) {
-//                    NSLog(@"found projectile");
-//                    [self incrementScore];
-//                    [self destroyProjectile:projectile];
-//                    break;
-//                    
-////                    NGLMaterial *material = [[NGLMaterial alloc] init];
-////                    material.ambientColor = nglVec4Make(1, 0, 0, 1);
-////                    material.diffuseColor = nglVec4Make(1, 0, 0, 1);
-////                    projectile.mesh.material = material;
-//                }
+    }
+    
+//    if (closestResults.hasHit()) {
+//        NSLog(@"hit!");
+//        const btCollisionObject *objectHit = closestResults.m_collisionObject;
+//        if (self.physPlayerObject == objectHit) {
+//            NSLog(@"player hit...");
+//        }
+//        for (Projectile *projectile in [self.projectiles copy]) {
+//            if (projectile.meshHasLoaded && projectile.collisionObject == objectHit) {
+//                NSLog(@"found projectile");
+//                [self incrementScore];
+//                [self destroyProjectile:projectile];
+//                break;
+//                
+//                NGLMaterial *material = [[NGLMaterial alloc] init];
+//                material.ambientColor = nglVec4Make(1, 0, 0, 1);
+//                material.diffuseColor = nglVec4Make(1, 0, 0, 1);
+//                projectile.mesh.material = material;
 //            }
 //        }
-    }
+//    }
 }
 
 - (void)incrementScore {
@@ -513,18 +578,12 @@
 }
 
 - (void)startGame {
-//    float d0 = 15.0f;
-//    float d0 = 10.0f;
-//    float xAtZ0 = ((float)arc4random() / (float)RAND_MAX) * (WINDOW_SCALE - PROJECTILE_SCALE) / 4;
-//    float yAtZ0 = ((float)arc4random() / (float)RAND_MAX) * (WINDOW_SCALE - PROJECTILE_SCALE) / 4;
-//    NSLog(@"%f %f", xAtZ0, yAtZ0);
-//    self.u0 = nglVec3Add([self playerDirection], nglVec3Make(-xAtZ0, -yAtZ0, 0));
-//    self.projectile.x = xAtZ0 - d0 * self.u0.x;
-//    self.projectile.y = yAtZ0 - d0 * self.u0.y;
-//    self.projectile.z = - d0 * self.u0.z;
     self.gameHasStarted = YES;
     self.gameIsPlaying = YES;
+    self.gunIsLoaded = YES;
     self.spawnProjectileTimer = [NSTimer scheduledTimerWithTimeInterval:SPAWN_DELAY target:self selector:@selector(spawnProjectile) userInfo:nil repeats:YES];
+    self.overlayViewfinder.hidden = YES;
+    self.hudOverlayView.hidden = NO;
 }
 
 - (void)stopGame {
@@ -613,7 +672,8 @@
 
 // initialize the data associated to the tracker(s)
 - (bool) doLoadTrackersData {
-    QCAR::DataSet *dataSetTarmac = [self loadImageTrackerDataSet:@"Tarmac.xml"];
+//    QCAR::DataSet *dataSetTarmac = [self loadImageTrackerDataSet:@"Tarmac.xml"];
+    QCAR::DataSet *dataSetTarmac = [self loadImageTrackerDataSet:TRACKER_DATASET_FILENAME];
     if (dataSetTarmac == NULL) {
         NSLog(@"ERROR: Failed to load dataset");
         return false;
@@ -804,10 +864,10 @@
     }
 }
 
-- (void)destroyProjectile:(Projectile *)projectile {
-    [projectile destroy];
-    [self.projectiles removeObject:projectile];
-}
+//- (void)destroyProjectile:(Projectile *)projectile {
+//    [self.projectiles removeObject:projectile];
+//    [projectile destroy];
+//}
 
 - (BOOL)isOutOfBounds:(NGLObject3D *)object3D {
     return (object3D.x > SPAWN_DISTANCE || object3D.y > SPAWN_DISTANCE || object3D.z > SPAWN_DISTANCE || object3D.x < -SPAWN_DISTANCE || object3D.y < -SPAWN_DISTANCE || object3D.z < -SPAWN_DISTANCE);

@@ -7,6 +7,7 @@
 //
 
 #import "HUDOverlayView.h"
+#import "PassthroughView.h"
 
 @implementation HUDOverlayView
 

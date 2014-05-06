@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PassthroughView.h"
 
 @protocol HUDDelegate <NSObject>
 
@@ -15,7 +16,8 @@
 
 @end
 
-@interface HUDOverlayView : UIView
+@interface HUDOverlayView : PassthroughView
+
 @property (weak, nonatomic) IBOutlet UILabel *lifeCountLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *viewFinder;
 @property (weak, nonatomic) IBOutlet UILabel *scoreCountLabel;
