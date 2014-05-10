@@ -267,8 +267,20 @@
                 nil];
     self.projectile = [[NGLMesh alloc] initWithFile:PROJECTILE_MESH_FILENAME settings:settings delegate:self];
     
+    // Test beam
+    settings = [NSDictionary dictionaryWithObjectsAndKeys:
+                kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
+                [NSString stringWithFormat:@"%f", BEAM_SCALE], kNGLMeshKeyNormalize,
+                nil];
+    NGLMesh *beam = [[NGLMesh alloc] initWithFile:BEAM_MESH_FILENAME settings:settings delegate:self];
+    NGLMaterial *glowMaterial = [[NGLMaterial alloc] init];
+    glowMaterial.emissiveColor = nglColorMake(1.0, 0.0, 0.0, 1.0);
+    glowMaterial.shininess = 2.0;
+    beam.material = glowMaterial;
+    [beam compileCoreMesh];
+    
 	// Set the camera
-    self.camera = [[NGLCamera alloc] initWithMeshes:self.dummy, self.window, self.wall, self.skydome, nil];
+    self.camera = [[NGLCamera alloc] initWithMeshes:self.dummy, self.window, self.wall, self.skydome, beam, nil];
 //	[self.camera autoAdjustAspectRatio:YES animated:YES];
     
     // Set the light

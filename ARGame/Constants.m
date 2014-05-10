@@ -10,6 +10,7 @@
 
 const float WINDOW_SCALE = 1.0f;
 const float PROJECTILE_SCALE = 1.0f;
+const float BEAM_SCALE = 0.5f;
 const float SPAWN_DELAY = 1.15f;
 const float RELOAD_DELAY = 1.0f;
 const float RELOAD_PROGRESS_TIMER_DELAY = 0.02f;
@@ -19,9 +20,10 @@ const float LIGHT_HALF_ATTENUATION = SPAWN_DISTANCE * 2;
 const float FOG_END = SKYDOME_DISTANCE + 2;
 const float FOG_START= FOG_END / 2;
 NSString * const PROJECTILE_MESH_FILENAME = @"BlueRock.obj";
+NSString * const BEAM_MESH_FILENAME = @"beam.obj";
 NSString * const WINDOW_MESH_FILENAME = @"Plane.obj";
 NSString * const SKYDOME_MESH_FILENAME = @"StarDome.obj";
 NSString * const LOADED_VIEWFINDER_FILENAME = @"viewfinder white.png";
-NSString * const UNLOADED_VIEWFINDER_FILENAME = @"viewfinder red.png";
+NSString * const UNLOADED_VIEWFINDER_FILENAME = @"viewfinder gray 50%.png";
 NSString * const TRACKER_DATASET_FILENAME = @"AsteRoids.xml";
 char * const TRACKER_TARGET_NAME = "asteroidsBackground";

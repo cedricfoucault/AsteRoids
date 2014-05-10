@@ -17,6 +17,8 @@
 		823841AE1915A8DB00581333 /* BlueRock.obj in Resources */ = {isa = PBXBuildFile; fileRef = 823841AB1915A8DB00581333 /* BlueRock.obj */; };
 		823841AF1915A8DB00581333 /* RockTexture2.JPG in Resources */ = {isa = PBXBuildFile; fileRef = 823841AC1915A8DB00581333 /* RockTexture2.JPG */; };
 		823841C719161A3100581333 /* target viewfinder.png in Resources */ = {isa = PBXBuildFile; fileRef = 823841C619161A3100581333 /* target viewfinder.png */; };
+		8247C6BC1918842C00E162B2 /* viewfinder gray 50%.png in Resources */ = {isa = PBXBuildFile; fileRef = 8247C6BB1918842C00E162B2 /* viewfinder gray 50%.png */; };
+		8247C6E419188D8E00E162B2 /* beam.obj in Resources */ = {isa = PBXBuildFile; fileRef = 8247C6DF19188D8E00E162B2 /* beam.obj */; };
 		8248A20718A7E69C00BDE25E /* Cube opened backup normals.obj in Resources */ = {isa = PBXBuildFile; fileRef = 8248A20418A7E69C00BDE25E /* Cube opened backup normals.obj */; };
 		8248A20818A7E69C00BDE25E /* Cube opened.obj in Resources */ = {isa = PBXBuildFile; fileRef = 8248A20518A7E69C00BDE25E /* Cube opened.obj */; };
 		8248A20918A7E69C00BDE25E /* Cube.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 8248A20618A7E69C00BDE25E /* Cube.mtl */; };
@@ -230,6 +232,8 @@
 		823841AB1915A8DB00581333 /* BlueRock.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BlueRock.obj; sourceTree = "<group>"; };
 		823841AC1915A8DB00581333 /* RockTexture2.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = RockTexture2.JPG; sourceTree = "<group>"; };
 		823841C619161A3100581333 /* target viewfinder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "target viewfinder.png"; sourceTree = "<group>"; };
+		8247C6BB1918842C00E162B2 /* viewfinder gray 50%.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viewfinder gray 50%.png"; sourceTree = "<group>"; };
+		8247C6DF19188D8E00E162B2 /* beam.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = beam.obj; sourceTree = "<group>"; };
 		8248A20418A7E69C00BDE25E /* Cube opened backup normals.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Cube opened backup normals.obj"; sourceTree = "<group>"; };
 		8248A20518A7E69C00BDE25E /* Cube opened.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Cube opened.obj"; sourceTree = "<group>"; };
 		8248A20618A7E69C00BDE25E /* Cube.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cube.mtl; sourceTree = "<group>"; };
@@ -719,11 +723,20 @@
 		823841C519161A0800581333 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				8247C6BB1918842C00E162B2 /* viewfinder gray 50%.png */,
 				8277042119172F54005C4F0C /* viewfinder red.png */,
 				8277042219172F54005C4F0C /* viewfinder white.png */,
 				823841C619161A3100581333 /* target viewfinder.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		8247C6DA19188D8E00E162B2 /* Beam */ = {
+			isa = PBXGroup;
+			children = (
+				8247C6DF19188D8E00E162B2 /* beam.obj */,
+			);
+			path = Beam;
 			sourceTree = "<group>";
 		};
 		8248A20318A7E69C00BDE25E /* Cube opened */ = {
@@ -1468,6 +1481,7 @@
 		82E68D5C18A64CD100F77F10 /* 3D */ = {
 			isa = PBXGroup;
 			children = (
+				8247C6DA19188D8E00E162B2 /* Beam */,
 				82BBD4E81916F0AD0077B0B6 /* StarDome */,
 				8238419F1915A2F500581333 /* Blue Rock */,
 				8248A24318A8EC8700BDE25E /* Yellow Rock */,
@@ -1590,12 +1604,14 @@
 				82E68C7B18A61B7800F77F10 /* InfoPlist.strings in Resources */,
 				8252317518B5EC5000F475CE /* redTexture.jpg in Resources */,
 				8238419A19159E4800581333 /* yellow rock.mtl in Resources */,
+				8247C6E419188D8E00E162B2 /* beam.obj in Resources */,
 				82E68D4118A63B8300F77F10 /* Tarmac.xml in Resources */,
 				82E68C8318A61B7800F77F10 /* Images.xcassets in Resources */,
 				82BBD4F41916F0AD0077B0B6 /* StarDome.mtl in Resources */,
 				82BBD4F81916F4920077B0B6 /* StarDome2_cropped2.jpg in Resources */,
 				8277042C19173F29005C4F0C /* AsteRoids_acm.xml in Resources */,
 				82BBD4F61916F0AD0077B0B6 /* StarDome2_cropped.jpg in Resources */,
+				8247C6BC1918842C00E162B2 /* viewfinder gray 50%.png in Resources */,
 				8238419E19159EEE00581333 /* sandstone8.jpg in Resources */,
 				8248A20C18A7FE7F00BDE25E /* black pixel.jpg in Resources */,
 				8248A20718A7E69C00BDE25E /* Cube opened backup normals.obj in Resources */,
