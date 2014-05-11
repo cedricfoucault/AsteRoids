@@ -9,18 +9,20 @@
 #import "Constants.h"
 
 const float WINDOW_SCALE = 1.0f;
-const float PROJECTILE_SCALE = 1.0f;
-const float BEAM_SCALE = 0.5f;
-const float SPAWN_DELAY = 1.15f;
-const float RELOAD_DELAY = 1.0f;
+const float WINDOW_ASPECT_RATIO = 29.7 / 21;
+const float PROJECTILE_SCALE = 0.4f;
+const float BEAM_SCALE = 0.1f;
+const float SPAWN_DELAY = 1.0f;
+const float RELOAD_DELAY = 1.2f;
 const float RELOAD_PROGRESS_TIMER_DELAY = 0.02f;
+const float BEAM_SPEED = 0.3f;
 const float SPAWN_DISTANCE = 40.0f;
 const float SKYDOME_DISTANCE = SPAWN_DISTANCE + 0.1;
 const float LIGHT_HALF_ATTENUATION = SPAWN_DISTANCE * 2;
 const float FOG_END = SKYDOME_DISTANCE + 2;
 const float FOG_START= FOG_END / 2;
 NSString * const PROJECTILE_MESH_FILENAME = @"BlueRock.obj";
-NSString * const BEAM_MESH_FILENAME = @"beam.obj";
+NSString * const BEAM_MESH_FILENAME = @"sphere.obj";
 NSString * const WINDOW_MESH_FILENAME = @"Plane.obj";
 NSString * const SKYDOME_MESH_FILENAME = @"StarDome.obj";
 NSString * const LOADED_VIEWFINDER_FILENAME = @"viewfinder white.png";

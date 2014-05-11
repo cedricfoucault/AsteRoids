@@ -21,7 +21,8 @@
 @property (weak, nonatomic) NGLCamera *camera;
 @property (nonatomic) btCollisionWorld* collisionWorld;
 
-- (id)initWithMesh:(NGLMesh *)mesh camera:(NGLCamera *)camera collisionWorld:(btCollisionWorld *)collisionWorld rebase:(NGLmat4)rebaseMatrix;
+- (id)initWithMesh:(NGLMesh *)mesh camera:(NGLCamera *)camera collisionWorld:(btCollisionWorld *)collisionWorld
+    cameraFromTargetMatrix:(float *)cameraFromTargetMatrix;
 - (void)updateFrame;
 - (void)destroy;
 

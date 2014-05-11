@@ -171,6 +171,10 @@
 		8277042419172F54005C4F0C /* viewfinder white.png in Resources */ = {isa = PBXBuildFile; fileRef = 8277042219172F54005C4F0C /* viewfinder white.png */; };
 		8277042B19173F29005C4F0C /* AsteRoids_acm.dat in Resources */ = {isa = PBXBuildFile; fileRef = 8277042919173F29005C4F0C /* AsteRoids_acm.dat */; };
 		8277042C19173F29005C4F0C /* AsteRoids_acm.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8277042A19173F29005C4F0C /* AsteRoids_acm.xml */; };
+		828E1327191E9FBF002EB107 /* Beam.mm in Sources */ = {isa = PBXBuildFile; fileRef = 828E1326191E9FBF002EB107 /* Beam.mm */; };
+		828E132F191ED58F002EB107 /* sphere.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 828E132B191ED58F002EB107 /* sphere.mtl */; };
+		828E1330191ED58F002EB107 /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = 828E132C191ED58F002EB107 /* sphere.obj */; };
+		828E1333191EF310002EB107 /* PoseMatrixMathHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 828E1332191EF310002EB107 /* PoseMatrixMathHelper.mm */; };
 		82BBD4E11916CF680077B0B6 /* StarDome.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4E01916CF680077B0B6 /* StarDome.fsh */; };
 		82BBD4F01916F0AD0077B0B6 /* spacedome.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4E91916F0AD0077B0B6 /* spacedome.jpg */; };
 		82BBD4F41916F0AD0077B0B6 /* StarDome.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4ED1916F0AD0077B0B6 /* StarDome.mtl */; };
@@ -586,6 +590,12 @@
 		8277042219172F54005C4F0C /* viewfinder white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viewfinder white.png"; sourceTree = "<group>"; };
 		8277042919173F29005C4F0C /* AsteRoids_acm.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = AsteRoids_acm.dat; sourceTree = "<group>"; };
 		8277042A19173F29005C4F0C /* AsteRoids_acm.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = AsteRoids_acm.xml; sourceTree = "<group>"; };
+		828E1325191E9FBF002EB107 /* Beam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Beam.h; sourceTree = "<group>"; };
+		828E1326191E9FBF002EB107 /* Beam.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Beam.mm; sourceTree = "<group>"; };
+		828E132B191ED58F002EB107 /* sphere.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.mtl; sourceTree = "<group>"; };
+		828E132C191ED58F002EB107 /* sphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.obj; sourceTree = "<group>"; };
+		828E1331191EF310002EB107 /* PoseMatrixMathHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PoseMatrixMathHelper.h; sourceTree = "<group>"; };
+		828E1332191EF310002EB107 /* PoseMatrixMathHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PoseMatrixMathHelper.mm; sourceTree = "<group>"; };
 		82BBD4E01916CF680077B0B6 /* StarDome.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = StarDome.fsh; sourceTree = "<group>"; };
 		82BBD4E91916F0AD0077B0B6 /* spacedome.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = spacedome.jpg; sourceTree = "<group>"; };
 		82BBD4ED1916F0AD0077B0B6 /* StarDome.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StarDome.mtl; sourceTree = "<group>"; };
@@ -1265,6 +1275,15 @@
 			path = LinearMath;
 			sourceTree = "<group>";
 		};
+		828E1328191ED58F002EB107 /* sphere */ = {
+			isa = PBXGroup;
+			children = (
+				828E132B191ED58F002EB107 /* sphere.mtl */,
+				828E132C191ED58F002EB107 /* sphere.obj */,
+			);
+			path = sphere;
+			sourceTree = "<group>";
+		};
 		82BBD4DF1916CF2A0077B0B6 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
@@ -1334,10 +1353,14 @@
 				82E68C8018A61B7800F77F10 /* AppDelegate.m */,
 				82E68CEC18A6250B00F77F10 /* MainViewController.h */,
 				82E68CED18A6250B00F77F10 /* MainViewController.mm */,
+				828E1331191EF310002EB107 /* PoseMatrixMathHelper.h */,
+				828E1332191EF310002EB107 /* PoseMatrixMathHelper.mm */,
 				8214CA6618B5A2590022D7B9 /* HUDOverlayView.h */,
 				8214CA6718B5A2590022D7B9 /* HUDOverlayView.m */,
 				8214CA6918B5BFBD0022D7B9 /* Projectile.h */,
 				8214CA6A18B5BFBD0022D7B9 /* Projectile.mm */,
+				828E1325191E9FBF002EB107 /* Beam.h */,
+				828E1326191E9FBF002EB107 /* Beam.mm */,
 				8214CA6418B59FC80022D7B9 /* hudGame.xib */,
 				82BBD50D191718660077B0B6 /* OverlayViewfinder.xib */,
 				82E68CF518A6323400F77F10 /* QCARAppSession.h */,
@@ -1481,6 +1504,7 @@
 		82E68D5C18A64CD100F77F10 /* 3D */ = {
 			isa = PBXGroup;
 			children = (
+				828E1328191ED58F002EB107 /* sphere */,
 				8247C6DA19188D8E00E162B2 /* Beam */,
 				82BBD4E81916F0AD0077B0B6 /* StarDome */,
 				8238419F1915A2F500581333 /* Blue Rock */,
@@ -1581,6 +1605,7 @@
 				8248A57318A963F800BDE25E /* premake4.lua in Resources */,
 				8248A23D18A8EC2800BDE25E /* comet.obj in Resources */,
 				823841AE1915A8DB00581333 /* BlueRock.obj in Resources */,
+				828E1330191ED58F002EB107 /* sphere.obj in Resources */,
 				82E68D7118A6591D00F77F10 /* dummy.obj in Resources */,
 				8252317318B5DB6500F475CE /* gunsight.png in Resources */,
 				8214CA6518B59FC80022D7B9 /* hudGame.xib in Resources */,
@@ -1609,6 +1634,7 @@
 				82E68C8318A61B7800F77F10 /* Images.xcassets in Resources */,
 				82BBD4F41916F0AD0077B0B6 /* StarDome.mtl in Resources */,
 				82BBD4F81916F4920077B0B6 /* StarDome2_cropped2.jpg in Resources */,
+				828E132F191ED58F002EB107 /* sphere.mtl in Resources */,
 				8277042C19173F29005C4F0C /* AsteRoids_acm.xml in Resources */,
 				82BBD4F61916F0AD0077B0B6 /* StarDome2_cropped.jpg in Resources */,
 				8247C6BC1918842C00E162B2 /* viewfinder gray 50%.png in Resources */,
@@ -1744,6 +1770,7 @@
 				8248A52C18A963F800BDE25E /* btTriangleIndexVertexArray.cpp in Sources */,
 				8248A56318A963F800BDE25E /* btMultiBodyJointMotor.cpp in Sources */,
 				82E68CEE18A6250B00F77F10 /* MainViewController.mm in Sources */,
+				828E1333191EF310002EB107 /* PoseMatrixMathHelper.mm in Sources */,
 				8248A50618A963F800BDE25E /* btManifoldResult.cpp in Sources */,
 				8248A52D18A963F800BDE25E /* btTriangleIndexVertexMaterialArray.cpp in Sources */,
 				8248A50818A963F800BDE25E /* btSphereBoxCollisionAlgorithm.cpp in Sources */,
@@ -1776,6 +1803,7 @@
 				8248A56618A963F800BDE25E /* btMLCPSolver.cpp in Sources */,
 				82E68C7D18A61B7800F77F10 /* main.m in Sources */,
 				8248A55518A963F800BDE25E /* btSequentialImpulseConstraintSolver.cpp in Sources */,
+				828E1327191E9FBF002EB107 /* Beam.mm in Sources */,
 				8248A51D18A963F800BDE25E /* btEmptyShape.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

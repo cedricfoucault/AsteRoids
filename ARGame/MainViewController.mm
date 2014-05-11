@@ -22,7 +22,9 @@
 #import "btBulletCollisionCommon.h"
 #import "HUDOverlayView.h"
 #import "Projectile.h"
+#import "Beam.h"
 #import "Constants.h"
+#import "PoseMatrixMathHelper.h"
 
 //static const float WINDOW_SCALE = 2.0f;
 //static const float PROJECTILE_SCALE = 1.0f;
@@ -37,6 +39,7 @@
 @property (strong, nonatomic) NGLMesh *skydome;
 @property (strong, nonatomic) NGLMesh *wall;
 @property (strong, nonatomic) NGLMesh *projectile;
+@property (strong, nonatomic) NGLMesh *beam;
 @property (strong, nonatomic) NGLCamera *camera;
 @property BOOL useExtendedTracking;
 
@@ -47,7 +50,8 @@
 @property (nonatomic) btCollisionObject* physPlayerObject;
 @property (nonatomic) btCollisionObject* physProjectileObject;
 
-@property (nonatomic) float *rebaseMatrix; // keep track of the rebase matrix to update 3D transforms in physics engine
+@property (nonatomic) float *targetFromCameraMatrix; // keep track of the rebase matrix to update 3D transforms in physics engine
+@property (nonatomic) float *cameraFromTargetMatrix;
 @property (nonatomic) NGLvec3 u0;
 @property (nonatomic) BOOL gameHasStarted;
 @property (nonatomic) BOOL gameIsPlaying;
@@ -65,6 +69,7 @@
 
 
 @property (strong, nonatomic) NSMutableArray *projectiles;
+@property (strong, nonatomic) NSMutableArray *beams;
 @property (strong, nonatomic) NSTimer *spawnProjectileTimer;
 
 @property (strong, nonatomic) NGLTexture *redTexture;
@@ -113,6 +118,7 @@
         _playerLifes = 3;
         _score = 0;
         _projectiles = [[NSMutableArray alloc] init];
+        _beams = [[NSMutableArray alloc] init];
     }
     
     return self;
@@ -144,9 +150,9 @@
     _physCollisionWorld->addCollisionObject(_physPlayerObject);
     
     // init rebase matrix to identity
-    _rebaseMatrix = (float *) malloc(16 * sizeof(float));
-    nglMatrixIdentity(_rebaseMatrix);
-    
+    _targetFromCameraMatrix = (float *) malloc(16 * sizeof(float));
+    _cameraFromTargetMatrix = (float *) malloc(16 * sizeof(float));
+//    nglMatrixIdentity(_targetFromCameraMatrix);
 }
 
 - (void)dealloc {
@@ -154,7 +160,7 @@
     delete _physBroadphase;
     delete _physDispatcher;
     delete _physBroadphase;
-    free(_rebaseMatrix);
+    free(_targetFromCameraMatrix);
 }
 
 - (void)loadView {
@@ -260,27 +266,27 @@
     self.wall.material = transparentMaterial;
     [self.wall compileCoreMesh];
     
-    // Setting the projectile
+    // Setting the projectile mesh
     settings = [NSDictionary dictionaryWithObjectsAndKeys:
                 kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
                 [NSString stringWithFormat:@"%f", PROJECTILE_SCALE], kNGLMeshKeyNormalize,
                 nil];
     self.projectile = [[NGLMesh alloc] initWithFile:PROJECTILE_MESH_FILENAME settings:settings delegate:self];
     
-    // Test beam
+    // Setting the beam
     settings = [NSDictionary dictionaryWithObjectsAndKeys:
                 kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
                 [NSString stringWithFormat:@"%f", BEAM_SCALE], kNGLMeshKeyNormalize,
                 nil];
-    NGLMesh *beam = [[NGLMesh alloc] initWithFile:BEAM_MESH_FILENAME settings:settings delegate:self];
+    self.beam = [[NGLMesh alloc] initWithFile:BEAM_MESH_FILENAME settings:settings delegate:self];
     NGLMaterial *glowMaterial = [[NGLMaterial alloc] init];
     glowMaterial.emissiveColor = nglColorMake(1.0, 0.0, 0.0, 1.0);
     glowMaterial.shininess = 2.0;
-    beam.material = glowMaterial;
-    [beam compileCoreMesh];
+    self.beam.material = glowMaterial;
+    [self.beam compileCoreMesh];
     
 	// Set the camera
-    self.camera = [[NGLCamera alloc] initWithMeshes:self.dummy, self.window, self.wall, self.skydome, beam, nil];
+    self.camera = [[NGLCamera alloc] initWithMeshes:self.dummy, self.window, self.wall, self.skydome, nil];
 //	[self.camera autoAdjustAspectRatio:YES animated:YES];
     
     // Set the light
@@ -348,14 +354,14 @@
             // Get the pose matrix
 			QCAR::Matrix44F qMatrix = QCAR::Tool::convertPose2GLMatrix(result->getPose());
             
-//          if (!strcmp(trackable.getName(), "tarmac"))
 			if (!strcmp(trackable.getName(), TRACKER_TARGET_NAME)) {
                 // get the target scale
                 const QCAR::ImageTarget *target = static_cast<const QCAR::ImageTarget*>(&result->getTrackable());
                 scale = target->getSize().data[0];
                 
                 // update rebase matrix
-                [self nglRebaseMatrixFromQCARMatrix:qMatrix scale:scale result:self.rebaseMatrix];
+                getTargetFromCameraMatrix(qMatrix, scale, self.targetFromCameraMatrix);
+                getCameraFromTargetMatrix(self.targetFromCameraMatrix, self.cameraFromTargetMatrix);
                 
                 // update the rebase matrices of the camera and the light
                 [self.camera rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
@@ -376,8 +382,18 @@
                 if (projectile.meshHasLoaded) {
                     [projectile updateFrame];
                     if ([self isOutOfBounds:projectile.mesh]) {
-                        NSLog(@"destroy (out of bounds)");
+                        NSLog(@"destroy projectile (out of bounds)");
                         [toDestroy addObject:projectile];
+                    }
+                }
+            }
+            // update beam objects in 3D simulation
+            for (Beam *beam in [self.beams copy]) {
+                if (beam.meshHasLoaded) {
+                    [beam updateFrame];
+                    if ([self isOutOfBounds:beam.mesh]) {
+                        NSLog(@"destroy beam (out of bounds)");
+//                        [toDestroy addObject:beam];
                     }
                 }
             }
@@ -457,6 +473,8 @@
     if (self.gameIsPlaying && self.gunIsLoaded) {
         // test hit
         [self shotHitTest];
+        // spawn beam
+        [self spawnBeam];
         // consume one load and start reload timer
         self.gunIsLoaded = NO;
         static UIImage *imageUnloadedGunViewfinder = nil;
@@ -547,42 +565,6 @@
     self.score++;
     self.hudOverlayView.scoreCountLabel.text = [NSString stringWithFormat:@"%3d", self.score];
 }
-
-- (void)nglRebaseMatrixFromQCARMatrix:(QCAR::Matrix44F)qMatrix scale:(float)scale result:(NGLmat4)result {
-    NGLmat4 matrix, myRebase;
-    nglMatrixCopy(qMatrix.data, matrix);
-    
-    // Reduces the position by size to fit the NinevehGL/OpenGL sytem [0.0, 1.0].
-    // By default, the rebase assumes the rotation matrix is already in the NinevehGL format/orientation.
-    NGLvec3 position = (NGLvec3) {{matrix[12] / scale, matrix[13] / scale, matrix[14] / scale}};
-    matrix[12] /= scale;
-    matrix[13] /= scale;
-    matrix[14] /= scale;
-    
-    // Qualcomm has the camera UP vector inverted in relation to NinevehGL.
-    NGLQuaternion *quat = [[NGLQuaternion alloc] init];
-    [quat rotateByAxis:(NGLvec3){{1.0f, 0.0f, 0.0f}} angle:180.0f mode:NGLAddModeSet];
-    nglMatrixMultiply(*quat.matrix, matrix, myRebase);
-    
-    // Correcting translation component from QCAR coordinate system to NinevehGL coordinate system
-    myRebase[12] = position.x;
-    myRebase[13] = -position.y;
-    myRebase[14] = -position.z;
-    // put in result
-    nglMatrixCopy(myRebase, result);
-}
-
-- (NGLvec3)playerDirection {
-    NGLmat4 cameraMatrix;
-    nglMatrixCopy(*self.camera.matrix, cameraMatrix);
-    float vx = + cameraMatrix[12];
-    float vy = + cameraMatrix[13];
-    float vz = + cameraMatrix[14];
-    NGLvec3 v = nglVec3Make(vx, vy, vz);
-    nglVec3Normalize(v);
-    return nglVec3ByMatrixTransposed(v, self.rebaseMatrix);
-}
-
 - (void)targetWasFound {
     if (!self.gameHasStarted) {
         [self startGame];
@@ -869,10 +851,19 @@
 }
 
 - (void)spawnProjectile {
-    NSLog(@"spawn");
+    NSLog(@"spawn projectile");
     if (self.gameHasStarted && self.gameIsPlaying) {
-        Projectile *projectile = [[Projectile alloc] initWithMesh:self.projectile camera:self.camera collisionWorld:self.physCollisionWorld rebase:self.rebaseMatrix];
+        Projectile *projectile = [[Projectile alloc] initWithMesh:self.projectile camera:self.camera collisionWorld:self.physCollisionWorld cameraFromTargetMatrix:self.cameraFromTargetMatrix];
         [self.projectiles addObject:projectile];
+    }
+}
+
+- (void)spawnBeam {
+    NSLog(@"spawn beam");
+    if (self.gameHasStarted && self.gameIsPlaying) {
+        Beam *beam = [[Beam alloc] initWithMesh:self.beam camera:self.camera collisionWorld:self.physCollisionWorld
+                         cameraFromTargetMatrix:self.cameraFromTargetMatrix];
+        [self.beams addObject:beam];
     }
 }
 

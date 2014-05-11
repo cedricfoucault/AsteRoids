@@ -15,12 +15,14 @@ extern const float FOG_START;
 extern const float FOG_END;
 
 extern const float WINDOW_SCALE;
+extern const float WINDOW_ASPECT_RATIO;
 extern const float PROJECTILE_SCALE;
 extern const float BEAM_SCALE;
 
 extern const float SPAWN_DELAY;
 extern const float RELOAD_DELAY;
 extern const float RELOAD_PROGRESS_TIMER_DELAY;
+extern const float BEAM_SPEED;
 
 extern const float SPAWN_DISTANCE;
 extern const float SKYDOME_DISTANCE;
