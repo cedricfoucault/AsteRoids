@@ -30,4 +30,20 @@
     self.translationSpeed = BEAM_SPEED;
 }
 
+- (void)initCollisionObject {
+    self.collisionObject = new btCollisionObject();
+    // set basis
+    btMatrix3x3 basis;
+    basis.setIdentity();
+    self.collisionObject->getWorldTransform().setBasis(basis);
+    self.collisionObject->getWorldTransform().setFromOpenGLMatrix(*self.mesh.matrix);
+    // set sphere collision shape
+    btSphereShape *collisionShape = new btSphereShape(BEAM_SCALE);
+    //        boxCollisionShape->setMargin(0.004f);
+    self.collisionObject->setCollisionShape(collisionShape);
+    // set reference from collision to this object
+    self.collisionObject->setUserPointer((__bridge void *)self);
+}
+
+
 @end
