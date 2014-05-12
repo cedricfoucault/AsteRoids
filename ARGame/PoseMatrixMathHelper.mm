@@ -80,3 +80,43 @@ NGLvec3 getCameraViewDirection(NGLmat4 cameraFromTargetMatrix) {
 }
 
 
+void getRotationMatrixFromAxisAngle(NGLvec3 axis, float angleRad, NGLmat4 result) {
+    // axis must be normalized
+    float cosAngle = cosf(angleRad);
+    float sinAngle = sinf(angleRad);
+    
+    // matrix formula:
+    // |  cos(angle) + x.x.(1 - cos(angle))   x.y.(1 - cos(angle)) - z.sin(angle)  x.z.(1 - cos(angle)) + y.sin(angle)  0 |
+    // |                                                                                                                  |
+    // | y.x.(1 - cos(angle)) + z.sin(angle)   cos(angle) + y.y.(1 - cos(angle))   y.z.(1 - cos(angle) - x.sin(angle)   0 |
+    // |                                                                                                                  |
+    // | z.x.(1 - cos(angle)) - y.sin(angle)  z.y.(1 - cos(angle)) + x.sin(angle)   cos(angle) + z.z.(1 - cos(angle))   0 |
+    // |                                                                                                                  |
+    // |                      0                                     0                                  0                1 |
+    
+    // 4th row
+    result[3] = 0;
+    result[7] = 0;
+    result[11] = 0;
+    result[15] = 1;
+    // 4th column
+    result[12] = 0;
+    result[13] = 0;
+    result[14] = 0;
+    
+    // fill 3x3 submatrix
+    // 1st column
+    result[0] = cosAngle + axis.x * axis.x * (1 - cosAngle);
+    result[1] = axis.y * axis.x * (1 - cosAngle) + axis.z * sinAngle;
+    result[2] = axis.z * axis.x * (1 - cosAngle) - axis.y * sinAngle;
+    // 2nd column
+    result[4] = axis.x * axis.y * (1 - cosAngle) - axis.z * sinAngle;
+    result[5] = cosAngle + axis.y * axis.y * (1 - cosAngle);
+    result[6] = axis.z * axis.y * (1 - cosAngle) + axis.x * sinAngle;
+    // 3rd column
+    result[8] = axis.x * axis.z * (1 - cosAngle) + axis.y * sinAngle;
+    result[9] = axis.y * axis.z * (1 - cosAngle) - axis.x * sinAngle;
+    result[10] = cosAngle + axis.z * axis.z * (1 - cosAngle);
+}
+
+

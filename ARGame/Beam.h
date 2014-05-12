@@ -9,14 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <NinevehGL/NinevehGL.h>
 #import "btBulletCollisionCommon.h"
+#import "GameObject3D.h"
 
-@interface Beam : NSObject
-
-@property (strong, nonatomic) NGLMesh *mesh;
-@property (nonatomic) BOOL meshHasLoaded;
-
-- (id)initWithMesh:(NGLMesh *)mesh camera:(NGLCamera *)camera collisionWorld:(btCollisionWorld *)collisionWorld
-            cameraFromTargetMatrix:(float *)cameraFromTargetMatrix;
-- (void)updateFrame;
+@interface Beam : GameObject3D
 
 @end

@@ -19,6 +19,8 @@ extern const float WINDOW_ASPECT_RATIO;
 extern const float PROJECTILE_SCALE;
 extern const float BEAM_SCALE;
 
+extern const float ASTEROID_MAX_SPEED_ROTATION;
+
 extern const float SPAWN_DELAY;
 extern const float RELOAD_DELAY;
 extern const float RELOAD_PROGRESS_TIMER_DELAY;

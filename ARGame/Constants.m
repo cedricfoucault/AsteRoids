@@ -10,8 +10,8 @@
 
 const float WINDOW_SCALE = 1.0f;
 const float WINDOW_ASPECT_RATIO = 29.7 / 21;
-const float PROJECTILE_SCALE = 0.4f;
-const float BEAM_SCALE = 0.1f;
+const float PROJECTILE_SCALE = 0.3f;
+const float BEAM_SCALE = 0.07f;
 const float SPAWN_DELAY = 1.0f;
 const float RELOAD_DELAY = 1.2f;
 const float RELOAD_PROGRESS_TIMER_DELAY = 0.02f;
@@ -29,3 +29,6 @@ NSString * const LOADED_VIEWFINDER_FILENAME = @"viewfinder white.png";
 NSString * const UNLOADED_VIEWFINDER_FILENAME = @"viewfinder gray 50%.png";
 NSString * const TRACKER_DATASET_FILENAME = @"AsteRoids.xml";
 char * const TRACKER_TARGET_NAME = "asteroidsBackground";
+
+
+const float ASTEROID_MAX_SPEED_ROTATION = 0.05;

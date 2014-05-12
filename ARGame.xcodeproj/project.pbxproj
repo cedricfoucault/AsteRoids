@@ -175,6 +175,7 @@
 		828E132F191ED58F002EB107 /* sphere.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 828E132B191ED58F002EB107 /* sphere.mtl */; };
 		828E1330191ED58F002EB107 /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = 828E132C191ED58F002EB107 /* sphere.obj */; };
 		828E1333191EF310002EB107 /* PoseMatrixMathHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 828E1332191EF310002EB107 /* PoseMatrixMathHelper.mm */; };
+		828E133619201A4B002EB107 /* GameObject3D.mm in Sources */ = {isa = PBXBuildFile; fileRef = 828E133519201A4B002EB107 /* GameObject3D.mm */; };
 		82BBD4E11916CF680077B0B6 /* StarDome.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4E01916CF680077B0B6 /* StarDome.fsh */; };
 		82BBD4F01916F0AD0077B0B6 /* spacedome.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4E91916F0AD0077B0B6 /* spacedome.jpg */; };
 		82BBD4F41916F0AD0077B0B6 /* StarDome.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4ED1916F0AD0077B0B6 /* StarDome.mtl */; };
@@ -596,6 +597,8 @@
 		828E132C191ED58F002EB107 /* sphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.obj; sourceTree = "<group>"; };
 		828E1331191EF310002EB107 /* PoseMatrixMathHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PoseMatrixMathHelper.h; sourceTree = "<group>"; };
 		828E1332191EF310002EB107 /* PoseMatrixMathHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PoseMatrixMathHelper.mm; sourceTree = "<group>"; };
+		828E133419201A4B002EB107 /* GameObject3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObject3D.h; sourceTree = "<group>"; };
+		828E133519201A4B002EB107 /* GameObject3D.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameObject3D.mm; sourceTree = "<group>"; };
 		82BBD4E01916CF680077B0B6 /* StarDome.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = StarDome.fsh; sourceTree = "<group>"; };
 		82BBD4E91916F0AD0077B0B6 /* spacedome.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = spacedome.jpg; sourceTree = "<group>"; };
 		82BBD4ED1916F0AD0077B0B6 /* StarDome.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StarDome.mtl; sourceTree = "<group>"; };
@@ -1357,6 +1360,8 @@
 				828E1332191EF310002EB107 /* PoseMatrixMathHelper.mm */,
 				8214CA6618B5A2590022D7B9 /* HUDOverlayView.h */,
 				8214CA6718B5A2590022D7B9 /* HUDOverlayView.m */,
+				828E133419201A4B002EB107 /* GameObject3D.h */,
+				828E133519201A4B002EB107 /* GameObject3D.mm */,
 				8214CA6918B5BFBD0022D7B9 /* Projectile.h */,
 				8214CA6A18B5BFBD0022D7B9 /* Projectile.mm */,
 				828E1325191E9FBF002EB107 /* Beam.h */,
@@ -1779,6 +1784,7 @@
 				8248A4FE18A963F800BDE25E /* btConvexConcaveCollisionAlgorithm.cpp in Sources */,
 				823841A91915A51600581333 /* Constants.m in Sources */,
 				8248A53518A963F800BDE25E /* btGImpactCollisionAlgorithm.cpp in Sources */,
+				828E133619201A4B002EB107 /* GameObject3D.mm in Sources */,
 				8248A51A18A963F800BDE25E /* btConvexShape.cpp in Sources */,
 				8248A50218A963F800BDE25E /* btEmptyCollisionAlgorithm.cpp in Sources */,
 				8248A52718A963F800BDE25E /* btStaticPlaneShape.cpp in Sources */,

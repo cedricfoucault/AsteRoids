@@ -14,3 +14,5 @@ void getTargetFromCameraMatrix(QCAR::Matrix44F qMatrix, float scale, NGLmat4 res
 void getCameraFromTargetMatrix(NGLmat4 targetFromCameraMatrix, NGLmat4 result);
 NGLvec3 getCameraPosition(NGLmat4 cameraFromTargetMatrix);
 NGLvec3 getCameraViewDirection(NGLmat4 cameraFromTargetMatrix);
+
+void getRotationMatrixFromAxisAngle(NGLvec3 axis, float angleRad, NGLmat4 result);

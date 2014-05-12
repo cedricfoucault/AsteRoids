@@ -67,9 +67,7 @@
 @property (nonatomic) int playerLifes;
 @property (nonatomic) int score;
 
-
-@property (strong, nonatomic) NSMutableArray *projectiles;
-@property (strong, nonatomic) NSMutableArray *beams;
+@property (strong, nonatomic) NSMutableArray *gameObjects;
 @property (strong, nonatomic) NSTimer *spawnProjectileTimer;
 
 @property (strong, nonatomic) NGLTexture *redTexture;
@@ -117,8 +115,7 @@
         _gameIsPlaying = NO;
         _playerLifes = 3;
         _score = 0;
-        _projectiles = [[NSMutableArray alloc] init];
-        _beams = [[NSMutableArray alloc] init];
+        _gameObjects = [[NSMutableArray alloc] init];
     }
     
     return self;
@@ -161,6 +158,7 @@
     delete _physDispatcher;
     delete _physBroadphase;
     free(_targetFromCameraMatrix);
+    free(_cameraFromTargetMatrix);
 }
 
 - (void)loadView {
@@ -271,14 +269,14 @@
                 kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
                 [NSString stringWithFormat:@"%f", PROJECTILE_SCALE], kNGLMeshKeyNormalize,
                 nil];
-    self.projectile = [[NGLMesh alloc] initWithFile:PROJECTILE_MESH_FILENAME settings:settings delegate:self];
+    self.projectile = [[NGLMesh alloc] initWithFile:PROJECTILE_MESH_FILENAME settings:settings delegate:nil];
     
     // Setting the beam
     settings = [NSDictionary dictionaryWithObjectsAndKeys:
                 kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
                 [NSString stringWithFormat:@"%f", BEAM_SCALE], kNGLMeshKeyNormalize,
                 nil];
-    self.beam = [[NGLMesh alloc] initWithFile:BEAM_MESH_FILENAME settings:settings delegate:self];
+    self.beam = [[NGLMesh alloc] initWithFile:BEAM_MESH_FILENAME settings:settings delegate:nil];
     NGLMaterial *glowMaterial = [[NGLMaterial alloc] init];
     glowMaterial.emissiveColor = nglColorMake(1.0, 0.0, 0.0, 1.0);
     glowMaterial.shininess = 2.0;
@@ -313,29 +311,29 @@
 //	[[NGLDebug debugMonitor] startWithView:(NGLView *)self.view];
 }
 
-- (void)meshLoadingDidFinish:(NGLParsing)parsing {
-    // init physics collision object for projectile mesh
-    if (parsing.mesh == self.projectile) {
-//        NSLog(@"projectile mesh loaded\n");
-        btMatrix3x3 basis;
-        basis.setIdentity();
-        _physProjectileObject->getWorldTransform().setBasis(basis);
-        
-        NGLBoundingBox boundingBox =  [self.projectile boundingBox];
-//        NSLog(@"box volume:");
-//        for (int i = 0; i < 8; i++) {
-//            NGLvec3 vertex3 = boundingBox.volume[i];
-//            NSLog(@"vertex %d: (%f %f %f)", i, vertex3.x, vertex3.y, vertex3.z);
-//        }
-//        NSLog(@"bounds (aligned):");
-//        NSLog(@"min: (%f %f %f); max: (%f %f %f)", boundingBox.aligned.min.x, boundingBox.aligned.min.y, boundingBox.aligned.min.z, boundingBox.aligned.max.x, boundingBox.aligned.max.y, boundingBox.aligned.max.z);
-        NGLvec3 boxVertex = boundingBox.volume[0];
-        btBoxShape* boxCollisionShape = new btBoxShape(btVector3(fabsf(boxVertex.x),fabsf(boxVertex.x),fabsf(boxVertex.x)));
-//        boxCollisionShape->setMargin(0.004f);
-        _physProjectileObject->setCollisionShape(boxCollisionShape);
-        _physCollisionWorld->addCollisionObject(_physProjectileObject);
-    }
-}
+//- (void)meshLoadingDidFinish:(NGLParsing)parsing {
+//    // init physics collision object for projectile mesh
+//    if (parsing.mesh == self.projectile) {
+////        NSLog(@"projectile mesh loaded\n");
+//        btMatrix3x3 basis;
+//        basis.setIdentity();
+//        _physProjectileObject->getWorldTransform().setBasis(basis);
+//        
+//        NGLBoundingBox boundingBox =  [self.projectile boundingBox];
+////        NSLog(@"box volume:");
+////        for (int i = 0; i < 8; i++) {
+////            NGLvec3 vertex3 = boundingBox.volume[i];
+////            NSLog(@"vertex %d: (%f %f %f)", i, vertex3.x, vertex3.y, vertex3.z);
+////        }
+////        NSLog(@"bounds (aligned):");
+////        NSLog(@"min: (%f %f %f); max: (%f %f %f)", boundingBox.aligned.min.x, boundingBox.aligned.min.y, boundingBox.aligned.min.z, boundingBox.aligned.max.x, boundingBox.aligned.max.y, boundingBox.aligned.max.z);
+//        NGLvec3 boxVertex = boundingBox.volume[0];
+//        btBoxShape* boxCollisionShape = new btBoxShape(btVector3(fabsf(boxVertex.x),fabsf(boxVertex.x),fabsf(boxVertex.x)));
+////        boxCollisionShape->setMargin(0.004f);
+//        _physProjectileObject->setCollisionShape(boxCollisionShape);
+//        _physCollisionWorld->addCollisionObject(_physProjectileObject);
+//    }
+//}
 
 // draw a frame
 - (void) drawView {
@@ -378,22 +376,12 @@
             // add objects to destroy in an array and destroy them after the collision detection is done
             NSMutableArray *toDestroy = [[NSMutableArray alloc] init];
             // update projectile objects in 3D simulation (graphics and physics)
-            for (Projectile *projectile in [self.projectiles copy]) {
-                if (projectile.meshHasLoaded) {
-                    [projectile updateFrame];
-                    if ([self isOutOfBounds:projectile.mesh]) {
-                        NSLog(@"destroy projectile (out of bounds)");
-                        [toDestroy addObject:projectile];
-                    }
-                }
-            }
-            // update beam objects in 3D simulation
-            for (Beam *beam in [self.beams copy]) {
-                if (beam.meshHasLoaded) {
-                    [beam updateFrame];
-                    if ([self isOutOfBounds:beam.mesh]) {
-                        NSLog(@"destroy beam (out of bounds)");
-//                        [toDestroy addObject:beam];
+            for (GameObject3D *gameObject in [self.gameObjects copy]) {
+                if (gameObject.isLoaded) {
+                    [gameObject updateFrame];
+                    if ([self isOutOfBounds:gameObject]) {
+                        NSLog(@"destroy object (out of bounds)");
+                        [toDestroy addObject:gameObject];
                     }
                 }
             }
@@ -409,45 +397,54 @@
                 btPersistentManifold* contactManifold = self.physCollisionWorld->getDispatcher()->getManifoldByIndexInternal(i);
                 const btCollisionObject* obA = static_cast<const btCollisionObject*>(contactManifold->getBody0());
                 const btCollisionObject* obB = static_cast<const btCollisionObject*>(contactManifold->getBody1());
+                GameObject3D *gameObjectA = (__bridge GameObject3D *) obA->getUserPointer();
+                GameObject3D *gameObjectB = (__bridge GameObject3D *) obB->getUserPointer();
                 
                 int numContacts = contactManifold->getNumContacts();
                 if (numContacts > 0) {
-//                    NSLog(@"COLLISION!");
-                    if (obA == self.physPlayerObject) {
-                        // hit player
+                    // check Player - Asteroid collision
+                    if (obA == self.physPlayerObject &&
+                        [gameObjectB isKindOfClass:[Projectile class]]) {
+                        // Player was hit by asteroid
                         [self playerWasHit];
-                        // destroy object that has collided
-                        for (Projectile *projectile in [self.projectiles copy]) {
-                            if (projectile.meshHasLoaded) {
-                                if (obB == projectile.collisionObject) {
-                                    NSLog(@"destroy");
-                                    [toDestroy addObject:projectile];
-                                    break;
-                                }
-                            }
-                        }
-                    } else if (obB == self.physPlayerObject) {
-                        // hit player
+                        // destroy collided asteroid
+                        Projectile *projectile = (Projectile *)gameObjectB;
+                        NSLog(@"destroy projectile (collision with player)");
+                        [toDestroy addObject:projectile];
+                    } else if (obB == self.physPlayerObject &&
+                               [gameObjectA isKindOfClass:[Projectile class]]) {
+                        // Player was hit by asteroid
                         [self playerWasHit];
-                        // destroy object that has collided
-                        for (Projectile *projectile in [self.projectiles copy]) {
-                            if (projectile.meshHasLoaded) {
-                                if (obA == projectile.collisionObject) {
-                                    NSLog(@"destroy");
-                                    [toDestroy addObject:projectile];
-                                    break;
-                                }
-                            }
-                        }
+                        // destroy collided asteroid
+                        Projectile *projectile = (Projectile *)gameObjectA;
+                        NSLog(@"destroy projectile (collision with player)");
+                        [toDestroy addObject:projectile];
+                        
+                    // check Beam - Asteroid collision
+                    } else if ([gameObjectA isKindOfClass:[Beam class]] &&
+                               [gameObjectB isKindOfClass:[Projectile class]]) {
+                        NSLog(@"asteroid was shot!");
+                        NSLog(@"destroy projectile & asteroid");
+                        [self incrementScore];
+                        [toDestroy addObject:gameObjectA];
+                        [toDestroy addObject:gameObjectB];
+                    } else if ([gameObjectB isKindOfClass:[Beam class]] &&
+                               [gameObjectA isKindOfClass:[Projectile class]]) {
+                        NSLog(@"asteroid was shot!");
+                        NSLog(@"destroy projectile & asteroid");
+                        [self incrementScore];
+                        [toDestroy addObject:gameObjectA];
+                        [toDestroy addObject:gameObjectB];
                     }
+                    
                 }
                 contactManifold->clearManifold();
             }
             
             // Destroy all the objects marked
-            for (Projectile *projectile in toDestroy) {
-                [self.projectiles removeObject:projectile];
-                [projectile destroy];
+            for (GameObject3D *gameObject in toDestroy) {
+                [self.gameObjects removeObject:gameObject];
+                [gameObject destroy];
             }
         }
         
@@ -472,7 +469,7 @@
     NSLog(@"tap");
     if (self.gameIsPlaying && self.gunIsLoaded) {
         // test hit
-        [self shotHitTest];
+//        [self shotHitTest];
         // spawn beam
         [self spawnBeam];
         // consume one load and start reload timer
@@ -513,53 +510,53 @@
     self.reloadProgressView.hidden = YES;
 }
 
-- (void)shotHitTest {
-    NSLog(@"raycast test");
-    btVector3 from(0,0,0.9);
-    btVector3 to(0,0, -20);
-//        btCollisionWorld::ClosestRayResultCallback closestResults(from,to);
-    btCollisionWorld::AllHitsRayResultCallback allResults(from, to);
-    // perform raycast
-//        self.physCollisionWorld->rayTest(from, to, closestResults);
-    self.physCollisionWorld->rayTest(from, to, allResults);
-    
-    for (int i=0;i<allResults.m_hitFractions.size();i++) {
-        const btCollisionObject *objectHit = allResults.m_collisionObjects.at(i);
-        if (self.physPlayerObject == objectHit) {
-            NSLog(@"player hit...");
-        }
-        for (Projectile *projectile in [self.projectiles copy]) {
-            if (projectile.meshHasLoaded && projectile.collisionObject == objectHit) {
-                NSLog(@"found projectile");
-                [self incrementScore];
-                [self.projectiles removeObject:projectile];
-                [projectile destroy];
-                break;
-            }
-        }
-    }
-    
-//    if (closestResults.hasHit()) {
-//        NSLog(@"hit!");
-//        const btCollisionObject *objectHit = closestResults.m_collisionObject;
+//- (void)shotHitTest {
+//    NSLog(@"raycast test");
+//    btVector3 from(0,0,0.9);
+//    btVector3 to(0,0, -20);
+////        btCollisionWorld::ClosestRayResultCallback closestResults(from,to);
+//    btCollisionWorld::AllHitsRayResultCallback allResults(from, to);
+//    // perform raycast
+////        self.physCollisionWorld->rayTest(from, to, closestResults);
+//    self.physCollisionWorld->rayTest(from, to, allResults);
+//    
+//    for (int i=0;i<allResults.m_hitFractions.size();i++) {
+//        const btCollisionObject *objectHit = allResults.m_collisionObjects.at(i);
 //        if (self.physPlayerObject == objectHit) {
 //            NSLog(@"player hit...");
 //        }
 //        for (Projectile *projectile in [self.projectiles copy]) {
-//            if (projectile.meshHasLoaded && projectile.collisionObject == objectHit) {
+//            if (projectile.isLoaded && projectile.collisionObject == objectHit) {
 //                NSLog(@"found projectile");
 //                [self incrementScore];
-//                [self destroyProjectile:projectile];
+//                [self.projectiles removeObject:projectile];
+//                [projectile destroy];
 //                break;
-//                
-//                NGLMaterial *material = [[NGLMaterial alloc] init];
-//                material.ambientColor = nglVec4Make(1, 0, 0, 1);
-//                material.diffuseColor = nglVec4Make(1, 0, 0, 1);
-//                projectile.mesh.material = material;
 //            }
 //        }
 //    }
-}
+//    
+////    if (closestResults.hasHit()) {
+////        NSLog(@"hit!");
+////        const btCollisionObject *objectHit = closestResults.m_collisionObject;
+////        if (self.physPlayerObject == objectHit) {
+////            NSLog(@"player hit...");
+////        }
+////        for (Projectile *projectile in [self.projectiles copy]) {
+////            if (projectile.isLoaded && projectile.collisionObject == objectHit) {
+////                NSLog(@"found projectile");
+////                [self incrementScore];
+////                [self destroyProjectile:projectile];
+////                break;
+////                
+////                NGLMaterial *material = [[NGLMaterial alloc] init];
+////                material.ambientColor = nglVec4Make(1, 0, 0, 1);
+////                material.diffuseColor = nglVec4Make(1, 0, 0, 1);
+////                projectile.mesh.material = material;
+////            }
+////        }
+////    }
+//}
 
 - (void)incrementScore {
     self.score++;
@@ -853,27 +850,26 @@
 - (void)spawnProjectile {
     NSLog(@"spawn projectile");
     if (self.gameHasStarted && self.gameIsPlaying) {
-        Projectile *projectile = [[Projectile alloc] initWithMesh:self.projectile camera:self.camera collisionWorld:self.physCollisionWorld cameraFromTargetMatrix:self.cameraFromTargetMatrix];
-        [self.projectiles addObject:projectile];
+        Projectile *projectile = [[Projectile alloc] initWithCamera:self.camera
+                                             cameraFromTargetMatrix:self.cameraFromTargetMatrix
+                                                     collisionWorld:self.physCollisionWorld];
+        [self.gameObjects addObject:projectile];
     }
 }
 
 - (void)spawnBeam {
     NSLog(@"spawn beam");
     if (self.gameHasStarted && self.gameIsPlaying) {
-        Beam *beam = [[Beam alloc] initWithMesh:self.beam camera:self.camera collisionWorld:self.physCollisionWorld
-                         cameraFromTargetMatrix:self.cameraFromTargetMatrix];
-        [self.beams addObject:beam];
+        Beam *beam = [[Beam alloc] initWithCamera:self.camera
+                           cameraFromTargetMatrix:self.cameraFromTargetMatrix
+                                   collisionWorld:self.physCollisionWorld];
+        [self.gameObjects addObject:beam];
     }
 }
 
-//- (void)destroyProjectile:(Projectile *)projectile {
-//    [self.projectiles removeObject:projectile];
-//    [projectile destroy];
-//}
 
-- (BOOL)isOutOfBounds:(NGLObject3D *)object3D {
-    return (object3D.x > SPAWN_DISTANCE || object3D.y > SPAWN_DISTANCE || object3D.z > SPAWN_DISTANCE || object3D.x < -SPAWN_DISTANCE || object3D.y < -SPAWN_DISTANCE || object3D.z < -SPAWN_DISTANCE);
+- (BOOL)isOutOfBounds:(GameObject3D *)gameObject {
+    return (gameObject.mesh.x > SPAWN_DISTANCE || gameObject.mesh.y > SPAWN_DISTANCE || gameObject.mesh.z > SPAWN_DISTANCE || gameObject.mesh.x < -SPAWN_DISTANCE || gameObject.mesh.y < -SPAWN_DISTANCE || gameObject.mesh.z < -SPAWN_DISTANCE);
 }
 
 - (BOOL)prefersStatusBarHidden {
