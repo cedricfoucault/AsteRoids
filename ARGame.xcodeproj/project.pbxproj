@@ -10,6 +10,51 @@
 		8214CA6518B59FC80022D7B9 /* hudGame.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8214CA6418B59FC80022D7B9 /* hudGame.xib */; };
 		8214CA6818B5A2590022D7B9 /* HUDOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8214CA6718B5A2590022D7B9 /* HUDOverlayView.m */; };
 		8214CA6B18B5BFBD0022D7B9 /* Projectile.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8214CA6A18B5BFBD0022D7B9 /* Projectile.mm */; };
+		822F0E991927CAE30084A59D /* asteroid1.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E571927CAE30084A59D /* asteroid1.obj */; };
+		822F0E9A1927CAE30084A59D /* asteroid10.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E581927CAE30084A59D /* asteroid10.obj */; };
+		822F0E9B1927CAE30084A59D /* asteroid11.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E591927CAE30084A59D /* asteroid11.obj */; };
+		822F0E9C1927CAE30084A59D /* asteroid12.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E5A1927CAE30084A59D /* asteroid12.obj */; };
+		822F0E9D1927CAE30084A59D /* asteroid13.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E5B1927CAE30084A59D /* asteroid13.obj */; };
+		822F0E9E1927CAE30084A59D /* asteroid14.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E5C1927CAE30084A59D /* asteroid14.obj */; };
+		822F0E9F1927CAE30084A59D /* asteroid15.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E5D1927CAE30084A59D /* asteroid15.obj */; };
+		822F0EA01927CAE30084A59D /* asteroid16.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E5E1927CAE30084A59D /* asteroid16.obj */; };
+		822F0EA11927CAE30084A59D /* asteroid17.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E5F1927CAE30084A59D /* asteroid17.obj */; };
+		822F0EA21927CAE30084A59D /* asteroid18.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E601927CAE30084A59D /* asteroid18.obj */; };
+		822F0EA31927CAE30084A59D /* asteroid19.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E611927CAE30084A59D /* asteroid19.obj */; };
+		822F0EA41927CAE30084A59D /* asteroid2.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E621927CAE30084A59D /* asteroid2.obj */; };
+		822F0EA51927CAE30084A59D /* asteroid20.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E631927CAE30084A59D /* asteroid20.obj */; };
+		822F0EA61927CAE30084A59D /* asteroid21.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E641927CAE30084A59D /* asteroid21.obj */; };
+		822F0EA71927CAE30084A59D /* asteroid22.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E651927CAE30084A59D /* asteroid22.obj */; };
+		822F0EA81927CAE30084A59D /* asteroid23.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E661927CAE30084A59D /* asteroid23.obj */; };
+		822F0EA91927CAE30084A59D /* asteroid24.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E671927CAE30084A59D /* asteroid24.obj */; };
+		822F0EAA1927CAE30084A59D /* asteroid25.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E681927CAE30084A59D /* asteroid25.obj */; };
+		822F0EAB1927CAE30084A59D /* asteroid26.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E691927CAE30084A59D /* asteroid26.obj */; };
+		822F0EAC1927CAE30084A59D /* asteroid27.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E6A1927CAE30084A59D /* asteroid27.obj */; };
+		822F0EAD1927CAE30084A59D /* asteroid28.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E6B1927CAE30084A59D /* asteroid28.obj */; };
+		822F0EAE1927CAE30084A59D /* asteroid29.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E6C1927CAE30084A59D /* asteroid29.obj */; };
+		822F0EAF1927CAE30084A59D /* asteroid3.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E6D1927CAE30084A59D /* asteroid3.obj */; };
+		822F0EB01927CAE30084A59D /* asteroid30.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E6E1927CAE30084A59D /* asteroid30.obj */; };
+		822F0EB11927CAE30084A59D /* asteroid4.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E6F1927CAE30084A59D /* asteroid4.obj */; };
+		822F0EB21927CAE30084A59D /* asteroid5.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E701927CAE30084A59D /* asteroid5.obj */; };
+		822F0EB31927CAE30084A59D /* asteroid6.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E711927CAE30084A59D /* asteroid6.obj */; };
+		822F0EB41927CAE30084A59D /* asteroid7.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E721927CAE30084A59D /* asteroid7.obj */; };
+		822F0EB51927CAE30084A59D /* asteroid8.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E731927CAE30084A59D /* asteroid8.obj */; };
+		822F0EB61927CAE30084A59D /* asteroid9.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E741927CAE30084A59D /* asteroid9.obj */; };
+		822F0EC81927CAE30084A59D /* Am1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E881927CAE30084A59D /* Am1.jpg */; };
+		822F0EC91927CAE30084A59D /* Am10.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E891927CAE30084A59D /* Am10.jpg */; };
+		822F0ECA1927CAE30084A59D /* Am11.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E8A1927CAE30084A59D /* Am11.jpg */; };
+		822F0ECB1927CAE30084A59D /* Am12.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E8B1927CAE30084A59D /* Am12.jpg */; };
+		822F0ECC1927CAE30084A59D /* Am13.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E8C1927CAE30084A59D /* Am13.jpg */; };
+		822F0ECD1927CAE30084A59D /* Am14.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E8D1927CAE30084A59D /* Am14.jpg */; };
+		822F0ECE1927CAE30084A59D /* Am15.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E8E1927CAE30084A59D /* Am15.jpg */; };
+		822F0ECF1927CAE30084A59D /* Am2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E8F1927CAE30084A59D /* Am2.jpg */; };
+		822F0ED01927CAE30084A59D /* Am3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E901927CAE30084A59D /* Am3.jpg */; };
+		822F0ED11927CAE30084A59D /* Am4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E911927CAE30084A59D /* Am4.jpg */; };
+		822F0ED21927CAE30084A59D /* Am5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E921927CAE30084A59D /* Am5.jpg */; };
+		822F0ED31927CAE30084A59D /* Am6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E931927CAE30084A59D /* Am6.jpg */; };
+		822F0ED41927CAE30084A59D /* Am7.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E941927CAE30084A59D /* Am7.jpg */; };
+		822F0ED51927CAE30084A59D /* Am8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E951927CAE30084A59D /* Am8.jpg */; };
+		822F0ED61927CAE30084A59D /* Am9.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E961927CAE30084A59D /* Am9.jpg */; };
 		8238419A19159E4800581333 /* yellow rock.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 8238419919159E4800581333 /* yellow rock.mtl */; };
 		8238419E19159EEE00581333 /* sandstone8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8238419D19159EEE00581333 /* sandstone8.jpg */; };
 		823841A91915A51600581333 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 823841A81915A51600581333 /* Constants.m */; };
@@ -236,6 +281,51 @@
 		8214CA6718B5A2590022D7B9 /* HUDOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDOverlayView.m; sourceTree = "<group>"; };
 		8214CA6918B5BFBD0022D7B9 /* Projectile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Projectile.h; sourceTree = "<group>"; };
 		8214CA6A18B5BFBD0022D7B9 /* Projectile.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Projectile.mm; sourceTree = "<group>"; };
+		822F0E571927CAE30084A59D /* asteroid1.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid1.obj; sourceTree = "<group>"; };
+		822F0E581927CAE30084A59D /* asteroid10.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid10.obj; sourceTree = "<group>"; };
+		822F0E591927CAE30084A59D /* asteroid11.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid11.obj; sourceTree = "<group>"; };
+		822F0E5A1927CAE30084A59D /* asteroid12.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid12.obj; sourceTree = "<group>"; };
+		822F0E5B1927CAE30084A59D /* asteroid13.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid13.obj; sourceTree = "<group>"; };
+		822F0E5C1927CAE30084A59D /* asteroid14.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid14.obj; sourceTree = "<group>"; };
+		822F0E5D1927CAE30084A59D /* asteroid15.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid15.obj; sourceTree = "<group>"; };
+		822F0E5E1927CAE30084A59D /* asteroid16.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid16.obj; sourceTree = "<group>"; };
+		822F0E5F1927CAE30084A59D /* asteroid17.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid17.obj; sourceTree = "<group>"; };
+		822F0E601927CAE30084A59D /* asteroid18.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid18.obj; sourceTree = "<group>"; };
+		822F0E611927CAE30084A59D /* asteroid19.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid19.obj; sourceTree = "<group>"; };
+		822F0E621927CAE30084A59D /* asteroid2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid2.obj; sourceTree = "<group>"; };
+		822F0E631927CAE30084A59D /* asteroid20.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid20.obj; sourceTree = "<group>"; };
+		822F0E641927CAE30084A59D /* asteroid21.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid21.obj; sourceTree = "<group>"; };
+		822F0E651927CAE30084A59D /* asteroid22.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid22.obj; sourceTree = "<group>"; };
+		822F0E661927CAE30084A59D /* asteroid23.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid23.obj; sourceTree = "<group>"; };
+		822F0E671927CAE30084A59D /* asteroid24.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid24.obj; sourceTree = "<group>"; };
+		822F0E681927CAE30084A59D /* asteroid25.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid25.obj; sourceTree = "<group>"; };
+		822F0E691927CAE30084A59D /* asteroid26.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid26.obj; sourceTree = "<group>"; };
+		822F0E6A1927CAE30084A59D /* asteroid27.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid27.obj; sourceTree = "<group>"; };
+		822F0E6B1927CAE30084A59D /* asteroid28.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid28.obj; sourceTree = "<group>"; };
+		822F0E6C1927CAE30084A59D /* asteroid29.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid29.obj; sourceTree = "<group>"; };
+		822F0E6D1927CAE30084A59D /* asteroid3.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid3.obj; sourceTree = "<group>"; };
+		822F0E6E1927CAE30084A59D /* asteroid30.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid30.obj; sourceTree = "<group>"; };
+		822F0E6F1927CAE30084A59D /* asteroid4.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid4.obj; sourceTree = "<group>"; };
+		822F0E701927CAE30084A59D /* asteroid5.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid5.obj; sourceTree = "<group>"; };
+		822F0E711927CAE30084A59D /* asteroid6.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid6.obj; sourceTree = "<group>"; };
+		822F0E721927CAE30084A59D /* asteroid7.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid7.obj; sourceTree = "<group>"; };
+		822F0E731927CAE30084A59D /* asteroid8.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid8.obj; sourceTree = "<group>"; };
+		822F0E741927CAE30084A59D /* asteroid9.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid9.obj; sourceTree = "<group>"; };
+		822F0E881927CAE30084A59D /* Am1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Am1.jpg; sourceTree = "<group>"; };
+		822F0E891927CAE30084A59D /* Am10.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Am10.jpg; sourceTree = "<group>"; };
+		822F0E8A1927CAE30084A59D /* Am11.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Am11.jpg; sourceTree = "<group>"; };
+		822F0E8B1927CAE30084A59D /* Am12.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Am12.jpg; sourceTree = "<group>"; };
+		822F0E8C1927CAE30084A59D /* Am13.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Am13.jpg; sourceTree = "<group>"; };
+		822F0E8D1927CAE30084A59D /* Am14.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Am14.jpg; sourceTree = "<group>"; };
+		822F0E8E1927CAE30084A59D /* Am15.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Am15.jpg; sourceTree = "<group>"; };
+		822F0E8F1927CAE30084A59D /* Am2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Am2.jpg; sourceTree = "<group>"; };
+		822F0E901927CAE30084A59D /* Am3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Am3.jpg; sourceTree = "<group>"; };
+		822F0E911927CAE30084A59D /* Am4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Am4.jpg; sourceTree = "<group>"; };
+		822F0E921927CAE30084A59D /* Am5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Am5.jpg; sourceTree = "<group>"; };
+		822F0E931927CAE30084A59D /* Am6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Am6.jpg; sourceTree = "<group>"; };
+		822F0E941927CAE30084A59D /* Am7.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Am7.jpg; sourceTree = "<group>"; };
+		822F0E951927CAE30084A59D /* Am8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Am8.jpg; sourceTree = "<group>"; };
+		822F0E961927CAE30084A59D /* Am9.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Am9.jpg; sourceTree = "<group>"; };
 		8238419919159E4800581333 /* yellow rock.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "yellow rock.mtl"; sourceTree = "<group>"; };
 		8238419D19159EEE00581333 /* sandstone8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = sandstone8.jpg; path = "Resources/3D/Yellow Rock/sandstone8.jpg"; sourceTree = SOURCE_ROOT; };
 		823841A71915A4D600581333 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -737,6 +827,74 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		822F0E531927CAE30084A59D /* low-poly asteroids */ = {
+			isa = PBXGroup;
+			children = (
+				822F0E561927CAE30084A59D /* 3D models */,
+				822F0E871927CAE30084A59D /* Textures */,
+			);
+			path = "low-poly asteroids";
+			sourceTree = "<group>";
+		};
+		822F0E561927CAE30084A59D /* 3D models */ = {
+			isa = PBXGroup;
+			children = (
+				822F0E571927CAE30084A59D /* asteroid1.obj */,
+				822F0E581927CAE30084A59D /* asteroid10.obj */,
+				822F0E591927CAE30084A59D /* asteroid11.obj */,
+				822F0E5A1927CAE30084A59D /* asteroid12.obj */,
+				822F0E5B1927CAE30084A59D /* asteroid13.obj */,
+				822F0E5C1927CAE30084A59D /* asteroid14.obj */,
+				822F0E5D1927CAE30084A59D /* asteroid15.obj */,
+				822F0E5E1927CAE30084A59D /* asteroid16.obj */,
+				822F0E5F1927CAE30084A59D /* asteroid17.obj */,
+				822F0E601927CAE30084A59D /* asteroid18.obj */,
+				822F0E611927CAE30084A59D /* asteroid19.obj */,
+				822F0E621927CAE30084A59D /* asteroid2.obj */,
+				822F0E631927CAE30084A59D /* asteroid20.obj */,
+				822F0E641927CAE30084A59D /* asteroid21.obj */,
+				822F0E651927CAE30084A59D /* asteroid22.obj */,
+				822F0E661927CAE30084A59D /* asteroid23.obj */,
+				822F0E671927CAE30084A59D /* asteroid24.obj */,
+				822F0E681927CAE30084A59D /* asteroid25.obj */,
+				822F0E691927CAE30084A59D /* asteroid26.obj */,
+				822F0E6A1927CAE30084A59D /* asteroid27.obj */,
+				822F0E6B1927CAE30084A59D /* asteroid28.obj */,
+				822F0E6C1927CAE30084A59D /* asteroid29.obj */,
+				822F0E6D1927CAE30084A59D /* asteroid3.obj */,
+				822F0E6E1927CAE30084A59D /* asteroid30.obj */,
+				822F0E6F1927CAE30084A59D /* asteroid4.obj */,
+				822F0E701927CAE30084A59D /* asteroid5.obj */,
+				822F0E711927CAE30084A59D /* asteroid6.obj */,
+				822F0E721927CAE30084A59D /* asteroid7.obj */,
+				822F0E731927CAE30084A59D /* asteroid8.obj */,
+				822F0E741927CAE30084A59D /* asteroid9.obj */,
+			);
+			path = "3D models";
+			sourceTree = "<group>";
+		};
+		822F0E871927CAE30084A59D /* Textures */ = {
+			isa = PBXGroup;
+			children = (
+				822F0E881927CAE30084A59D /* Am1.jpg */,
+				822F0E891927CAE30084A59D /* Am10.jpg */,
+				822F0E8A1927CAE30084A59D /* Am11.jpg */,
+				822F0E8B1927CAE30084A59D /* Am12.jpg */,
+				822F0E8C1927CAE30084A59D /* Am13.jpg */,
+				822F0E8D1927CAE30084A59D /* Am14.jpg */,
+				822F0E8E1927CAE30084A59D /* Am15.jpg */,
+				822F0E8F1927CAE30084A59D /* Am2.jpg */,
+				822F0E901927CAE30084A59D /* Am3.jpg */,
+				822F0E911927CAE30084A59D /* Am4.jpg */,
+				822F0E921927CAE30084A59D /* Am5.jpg */,
+				822F0E931927CAE30084A59D /* Am6.jpg */,
+				822F0E941927CAE30084A59D /* Am7.jpg */,
+				822F0E951927CAE30084A59D /* Am8.jpg */,
+				822F0E961927CAE30084A59D /* Am9.jpg */,
+			);
+			path = Textures;
+			sourceTree = "<group>";
+		};
 		8238419F1915A2F500581333 /* Blue Rock */ = {
 			isa = PBXGroup;
 			children = (
@@ -1530,6 +1688,7 @@
 		82E68D5C18A64CD100F77F10 /* 3D */ = {
 			isa = PBXGroup;
 			children = (
+				822F0E531927CAE30084A59D /* low-poly asteroids */,
 				828E1328191ED58F002EB107 /* sphere */,
 				8247C6DA19188D8E00E162B2 /* Beam */,
 				82BBD4E81916F0AD0077B0B6 /* StarDome */,
@@ -1629,35 +1788,66 @@
 			files = (
 				82BBD4F51916F0AD0077B0B6 /* StarDome.obj in Resources */,
 				8248A57318A963F800BDE25E /* premake4.lua in Resources */,
+				822F0ECC1927CAE30084A59D /* Am13.jpg in Resources */,
 				8248A23D18A8EC2800BDE25E /* comet.obj in Resources */,
+				822F0EB51927CAE30084A59D /* asteroid8.obj in Resources */,
 				82C7F4EC1921C296000F4029 /* beam_core.mtl in Resources */,
+				822F0EA41927CAE30084A59D /* asteroid2.obj in Resources */,
+				822F0E9F1927CAE30084A59D /* asteroid15.obj in Resources */,
+				822F0ED31927CAE30084A59D /* Am6.jpg in Resources */,
+				822F0E9B1927CAE30084A59D /* asteroid11.obj in Resources */,
+				822F0ED51927CAE30084A59D /* Am8.jpg in Resources */,
 				823841AE1915A8DB00581333 /* BlueRock.obj in Resources */,
+				822F0ECD1927CAE30084A59D /* Am14.jpg in Resources */,
+				822F0EB11927CAE30084A59D /* asteroid4.obj in Resources */,
 				828E1330191ED58F002EB107 /* sphere.obj in Resources */,
 				82E68D7118A6591D00F77F10 /* dummy.obj in Resources */,
+				822F0ECF1927CAE30084A59D /* Am2.jpg in Resources */,
+				822F0EA01927CAE30084A59D /* asteroid16.obj in Resources */,
 				8252317318B5DB6500F475CE /* gunsight.png in Resources */,
+				822F0E9C1927CAE30084A59D /* asteroid12.obj in Resources */,
+				822F0EA91927CAE30084A59D /* asteroid24.obj in Resources */,
 				8214CA6518B59FC80022D7B9 /* hudGame.xib in Resources */,
+				822F0ED21927CAE30084A59D /* Am5.jpg in Resources */,
+				822F0EB21927CAE30084A59D /* asteroid5.obj in Resources */,
+				822F0EAF1927CAE30084A59D /* asteroid3.obj in Resources */,
 				8248A24A18A8EC8700BDE25E /* yellow rock.obj in Resources */,
 				8248A23C18A8EC2800BDE25E /* comet.mtl in Resources */,
+				822F0EB41927CAE30084A59D /* asteroid7.obj in Resources */,
 				82BBD4F01916F0AD0077B0B6 /* spacedome.jpg in Resources */,
 				8248A23B18A8EC2800BDE25E /* Stone_Pavers_Flagstone_Gray.jpg in Resources */,
+				822F0ED01927CAE30084A59D /* Am3.jpg in Resources */,
+				822F0E9A1927CAE30084A59D /* asteroid10.obj in Resources */,
 				8248A20F18A7FFA500BDE25E /* Plane.obj in Resources */,
+				822F0ED11927CAE30084A59D /* Am4.jpg in Resources */,
+				822F0EB61927CAE30084A59D /* asteroid9.obj in Resources */,
 				8248A21618A806B400BDE25E /* Wall with hole.obj in Resources */,
+				822F0ECE1927CAE30084A59D /* Am15.jpg in Resources */,
 				8277042419172F54005C4F0C /* viewfinder white.png in Resources */,
 				8248A20818A7E69C00BDE25E /* Cube opened.obj in Resources */,
 				82BBD4E11916CF680077B0B6 /* StarDome.fsh in Resources */,
+				822F0ED41927CAE30084A59D /* Am7.jpg in Resources */,
 				823841AD1915A8DB00581333 /* BlueRock.mtl in Resources */,
+				822F0EA21927CAE30084A59D /* asteroid18.obj in Resources */,
 				82C7F4F81921CDE1000F4029 /* beam_glow_billboard.mtl in Resources */,
 				82E68D4018A63B8300F77F10 /* Tarmac.dat in Resources */,
 				8259FE36191810AD00BD72F9 /* AsteRoids.xml in Resources */,
+				822F0EAA1927CAE30084A59D /* asteroid25.obj in Resources */,
 				823841AF1915A8DB00581333 /* RockTexture2.JPG in Resources */,
 				82BBD50C19170C810077B0B6 /* WLM_square.jpg in Resources */,
+				822F0EAE1927CAE30084A59D /* asteroid29.obj in Resources */,
 				82C7F4F11921C3F8000F4029 /* beam_core.fsh in Resources */,
 				82C7F4ED1921C296000F4029 /* beam_core.obj in Resources */,
 				8248A57218A963F800BDE25E /* CMakeLists.txt in Resources */,
 				82BBD50E191718660077B0B6 /* OverlayViewfinder.xib in Resources */,
 				8248A20918A7E69C00BDE25E /* Cube.mtl in Resources */,
+				822F0E991927CAE30084A59D /* asteroid1.obj in Resources */,
 				82E68C7B18A61B7800F77F10 /* InfoPlist.strings in Resources */,
+				822F0EAC1927CAE30084A59D /* asteroid27.obj in Resources */,
+				822F0ED61927CAE30084A59D /* Am9.jpg in Resources */,
 				8252317518B5EC5000F475CE /* redTexture.jpg in Resources */,
+				822F0EC81927CAE30084A59D /* Am1.jpg in Resources */,
+				822F0EA81927CAE30084A59D /* asteroid23.obj in Resources */,
 				8238419A19159E4800581333 /* yellow rock.mtl in Resources */,
 				82C7F4F51921C4EA000F4029 /* glow.png in Resources */,
 				8247C6E419188D8E00E162B2 /* beam.obj in Resources */,
@@ -1665,18 +1855,32 @@
 				82C7F4F31921C469000F4029 /* beam_glow_billboard.fsh in Resources */,
 				82E68D4118A63B8300F77F10 /* Tarmac.xml in Resources */,
 				82E68C8318A61B7800F77F10 /* Images.xcassets in Resources */,
+				822F0EAD1927CAE30084A59D /* asteroid28.obj in Resources */,
+				822F0ECB1927CAE30084A59D /* Am12.jpg in Resources */,
 				82BBD4F41916F0AD0077B0B6 /* StarDome.mtl in Resources */,
 				82BBD4F81916F4920077B0B6 /* StarDome2_cropped2.jpg in Resources */,
+				822F0EA71927CAE30084A59D /* asteroid22.obj in Resources */,
 				828E132F191ED58F002EB107 /* sphere.mtl in Resources */,
+				822F0EB01927CAE30084A59D /* asteroid30.obj in Resources */,
 				8277042C19173F29005C4F0C /* AsteRoids_acm.xml in Resources */,
 				82BBD4F61916F0AD0077B0B6 /* StarDome2_cropped.jpg in Resources */,
 				8247C6BC1918842C00E162B2 /* viewfinder gray 50%.png in Resources */,
+				822F0EAB1927CAE30084A59D /* asteroid26.obj in Resources */,
+				822F0EC91927CAE30084A59D /* Am10.jpg in Resources */,
+				822F0E9D1927CAE30084A59D /* asteroid13.obj in Resources */,
 				8238419E19159EEE00581333 /* sandstone8.jpg in Resources */,
+				822F0EA11927CAE30084A59D /* asteroid17.obj in Resources */,
+				822F0EA61927CAE30084A59D /* asteroid21.obj in Resources */,
+				822F0E9E1927CAE30084A59D /* asteroid14.obj in Resources */,
+				822F0EB31927CAE30084A59D /* asteroid6.obj in Resources */,
 				8248A20C18A7FE7F00BDE25E /* black pixel.jpg in Resources */,
+				822F0ECA1927CAE30084A59D /* Am11.jpg in Resources */,
 				8248A20718A7E69C00BDE25E /* Cube opened backup normals.obj in Resources */,
 				8277042319172F54005C4F0C /* viewfinder red.png in Resources */,
+				822F0EA31927CAE30084A59D /* asteroid19.obj in Resources */,
 				8277042B19173F29005C4F0C /* AsteRoids_acm.dat in Resources */,
 				823841C719161A3100581333 /* target viewfinder.png in Resources */,
+				822F0EA51927CAE30084A59D /* asteroid20.obj in Resources */,
 				8259FE35191810AD00BD72F9 /* AsteRoids.dat in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

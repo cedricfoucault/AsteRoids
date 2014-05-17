@@ -12,15 +12,43 @@
 #import "Constants.h"
 #import "PoseMatrixMathHelper.h"
 
+static const int NUMBER_OF_MESHES = 30;
+static const int NUMBER_OF_TEXTURES = 15;
 
 @implementation Projectile
 
 - (void)loadMesh {
+//    NSDictionary *settings = [NSDictionary dictionaryWithObjectsAndKeys:
+//                              kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
+//                              [NSString stringWithFormat:@"%f", PROJECTILE_SCALE], kNGLMeshKeyNormalize,
+//                              nil];
+//    self.mesh = [[NGLMesh alloc] initWithFile:PROJECTILE_MESH_FILENAME settings:settings delegate:self];
+    NSString *meshName = [[self class] randomMeshName];
     NSDictionary *settings = [NSDictionary dictionaryWithObjectsAndKeys:
                               kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
                               [NSString stringWithFormat:@"%f", PROJECTILE_SCALE], kNGLMeshKeyNormalize,
                               nil];
-    self.mesh = [[NGLMesh alloc] initWithFile:PROJECTILE_MESH_FILENAME settings:settings delegate:self];
+    self.mesh = [[NGLMesh alloc] initWithFile:meshName settings:settings delegate:self];
+    self.mesh.material = [[self class] randomMaterial];
+    [self.mesh compileCoreMesh];
+}
+
++ (NSString *)randomMeshName {
+    return [NSString stringWithFormat:@"asteroid%d.obj", (arc4random_uniform(NUMBER_OF_MESHES) + 1)];
+}
+
++ (NGLMaterial *)randomMaterial {
+    NGLMaterial *material = [[NGLMaterial alloc] init];
+    material.shininess = 96.078431;
+    material.ambientColor = nglVec4Make(0.0, 0.0, 0.0, 1.0);
+    material.diffuseColor = nglVec4Make(0.64, 0.64, 0.64, 1.0);
+    material.specularColor = nglVec4Make(0.090164, 0.090164, 0.090164, 1.0);
+    material.diffuseMap = [NGLTexture texture2DWithFile:[self randomTextureName]];
+    return material;
+}
+
++ (NSString *)randomTextureName {
+    return [NSString stringWithFormat:@"Am%d.jpg", (arc4random_uniform(NUMBER_OF_TEXTURES) + 1)];
 }
 
 
