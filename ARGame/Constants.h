@@ -17,7 +17,8 @@ extern const float FOG_END;
 extern const float WINDOW_SCALE;
 extern const float WINDOW_ASPECT_RATIO;
 extern const float PROJECTILE_SCALE;
-extern const float BEAM_SCALE;
+extern const float BEAM_CORE_SCALE;
+extern const float BEAM_GLOW_BILLBOARD_SCALE;
 
 extern const float ASTEROID_MAX_SPEED_ROTATION;
 
@@ -30,7 +31,10 @@ extern const float SPAWN_DISTANCE;
 extern const float SKYDOME_DISTANCE;
 
 extern NSString * const PROJECTILE_MESH_FILENAME;
-extern NSString * const BEAM_MESH_FILENAME;
+extern NSString * const BEAM_CORE_MESH_FILENAME;
+extern NSString * const BEAM_CORE_FRAGMENT_SHADER_FILENAME;
+extern NSString * const BEAM_GLOW_BILLBOARD_MESH_FILENAME;
+extern NSString * const BEAM_GLOW_BILLBOARD_FRAGMENT_SHADER_FILENAME;
 extern NSString * const WINDOW_MESH_FILENAME;
 extern NSString * const SKYDOME_MESH_FILENAME;
 extern NSString * const LOADED_VIEWFINDER_FILENAME;

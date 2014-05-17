@@ -185,6 +185,13 @@
 		82BBD50C19170C810077B0B6 /* WLM_square.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD50B19170C810077B0B6 /* WLM_square.jpg */; };
 		82BBD50E191718660077B0B6 /* OverlayViewfinder.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD50D191718660077B0B6 /* OverlayViewfinder.xib */; };
 		82BBD511191724FB0077B0B6 /* PassthroughView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BBD510191724FB0077B0B6 /* PassthroughView.m */; };
+		82C7F4EC1921C296000F4029 /* beam_core.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 82C7F4E81921C296000F4029 /* beam_core.mtl */; };
+		82C7F4ED1921C296000F4029 /* beam_core.obj in Resources */ = {isa = PBXBuildFile; fileRef = 82C7F4E91921C296000F4029 /* beam_core.obj */; };
+		82C7F4F11921C3F8000F4029 /* beam_core.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 82C7F4F01921C3F8000F4029 /* beam_core.fsh */; };
+		82C7F4F31921C469000F4029 /* beam_glow_billboard.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 82C7F4F21921C469000F4029 /* beam_glow_billboard.fsh */; };
+		82C7F4F51921C4EA000F4029 /* glow.png in Resources */ = {isa = PBXBuildFile; fileRef = 82C7F4F41921C4EA000F4029 /* glow.png */; };
+		82C7F4F81921CDE1000F4029 /* beam_glow_billboard.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 82C7F4F61921CDE1000F4029 /* beam_glow_billboard.mtl */; };
+		82C7F4F91921CDE1000F4029 /* beam_glow_billboard.obj in Resources */ = {isa = PBXBuildFile; fileRef = 82C7F4F71921CDE1000F4029 /* beam_glow_billboard.obj */; };
 		82E68C7118A61B7800F77F10 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E68C7018A61B7800F77F10 /* Foundation.framework */; };
 		82E68C7318A61B7800F77F10 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E68C7218A61B7800F77F10 /* CoreGraphics.framework */; };
 		82E68C7518A61B7800F77F10 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E68C7418A61B7800F77F10 /* UIKit.framework */; };
@@ -609,6 +616,13 @@
 		82BBD50D191718660077B0B6 /* OverlayViewfinder.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OverlayViewfinder.xib; sourceTree = "<group>"; };
 		82BBD50F191724FB0077B0B6 /* PassthroughView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PassthroughView.h; sourceTree = "<group>"; };
 		82BBD510191724FB0077B0B6 /* PassthroughView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PassthroughView.m; sourceTree = "<group>"; };
+		82C7F4E81921C296000F4029 /* beam_core.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = beam_core.mtl; sourceTree = "<group>"; };
+		82C7F4E91921C296000F4029 /* beam_core.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = beam_core.obj; sourceTree = "<group>"; };
+		82C7F4F01921C3F8000F4029 /* beam_core.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = beam_core.fsh; sourceTree = "<group>"; };
+		82C7F4F21921C469000F4029 /* beam_glow_billboard.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = beam_glow_billboard.fsh; sourceTree = "<group>"; };
+		82C7F4F41921C4EA000F4029 /* glow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glow.png; sourceTree = "<group>"; };
+		82C7F4F61921CDE1000F4029 /* beam_glow_billboard.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = beam_glow_billboard.mtl; sourceTree = "<group>"; };
+		82C7F4F71921CDE1000F4029 /* beam_glow_billboard.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = beam_glow_billboard.obj; sourceTree = "<group>"; };
 		82E68C6D18A61B7800F77F10 /* ARGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82E68C7018A61B7800F77F10 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		82E68C7218A61B7800F77F10 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -748,6 +762,11 @@
 			isa = PBXGroup;
 			children = (
 				8247C6DF19188D8E00E162B2 /* beam.obj */,
+				82C7F4E81921C296000F4029 /* beam_core.mtl */,
+				82C7F4E91921C296000F4029 /* beam_core.obj */,
+				82C7F4F61921CDE1000F4029 /* beam_glow_billboard.mtl */,
+				82C7F4F71921CDE1000F4029 /* beam_glow_billboard.obj */,
+				82C7F4F41921C4EA000F4029 /* glow.png */,
 			);
 			path = Beam;
 			sourceTree = "<group>";
@@ -1291,6 +1310,8 @@
 			isa = PBXGroup;
 			children = (
 				82BBD4E01916CF680077B0B6 /* StarDome.fsh */,
+				82C7F4F01921C3F8000F4029 /* beam_core.fsh */,
+				82C7F4F21921C469000F4029 /* beam_glow_billboard.fsh */,
 			);
 			name = Shaders;
 			sourceTree = "<group>";
@@ -1609,6 +1630,7 @@
 				82BBD4F51916F0AD0077B0B6 /* StarDome.obj in Resources */,
 				8248A57318A963F800BDE25E /* premake4.lua in Resources */,
 				8248A23D18A8EC2800BDE25E /* comet.obj in Resources */,
+				82C7F4EC1921C296000F4029 /* beam_core.mtl in Resources */,
 				823841AE1915A8DB00581333 /* BlueRock.obj in Resources */,
 				828E1330191ED58F002EB107 /* sphere.obj in Resources */,
 				82E68D7118A6591D00F77F10 /* dummy.obj in Resources */,
@@ -1624,17 +1646,23 @@
 				8248A20818A7E69C00BDE25E /* Cube opened.obj in Resources */,
 				82BBD4E11916CF680077B0B6 /* StarDome.fsh in Resources */,
 				823841AD1915A8DB00581333 /* BlueRock.mtl in Resources */,
+				82C7F4F81921CDE1000F4029 /* beam_glow_billboard.mtl in Resources */,
 				82E68D4018A63B8300F77F10 /* Tarmac.dat in Resources */,
 				8259FE36191810AD00BD72F9 /* AsteRoids.xml in Resources */,
 				823841AF1915A8DB00581333 /* RockTexture2.JPG in Resources */,
 				82BBD50C19170C810077B0B6 /* WLM_square.jpg in Resources */,
+				82C7F4F11921C3F8000F4029 /* beam_core.fsh in Resources */,
+				82C7F4ED1921C296000F4029 /* beam_core.obj in Resources */,
 				8248A57218A963F800BDE25E /* CMakeLists.txt in Resources */,
 				82BBD50E191718660077B0B6 /* OverlayViewfinder.xib in Resources */,
 				8248A20918A7E69C00BDE25E /* Cube.mtl in Resources */,
 				82E68C7B18A61B7800F77F10 /* InfoPlist.strings in Resources */,
 				8252317518B5EC5000F475CE /* redTexture.jpg in Resources */,
 				8238419A19159E4800581333 /* yellow rock.mtl in Resources */,
+				82C7F4F51921C4EA000F4029 /* glow.png in Resources */,
 				8247C6E419188D8E00E162B2 /* beam.obj in Resources */,
+				82C7F4F91921CDE1000F4029 /* beam_glow_billboard.obj in Resources */,
+				82C7F4F31921C469000F4029 /* beam_glow_billboard.fsh in Resources */,
 				82E68D4118A63B8300F77F10 /* Tarmac.xml in Resources */,
 				82E68C8318A61B7800F77F10 /* Images.xcassets in Resources */,
 				82BBD4F41916F0AD0077B0B6 /* StarDome.mtl in Resources */,

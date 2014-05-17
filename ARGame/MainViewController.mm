@@ -40,6 +40,7 @@
 @property (strong, nonatomic) NGLMesh *wall;
 @property (strong, nonatomic) NGLMesh *projectile;
 @property (strong, nonatomic) NGLMesh *beam;
+@property (strong, nonatomic) NGLMesh *beamGlowBillboard;
 @property (strong, nonatomic) NGLCamera *camera;
 @property BOOL useExtendedTracking;
 
@@ -274,14 +275,20 @@
     // Setting the beam
     settings = [NSDictionary dictionaryWithObjectsAndKeys:
                 kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
-                [NSString stringWithFormat:@"%f", BEAM_SCALE], kNGLMeshKeyNormalize,
+                [NSString stringWithFormat:@"%f", BEAM_CORE_SCALE], kNGLMeshKeyNormalize,
                 nil];
-    self.beam = [[NGLMesh alloc] initWithFile:BEAM_MESH_FILENAME settings:settings delegate:nil];
-    NGLMaterial *glowMaterial = [[NGLMaterial alloc] init];
-    glowMaterial.emissiveColor = nglColorMake(1.0, 0.0, 0.0, 1.0);
-    glowMaterial.shininess = 2.0;
-    self.beam.material = glowMaterial;
+    self.beam = [[NGLMesh alloc] initWithFile:BEAM_CORE_MESH_FILENAME settings:settings delegate:nil];
+    self.beam.shaders = [NGLShaders shadersWithFilesVertex:nil andFragment:BEAM_CORE_FRAGMENT_SHADER_FILENAME];
     [self.beam compileCoreMesh];
+    
+    // Test lookAt routine
+    settings = [NSDictionary dictionaryWithObjectsAndKeys:
+                kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
+                [NSString stringWithFormat:@"%f", 0.2], kNGLMeshKeyNormalize,
+                nil];
+    self.beamGlowBillboard = [[NGLMesh alloc] initWithFile:BEAM_GLOW_BILLBOARD_MESH_FILENAME settings:settings delegate:self];
+    self.beamGlowBillboard.shaders = [NGLShaders shadersWithFilesVertex:nil andFragment:BEAM_GLOW_BILLBOARD_FRAGMENT_SHADER_FILENAME];
+    [self.beamGlowBillboard compileCoreMesh];
     
 	// Set the camera
     self.camera = [[NGLCamera alloc] initWithMeshes:self.dummy, self.window, self.wall, self.skydome, nil];
@@ -375,7 +382,7 @@
         if (self.gameHasStarted && self.gameIsPlaying) {
             // add objects to destroy in an array and destroy them after the collision detection is done
             NSMutableArray *toDestroy = [[NSMutableArray alloc] init];
-            // update projectile objects in 3D simulation (graphics and physics)
+            // update game objects in 3D simulation (graphics and physics)
             for (GameObject3D *gameObject in [self.gameObjects copy]) {
                 if (gameObject.isLoaded) {
                     [gameObject updateFrame];
@@ -385,6 +392,7 @@
                     }
                 }
             }
+
             // update player collision object
             NGLmat4 cameraTransform;
             nglMatrixCopy(*self.camera.matrix, cameraTransform);
