@@ -231,6 +231,9 @@
     self.skydome = [[NGLMesh alloc] initWithFile:SKYDOME_MESH_FILENAME settings:settings delegate:self];
     self.skydome.shaders = [NGLShaders shadersWithFilesVertex:nil andFragment:@"StarDome.fsh"];
     [self.skydome compileCoreMesh];
+    self.skydome.x = 0;
+    self.skydome.y = 0;
+    self.skydome.z = 0;
     
     
     // Setting the invisible "occlusion" wall
@@ -272,7 +275,7 @@
     self.beamGlowBillboard.visible = NO;
     
 	// Set the camera
-    self.camera = [[NGLCamera alloc] initWithMeshes:self.dummy, self.wall, self.skydome, nil];
+    self.camera = [[NGLCamera alloc] initWithMeshes:self.dummy, nil];
 //	[self.camera autoAdjustAspectRatio:YES animated:YES];
     
     // Set the light
@@ -323,6 +326,8 @@
 //    }
 //}
 
+static const float sqrt_2 = sqrtf(2);
+
 // draw a frame
 - (void) drawView {
     if (self.arSession.cameraIsStarted) {
@@ -352,6 +357,17 @@
                 // update the rebase matrices of the camera and the light
                 [self.camera rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
                 [[NGLLight defaultLight] rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
+                [self.skydome rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
+                [self.wall rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
+                // move skydome with camera to give illusion of infinity, but make sure that skydome covers the whole window
+                NGLvec3 cameraPosition = getCameraPosition(self.cameraFromTargetMatrix);
+                self.skydome.x = ABS(cameraPosition.x) < (SKYDOME_DISTANCE * sqrt_2 / 4 - WINDOW_SCALE / 2)?
+                                    cameraPosition.x :
+                                    ((SKYDOME_DISTANCE * sqrt_2 / 4 - WINDOW_SCALE / 2) * signf(cameraPosition.x));
+                self.skydome.y = ABS(cameraPosition.y) < (SKYDOME_DISTANCE * sqrt_2 / 4 - WINDOW_SCALE / (WINDOW_ASPECT_RATIO * 2))?
+                                    cameraPosition.y :
+                                    ((SKYDOME_DISTANCE * sqrt_2 / 4 - WINDOW_SCALE / (WINDOW_ASPECT_RATIO * 2)) * signf(cameraPosition.y));
+                self.skydome.z = 0;
                 
                 // notify that we found a target
                 [self targetWasFound];
@@ -441,17 +457,26 @@
         glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         if (self.gameHasStarted) {
             // Render
-            glDisable(GL_DEPTH_TEST);
-            // render skydome without filling z-buffer
-            
-            // rest of the world
+            // enable z-buffer testing
             glEnable(GL_DEPTH_TEST);
+            // fill z-buffer with occlusion wall
+            glDepthMask(GL_TRUE);
+            [self.wall drawMeshWithCamera:self.camera];
+            // render skydome without writing to the z-buffer
+            glDepthMask(GL_FALSE);
+            [self.skydome drawMeshWithCamera:self.camera];
+            glDepthMask(GL_TRUE);
+            // render rest of the world with z-buffering read/write
             [self.camera drawCamera];
         }
         glDisable (GL_BLEND);
         
         QCAR::Renderer::getInstance().end();
     }
+}
+
+int signf(float f) {
+    return (f < 0.) ? -1 : (f > 0.) ? +1 : 0;
 }
 
 - (void)handleTap {

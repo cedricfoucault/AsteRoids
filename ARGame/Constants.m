@@ -19,11 +19,12 @@ const float SPAWN_DELAY = 1.0f;
 const float RELOAD_DELAY = 1.2f;
 const float RELOAD_PROGRESS_TIMER_DELAY = 0.02f;
 const float BEAM_SPEED = 0.1f;
-const float SPAWN_DISTANCE = 40.0f;
-const float SKYDOME_DISTANCE = SPAWN_DISTANCE + 0.1;
+const float SPAWN_DISTANCE = 60.0f;
+//const float SKYDOME_DISTANCE = SPAWN_DISTANCE + 0.1;
+const float SKYDOME_DISTANCE = 5.0f;
 const float LIGHT_HALF_ATTENUATION = SPAWN_DISTANCE * 2;
-const float FOG_END = SKYDOME_DISTANCE + 2;
-const float FOG_START= FOG_END / 2;
+const float FOG_END = SPAWN_DISTANCE + 2;
+const float FOG_START= FOG_END * 2 / 3;
 
 NSString * const PROJECTILE_MESH_FILENAME = @"BlueRock.obj";
 NSString * const BEAM_CORE_MESH_FILENAME = @"beam_core.obj";
