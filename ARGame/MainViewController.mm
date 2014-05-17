@@ -26,16 +26,11 @@
 #import "Constants.h"
 #import "PoseMatrixMathHelper.h"
 
-//static const float WINDOW_SCALE = 2.0f;
-//static const float PROJECTILE_SCALE = 1.0f;
-//static const float SPAWN_DELAY = 1.15f;
 
 @interface MainViewController () <NGLViewDelegate, NGLMeshDelegate, QCARAppControl, UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) QCARAppSession *arSession;
 @property (strong, nonatomic) NGLMesh *dummy;
-@property (strong, nonatomic) NGLMesh *window;
-//@property (strong, nonatomic) NGLMesh *skywall;
 @property (strong, nonatomic) NGLMesh *skydome;
 @property (strong, nonatomic) NGLMesh *wall;
 @property (strong, nonatomic) NGLMesh *projectile;
@@ -229,22 +224,6 @@
     self.dummy.z = -1.0f;
     self.dummy.material = [NGLMaterial material];
     
-    // Setting the window
-	settings = [NSDictionary dictionaryWithObjectsAndKeys:
-                kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
-                [NSString stringWithFormat:@"%f", WINDOW_SCALE], kNGLMeshKeyNormalize,
-                nil];
-    self.window = [[NGLMesh alloc] initWithFile:WINDOW_MESH_FILENAME settings:settings delegate:self];
-    NGLMaterial *blackMaterial = [[NGLMaterial alloc] init];
-    blackMaterial.ambientColor = nglColorMake(0.0, 0.0, 0.0, 1.0);
-    blackMaterial.diffuseColor = nglColorMake(0.0, 0.0, 0.0, 1.0);
-    blackMaterial.emissiveColor = nglColorMake(0.0, 0.0, 0.0, 1.0);
-    blackMaterial.specularColor = nglColorMake(0.0, 0.0, 0.0, 1.0);
-    blackMaterial.shininess = 0.0;
-    self.window.material = blackMaterial;
-    [self.window compileCoreMesh];
-    self.window.visible = NO;
-    
     // Setting the skydome
 	settings = [NSDictionary dictionaryWithObjectsAndKeys:
                 [NSString stringWithFormat:@"%f", SKYDOME_DISTANCE], kNGLMeshKeyNormalize,
@@ -280,6 +259,7 @@
     self.beam = [[NGLMesh alloc] initWithFile:BEAM_CORE_MESH_FILENAME settings:settings delegate:nil];
     self.beam.shaders = [NGLShaders shadersWithFilesVertex:nil andFragment:BEAM_CORE_FRAGMENT_SHADER_FILENAME];
     [self.beam compileCoreMesh];
+    self.beam.visible = NO;
     
     // Test lookAt routine
     settings = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -289,9 +269,10 @@
     self.beamGlowBillboard = [[NGLMesh alloc] initWithFile:BEAM_GLOW_BILLBOARD_MESH_FILENAME settings:settings delegate:self];
     self.beamGlowBillboard.shaders = [NGLShaders shadersWithFilesVertex:nil andFragment:BEAM_GLOW_BILLBOARD_FRAGMENT_SHADER_FILENAME];
     [self.beamGlowBillboard compileCoreMesh];
+    self.beamGlowBillboard.visible = NO;
     
 	// Set the camera
-    self.camera = [[NGLCamera alloc] initWithMeshes:self.dummy, self.window, self.wall, self.skydome, nil];
+    self.camera = [[NGLCamera alloc] initWithMeshes:self.dummy, self.wall, self.skydome, nil];
 //	[self.camera autoAdjustAspectRatio:YES animated:YES];
     
     // Set the light
@@ -304,7 +285,7 @@
     light.z = 5.0f;
     light.attenuation = LIGHT_HALF_ATTENUATION / 10;
     light.type = NGLLightTypePoint;
-    [light lookAtObject:self.window];
+    [light lookAtPointX:0.0 toY:0.0 toZ:0.0];
     
     // Set the fog
     NGLFog *defaultFog = [NGLFog defaultFog];
@@ -461,8 +442,8 @@
         if (self.gameHasStarted) {
             // Render
             glDisable(GL_DEPTH_TEST);
-            // window object (without occlusion)
-            [self.window drawMeshWithCamera:self.camera];
+            // render skydome without filling z-buffer
+            
             // rest of the world
             glEnable(GL_DEPTH_TEST);
             [self.camera drawCamera];

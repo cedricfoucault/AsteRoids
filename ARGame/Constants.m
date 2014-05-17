@@ -31,7 +31,6 @@ NSString * const BEAM_CORE_FRAGMENT_SHADER_FILENAME = @"beam_core.fsh";
 NSString * const BEAM_GLOW_BILLBOARD_MESH_FILENAME = @"beam_glow_billboard.obj";
 NSString * const BEAM_GLOW_BILLBOARD_FRAGMENT_SHADER_FILENAME = @"beam_glow_billboard.fsh";
 
-NSString * const WINDOW_MESH_FILENAME = @"Plane.obj";
 NSString * const SKYDOME_MESH_FILENAME = @"StarDome.obj";
 NSString * const LOADED_VIEWFINDER_FILENAME = @"viewfinder white.png";
 NSString * const UNLOADED_VIEWFINDER_FILENAME = @"viewfinder gray 50%.png";

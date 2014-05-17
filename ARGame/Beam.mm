@@ -48,6 +48,7 @@
     self.billboardMesh.shaders = [NGLShaders shadersWithFilesVertex:nil andFragment:BEAM_GLOW_BILLBOARD_FRAGMENT_SHADER_FILENAME];
     [self.billboardMesh compileCoreMesh];
     [self.camera addMesh:self.billboardMesh];
+    self.billboardMesh.visible = NO;
 }
 
 - (void)initCollisionObject {
@@ -75,6 +76,14 @@
     self.translationSpeed = BEAM_SPEED;
     
     [self updateBillboardMesh];
+}
+
+- (void)setIsLoaded:(BOOL)isLoaded {
+    [super setIsLoaded:isLoaded];
+    if (self.isLoaded) {
+        // set billboard visible once object is loaded
+        self.billboardMesh.visible = YES;
+    }
 }
 
 - (void)updateFrame {
