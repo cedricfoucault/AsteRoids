@@ -9,6 +9,9 @@
 #ifndef ARGame_Constants_h
 #define ARGame_Constants_h
 
+extern const float NEAR;
+extern const float FAR;
+
 extern const float LIGHT_HALF_ATTENUATION;
 
 extern const float FOG_START;
@@ -16,7 +19,7 @@ extern const float FOG_END;
 
 extern const float WINDOW_SCALE;
 extern const float WINDOW_ASPECT_RATIO;
-extern const float PROJECTILE_SCALE;
+extern const float ASTEROID_SCALE;
 extern const float BEAM_CORE_SCALE;
 extern const float BEAM_GLOW_BILLBOARD_SCALE;
 
@@ -30,7 +33,7 @@ extern const float BEAM_SPEED;
 extern const float SPAWN_DISTANCE;
 extern const float SKYDOME_DISTANCE;
 
-extern NSString * const PROJECTILE_MESH_FILENAME;
+extern NSString * const ASTEROID_MESH_FILENAME;
 extern NSString * const BEAM_CORE_MESH_FILENAME;
 extern NSString * const BEAM_CORE_FRAGMENT_SHADER_FILENAME;
 extern NSString * const BEAM_GLOW_BILLBOARD_MESH_FILENAME;

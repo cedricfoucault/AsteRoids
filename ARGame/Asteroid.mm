@@ -1,12 +1,12 @@
 //
-//  Projectile.m
+//  Asteroid.m
 //  ARGame
 //
 //  Created by Cédric Foucault on 20/02/14.
 //  Copyright (c) 2014 Cédric Foucault. All rights reserved.
 //
 
-#import "Projectile.h"
+#import "Asteroid.h"
 #import <NinevehGL/NinevehGL.h>
 #import <NinevehGL/NGLMesh.h>
 #import "Constants.h"
@@ -15,18 +15,18 @@
 static const int NUMBER_OF_MESHES = 30;
 static const int NUMBER_OF_TEXTURES = 15;
 
-@implementation Projectile
+@implementation Asteroid
 
 - (void)loadMesh {
 //    NSDictionary *settings = [NSDictionary dictionaryWithObjectsAndKeys:
 //                              kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
-//                              [NSString stringWithFormat:@"%f", PROJECTILE_SCALE], kNGLMeshKeyNormalize,
+//                              [NSString stringWithFormat:@"%f", ASTEROID_SCALE], kNGLMeshKeyNormalize,
 //                              nil];
-//    self.mesh = [[NGLMesh alloc] initWithFile:PROJECTILE_MESH_FILENAME settings:settings delegate:self];
+//    self.mesh = [[NGLMesh alloc] initWithFile:ASTEROID_MESH_FILENAME settings:settings delegate:self];
     NSString *meshName = [[self class] randomMeshName];
     NSDictionary *settings = [NSDictionary dictionaryWithObjectsAndKeys:
                               kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
-                              [NSString stringWithFormat:@"%f", PROJECTILE_SCALE], kNGLMeshKeyNormalize,
+                              [NSString stringWithFormat:@"%f", ASTEROID_SCALE], kNGLMeshKeyNormalize,
                               nil];
     self.mesh = [[NGLMesh alloc] initWithFile:meshName settings:settings delegate:self];
     self.mesh.material = [[self class] randomMaterial];

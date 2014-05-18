@@ -8,9 +8,12 @@
 
 #import "Constants.h"
 
+const float NEAR = 0.01f;
+const float FAR = 100.0f;
+
 const float WINDOW_SCALE = 1.0f;
 const float WINDOW_ASPECT_RATIO = 29.7 / 21;
-const float PROJECTILE_SCALE = 0.3f;
+const float ASTEROID_SCALE = 0.3f;
 
 const float BEAM_CORE_SCALE = 0.07f;
 const float BEAM_GLOW_BILLBOARD_SCALE = 2.8 * BEAM_CORE_SCALE;
@@ -26,7 +29,7 @@ const float LIGHT_HALF_ATTENUATION = SPAWN_DISTANCE * 2;
 const float FOG_END = SPAWN_DISTANCE + 2;
 const float FOG_START= FOG_END * 2 / 3;
 
-NSString * const PROJECTILE_MESH_FILENAME = @"BlueRock.obj";
+NSString * const ASTEROID_MESH_FILENAME = @"BlueRock.obj";
 NSString * const BEAM_CORE_MESH_FILENAME = @"beam_core.obj";
 NSString * const BEAM_CORE_FRAGMENT_SHADER_FILENAME = @"beam_core.fsh";
 NSString * const BEAM_GLOW_BILLBOARD_MESH_FILENAME = @"beam_glow_billboard.obj";

@@ -21,7 +21,7 @@
 #import <QCAR/Tool.h>
 #import "btBulletCollisionCommon.h"
 #import "HUDOverlayView.h"
-#import "Projectile.h"
+#import "Asteroid.h"
 #import "Beam.h"
 #import "Constants.h"
 #import "PoseMatrixMathHelper.h"
@@ -33,18 +33,20 @@
 @property (strong, nonatomic) NGLMesh *dummy;
 @property (strong, nonatomic) NGLMesh *skydome;
 @property (strong, nonatomic) NGLMesh *wall;
-@property (strong, nonatomic) NGLMesh *projectile;
+@property (strong, nonatomic) NGLMesh *asteroid;
 @property (strong, nonatomic) NGLMesh *beam;
 @property (strong, nonatomic) NGLMesh *beamGlowBillboard;
 @property (strong, nonatomic) NGLCamera *camera;
 @property BOOL useExtendedTracking;
+
+@property NSTimeInterval *timeLastDraw;
 
 @property (nonatomic) btBroadphaseInterface* physBroadphase;
 @property (nonatomic) btCollisionDispatcher*	physDispatcher;
 @property (nonatomic) btDefaultCollisionConfiguration* physCollisionConfiguration;
 @property (nonatomic) btCollisionWorld* physCollisionWorld;
 @property (nonatomic) btCollisionObject* physPlayerObject;
-@property (nonatomic) btCollisionObject* physProjectileObject;
+@property (nonatomic) btCollisionObject* physAsteroidObject;
 
 @property (nonatomic) float *targetFromCameraMatrix; // keep track of the rebase matrix to update 3D transforms in physics engine
 @property (nonatomic) float *cameraFromTargetMatrix;
@@ -64,7 +66,7 @@
 @property (nonatomic) int score;
 
 @property (strong, nonatomic) NSMutableArray *gameObjects;
-@property (strong, nonatomic) NSTimer *spawnProjectileTimer;
+@property (strong, nonatomic) NSTimer *spawnAsteroidTimer;
 
 @property (strong, nonatomic) NGLTexture *redTexture;
 
@@ -79,7 +81,6 @@
         btTransform transform = btTransform();
         transform.setOrigin(btVector3(10.0, 5.0, 100.0));
         btVector3 vec3 = transform.getOrigin();
-        NSLog(@"origin: %f %f %f", vec3.getX(), vec3.getY(), vec3.getZ());
         
         // Init AR session
         _arSession = [[QCARAppSession alloc] initWithDelegate:self];
@@ -132,7 +133,7 @@
     
     // collision shapes
     _physPlayerObject = new btCollisionObject();
-    _physProjectileObject = new btCollisionObject();
+    _physAsteroidObject = new btCollisionObject();
     // player collision shape
     btMatrix3x3 basis;
 	basis.setIdentity();
@@ -162,7 +163,7 @@
 	//	NinevehGL Stuff
 	//*************************
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
-	// Create the NGLView manually (without XIB), with the screen's size and sets its delegate.
+	// Create the NGLView manually with the screen's size and sets its delegate.
 	NGLView *nglView = [[NGLView alloc] initWithFrame:screenBounds];
 	nglView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	nglView.delegate = self;
@@ -247,12 +248,12 @@
     self.wall.material = transparentMaterial;
     [self.wall compileCoreMesh];
     
-    // Setting the projectile mesh
+    // Setting the asteroid mesh
     settings = [NSDictionary dictionaryWithObjectsAndKeys:
                 kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
-                [NSString stringWithFormat:@"%f", PROJECTILE_SCALE], kNGLMeshKeyNormalize,
+                [NSString stringWithFormat:@"%f", ASTEROID_SCALE], kNGLMeshKeyNormalize,
                 nil];
-    self.projectile = [[NGLMesh alloc] initWithFile:PROJECTILE_MESH_FILENAME settings:settings delegate:nil];
+    self.asteroid = [[NGLMesh alloc] initWithFile:ASTEROID_MESH_FILENAME settings:settings delegate:nil];
     
     // Setting the beam
     settings = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -299,18 +300,18 @@
     defaultFog.end = FOG_END;
     
 	// Starts the debug monitor.
-//	[[NGLDebug debugMonitor] startWithView:(NGLView *)self.view];
+	[[NGLDebug debugMonitor] startWithView:(NGLView *)self.view];
 }
 
 //- (void)meshLoadingDidFinish:(NGLParsing)parsing {
-//    // init physics collision object for projectile mesh
-//    if (parsing.mesh == self.projectile) {
-////        NSLog(@"projectile mesh loaded\n");
+//    // init physics collision object for asteroid mesh
+//    if (parsing.mesh == self.asteroid) {
+////        NSLog(@"asteroid mesh loaded\n");
 //        btMatrix3x3 basis;
 //        basis.setIdentity();
-//        _physProjectileObject->getWorldTransform().setBasis(basis);
+//        _physAsteroidObject->getWorldTransform().setBasis(basis);
 //        
-//        NGLBoundingBox boundingBox =  [self.projectile boundingBox];
+//        NGLBoundingBox boundingBox =  [self.asteroid boundingBox];
 ////        NSLog(@"box volume:");
 ////        for (int i = 0; i < 8; i++) {
 ////            NGLvec3 vertex3 = boundingBox.volume[i];
@@ -321,8 +322,8 @@
 //        NGLvec3 boxVertex = boundingBox.volume[0];
 //        btBoxShape* boxCollisionShape = new btBoxShape(btVector3(fabsf(boxVertex.x),fabsf(boxVertex.x),fabsf(boxVertex.x)));
 ////        boxCollisionShape->setMargin(0.004f);
-//        _physProjectileObject->setCollisionShape(boxCollisionShape);
-//        _physCollisionWorld->addCollisionObject(_physProjectileObject);
+//        _physAsteroidObject->setCollisionShape(boxCollisionShape);
+//        _physCollisionWorld->addCollisionObject(_physAsteroidObject);
 //    }
 //}
 
@@ -332,12 +333,16 @@ static const float sqrt_2 = sqrtf(2);
 - (void) drawView {
     if (self.arSession.cameraIsStarted) {
         QCAR::State state = QCAR::Renderer::getInstance().begin();
+        glDepthRangef(0.0f, 1.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glClearDepthf(1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         // draw video background
         QCAR::Renderer::getInstance().drawVideoBackground();
         
         // Update tracking state
-        float scale = 247.f;
+        float scale = 1.0f;
 		for (int i = 0; i < state.getNumTrackableResults(); ++i) {
 			// Get the trackable
 			const QCAR::TrackableResult* result = state.getTrackableResult(i);
@@ -409,34 +414,34 @@ static const float sqrt_2 = sqrtf(2);
                 if (numContacts > 0) {
                     // check Player - Asteroid collision
                     if (obA == self.physPlayerObject &&
-                        [gameObjectB isKindOfClass:[Projectile class]]) {
+                        [gameObjectB isKindOfClass:[Asteroid class]]) {
                         // Player was hit by asteroid
                         [self playerWasHit];
                         // destroy collided asteroid
-                        Projectile *projectile = (Projectile *)gameObjectB;
-                        NSLog(@"destroy projectile (collision with player)");
-                        [toDestroy addObject:projectile];
+                        Asteroid *asteroid = (Asteroid *)gameObjectB;
+                        NSLog(@"destroy asteroid (collision with player)");
+                        [toDestroy addObject:asteroid];
                     } else if (obB == self.physPlayerObject &&
-                               [gameObjectA isKindOfClass:[Projectile class]]) {
+                               [gameObjectA isKindOfClass:[Asteroid class]]) {
                         // Player was hit by asteroid
                         [self playerWasHit];
                         // destroy collided asteroid
-                        Projectile *projectile = (Projectile *)gameObjectA;
-                        NSLog(@"destroy projectile (collision with player)");
-                        [toDestroy addObject:projectile];
+                        Asteroid *asteroid = (Asteroid *)gameObjectA;
+                        NSLog(@"destroy asteroid (collision with player)");
+                        [toDestroy addObject:asteroid];
                         
                     // check Beam - Asteroid collision
                     } else if ([gameObjectA isKindOfClass:[Beam class]] &&
-                               [gameObjectB isKindOfClass:[Projectile class]]) {
+                               [gameObjectB isKindOfClass:[Asteroid class]]) {
                         NSLog(@"asteroid was shot!");
-                        NSLog(@"destroy projectile & asteroid");
+                        NSLog(@"destroy asteroid & asteroid");
                         [self incrementScore];
                         [toDestroy addObject:gameObjectA];
                         [toDestroy addObject:gameObjectB];
                     } else if ([gameObjectB isKindOfClass:[Beam class]] &&
-                               [gameObjectA isKindOfClass:[Projectile class]]) {
+                               [gameObjectA isKindOfClass:[Asteroid class]]) {
                         NSLog(@"asteroid was shot!");
-                        NSLog(@"destroy projectile & asteroid");
+                        NSLog(@"destroy asteroid & asteroid");
                         [self incrementScore];
                         [toDestroy addObject:gameObjectA];
                         [toDestroy addObject:gameObjectB];
@@ -459,6 +464,7 @@ static const float sqrt_2 = sqrtf(2);
             // Render
             // enable z-buffer testing
             glEnable(GL_DEPTH_TEST);
+            glDepthFunc(GL_LEQUAL);
             // fill z-buffer with occlusion wall
             glDepthMask(GL_TRUE);
             [self.wall drawMeshWithCamera:self.camera];
@@ -469,7 +475,7 @@ static const float sqrt_2 = sqrtf(2);
             // render rest of the world with z-buffering read/write
             [self.camera drawCamera];
         }
-        glDisable (GL_BLEND);
+        glDisable(GL_BLEND);
         
         QCAR::Renderer::getInstance().end();
     }
@@ -539,12 +545,12 @@ int signf(float f) {
 //        if (self.physPlayerObject == objectHit) {
 //            NSLog(@"player hit...");
 //        }
-//        for (Projectile *projectile in [self.projectiles copy]) {
-//            if (projectile.isLoaded && projectile.collisionObject == objectHit) {
-//                NSLog(@"found projectile");
+//        for (Asteroid *asteroid in [self.asteroids copy]) {
+//            if (asteroid.isLoaded && asteroid.collisionObject == objectHit) {
+//                NSLog(@"found asteroid");
 //                [self incrementScore];
-//                [self.projectiles removeObject:projectile];
-//                [projectile destroy];
+//                [self.asteroids removeObject:asteroid];
+//                [asteroid destroy];
 //                break;
 //            }
 //        }
@@ -556,17 +562,17 @@ int signf(float f) {
 ////        if (self.physPlayerObject == objectHit) {
 ////            NSLog(@"player hit...");
 ////        }
-////        for (Projectile *projectile in [self.projectiles copy]) {
-////            if (projectile.isLoaded && projectile.collisionObject == objectHit) {
-////                NSLog(@"found projectile");
+////        for (Asteroid *asteroid in [self.asteroids copy]) {
+////            if (asteroid.isLoaded && asteroid.collisionObject == objectHit) {
+////                NSLog(@"found asteroid");
 ////                [self incrementScore];
-////                [self destroyProjectile:projectile];
+////                [self destroyAsteroid:asteroid];
 ////                break;
 ////                
 ////                NGLMaterial *material = [[NGLMaterial alloc] init];
 ////                material.ambientColor = nglVec4Make(1, 0, 0, 1);
 ////                material.diffuseColor = nglVec4Make(1, 0, 0, 1);
-////                projectile.mesh.material = material;
+////                asteroid.mesh.material = material;
 ////            }
 ////        }
 ////    }
@@ -586,13 +592,13 @@ int signf(float f) {
     self.gameHasStarted = YES;
     self.gameIsPlaying = YES;
     self.gunIsLoaded = YES;
-    self.spawnProjectileTimer = [NSTimer scheduledTimerWithTimeInterval:SPAWN_DELAY target:self selector:@selector(spawnProjectile) userInfo:nil repeats:YES];
+    self.spawnAsteroidTimer = [NSTimer scheduledTimerWithTimeInterval:SPAWN_DELAY target:self selector:@selector(spawnAsteroid) userInfo:nil repeats:YES];
     self.overlayViewfinder.hidden = YES;
     self.hudOverlayView.hidden = NO;
 }
 
 - (void)stopGame {
-    [self.spawnProjectileTimer invalidate];
+    [self.spawnAsteroidTimer invalidate];
 }
 
 - (void)playerWasHit {
@@ -640,7 +646,7 @@ int signf(float f) {
     QCAR::Vec2F focalLength = cameraCalibration.getFocalLength();
     float fovRadians = 2 * atan(0.5f * size.data[1] / focalLength.data[1]);
     float fovDegrees = fovRadians * 180.0f / M_PI;
-        [self.camera lensPerspective:(size.data[0] / size.data[1]) near:0.01f far:100.0f angle:fovDegrees];
+    [self.camera lensPerspective:(size.data[0] / size.data[1]) near:NEAR far:FAR angle:fovDegrees];
 //    [self.camera lensPerspective:(size.data[0] / size.data[1]) near:0.001f far:100.0f angle:fovDegrees];
     
     // print projection matrices
@@ -861,13 +867,13 @@ int signf(float f) {
     self.gameIsPlaying = YES;
 }
 
-- (void)spawnProjectile {
-    NSLog(@"spawn projectile");
+- (void)spawnAsteroid {
+    NSLog(@"spawn asteroid");
     if (self.gameHasStarted && self.gameIsPlaying) {
-        Projectile *projectile = [[Projectile alloc] initWithCamera:self.camera
+        Asteroid *asteroid = [[Asteroid alloc] initWithCamera:self.camera
                                              cameraFromTargetMatrix:self.cameraFromTargetMatrix
                                                      collisionWorld:self.physCollisionWorld];
-        [self.gameObjects addObject:projectile];
+        [self.gameObjects addObject:asteroid];
     }
 }
 

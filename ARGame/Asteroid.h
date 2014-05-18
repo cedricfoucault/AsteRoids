@@ -1,5 +1,5 @@
 //
-//  Projectile.h
+//  Asteroid.h
 //  ARGame
 //
 //  Created by Cédric Foucault on 20/02/14.
@@ -11,6 +11,6 @@
 #import "btBulletCollisionCommon.h"
 #import "GameObject3D.h"
 
-@interface Projectile : GameObject3D
+@interface Asteroid : GameObject3D
 
 @end

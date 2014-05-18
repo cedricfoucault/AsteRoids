@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		8214CA6518B59FC80022D7B9 /* hudGame.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8214CA6418B59FC80022D7B9 /* hudGame.xib */; };
 		8214CA6818B5A2590022D7B9 /* HUDOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8214CA6718B5A2590022D7B9 /* HUDOverlayView.m */; };
-		8214CA6B18B5BFBD0022D7B9 /* Projectile.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8214CA6A18B5BFBD0022D7B9 /* Projectile.mm */; };
+		8214CA6B18B5BFBD0022D7B9 /* Asteroid.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8214CA6A18B5BFBD0022D7B9 /* Asteroid.mm */; };
 		822F0E991927CAE30084A59D /* asteroid1.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E571927CAE30084A59D /* asteroid1.obj */; };
 		822F0E9A1927CAE30084A59D /* asteroid10.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E581927CAE30084A59D /* asteroid10.obj */; };
 		822F0E9B1927CAE30084A59D /* asteroid11.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E591927CAE30084A59D /* asteroid11.obj */; };
@@ -61,6 +61,8 @@
 		822F0EE11927F8190084A59D /* beam_glow_billboard.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 822F0EDB1927F8190084A59D /* beam_glow_billboard.mtl */; };
 		822F0EE21927F8190084A59D /* beam_glow_billboard.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0EDC1927F8190084A59D /* beam_glow_billboard.obj */; };
 		822F0EE31927F8190084A59D /* glow.png in Resources */ = {isa = PBXBuildFile; fileRef = 822F0EDD1927F8190084A59D /* glow.png */; };
+		822F0EFC19282E7E0084A59D /* particleFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 822F0EFA19282E7E0084A59D /* particleFragmentShader.fsh */; };
+		822F0EFD19282E7E0084A59D /* particleVertexShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 822F0EFB19282E7E0084A59D /* particleVertexShader.vsh */; };
 		8238419A19159E4800581333 /* yellow rock.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 8238419919159E4800581333 /* yellow rock.mtl */; };
 		8238419E19159EEE00581333 /* sandstone8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8238419D19159EEE00581333 /* sandstone8.jpg */; };
 		823841A91915A51600581333 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 823841A81915A51600581333 /* Constants.m */; };
@@ -279,8 +281,8 @@
 		8214CA6418B59FC80022D7B9 /* hudGame.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = hudGame.xib; sourceTree = "<group>"; };
 		8214CA6618B5A2590022D7B9 /* HUDOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDOverlayView.h; sourceTree = "<group>"; };
 		8214CA6718B5A2590022D7B9 /* HUDOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDOverlayView.m; sourceTree = "<group>"; };
-		8214CA6918B5BFBD0022D7B9 /* Projectile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Projectile.h; sourceTree = "<group>"; };
-		8214CA6A18B5BFBD0022D7B9 /* Projectile.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Projectile.mm; sourceTree = "<group>"; };
+		8214CA6918B5BFBD0022D7B9 /* Asteroid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Asteroid.h; sourceTree = "<group>"; };
+		8214CA6A18B5BFBD0022D7B9 /* Asteroid.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Asteroid.mm; sourceTree = "<group>"; };
 		822F0E571927CAE30084A59D /* asteroid1.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid1.obj; sourceTree = "<group>"; };
 		822F0E581927CAE30084A59D /* asteroid10.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid10.obj; sourceTree = "<group>"; };
 		822F0E591927CAE30084A59D /* asteroid11.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid11.obj; sourceTree = "<group>"; };
@@ -332,6 +334,8 @@
 		822F0EDB1927F8190084A59D /* beam_glow_billboard.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = beam_glow_billboard.mtl; sourceTree = "<group>"; };
 		822F0EDC1927F8190084A59D /* beam_glow_billboard.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = beam_glow_billboard.obj; sourceTree = "<group>"; };
 		822F0EDD1927F8190084A59D /* glow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glow.png; sourceTree = "<group>"; };
+		822F0EFA19282E7E0084A59D /* particleFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = particleFragmentShader.fsh; sourceTree = "<group>"; };
+		822F0EFB19282E7E0084A59D /* particleVertexShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = particleVertexShader.vsh; sourceTree = "<group>"; };
 		8238419919159E4800581333 /* yellow rock.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "yellow rock.mtl"; sourceTree = "<group>"; };
 		8238419D19159EEE00581333 /* sandstone8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = sandstone8.jpg; path = "Resources/3D/Yellow Rock/sandstone8.jpg"; sourceTree = SOURCE_ROOT; };
 		823841A71915A4D600581333 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -1470,6 +1474,8 @@
 				82BBD4E01916CF680077B0B6 /* StarDome.fsh */,
 				82C7F4F01921C3F8000F4029 /* beam_core.fsh */,
 				82C7F4F21921C469000F4029 /* beam_glow_billboard.fsh */,
+				822F0EFA19282E7E0084A59D /* particleFragmentShader.fsh */,
+				822F0EFB19282E7E0084A59D /* particleVertexShader.vsh */,
 			);
 			name = Shaders;
 			sourceTree = "<group>";
@@ -1541,8 +1547,8 @@
 				8214CA6718B5A2590022D7B9 /* HUDOverlayView.m */,
 				828E133419201A4B002EB107 /* GameObject3D.h */,
 				828E133519201A4B002EB107 /* GameObject3D.mm */,
-				8214CA6918B5BFBD0022D7B9 /* Projectile.h */,
-				8214CA6A18B5BFBD0022D7B9 /* Projectile.mm */,
+				8214CA6918B5BFBD0022D7B9 /* Asteroid.h */,
+				8214CA6A18B5BFBD0022D7B9 /* Asteroid.mm */,
 				828E1325191E9FBF002EB107 /* Beam.h */,
 				828E1326191E9FBF002EB107 /* Beam.mm */,
 				8214CA6418B59FC80022D7B9 /* hudGame.xib */,
@@ -1851,12 +1857,14 @@
 				822F0EC81927CAE30084A59D /* Am1.jpg in Resources */,
 				822F0EA81927CAE30084A59D /* asteroid23.obj in Resources */,
 				8238419A19159E4800581333 /* yellow rock.mtl in Resources */,
+				822F0EFC19282E7E0084A59D /* particleFragmentShader.fsh in Resources */,
 				82C7F4F31921C469000F4029 /* beam_glow_billboard.fsh in Resources */,
 				82E68D4118A63B8300F77F10 /* Tarmac.xml in Resources */,
 				82E68C8318A61B7800F77F10 /* Images.xcassets in Resources */,
 				822F0EAD1927CAE30084A59D /* asteroid28.obj in Resources */,
 				822F0ECB1927CAE30084A59D /* Am12.jpg in Resources */,
 				82BBD4F41916F0AD0077B0B6 /* StarDome.mtl in Resources */,
+				822F0EFD19282E7E0084A59D /* particleVertexShader.vsh in Resources */,
 				82BBD4F81916F4920077B0B6 /* StarDome2_cropped2.jpg in Resources */,
 				822F0EA71927CAE30084A59D /* asteroid22.obj in Resources */,
 				828E132F191ED58F002EB107 /* sphere.mtl in Resources */,
@@ -2026,7 +2034,7 @@
 				8248A4ED18A963F800BDE25E /* btDbvtBroadphase.cpp in Sources */,
 				8248A54318A963F800BDE25E /* btMinkowskiPenetrationDepthSolver.cpp in Sources */,
 				8248A53018A963F800BDE25E /* btUniformScalingShape.cpp in Sources */,
-				8214CA6B18B5BFBD0022D7B9 /* Projectile.mm in Sources */,
+				8214CA6B18B5BFBD0022D7B9 /* Asteroid.mm in Sources */,
 				8248A52018A963F800BDE25E /* btMultimaterialTriangleMeshShape.cpp in Sources */,
 				8248A53218A963F800BDE25E /* btContactProcessing.cpp in Sources */,
 				8248A57018A963F800BDE25E /* btSerializer.cpp in Sources */,
@@ -2177,6 +2185,7 @@
 					"$(inherited)",
 					/Users/cedric/dev/xcode/ARGame,
 					"/Users/cedric/Downloads/vuforia-sdk-ios-2-8-7/build/lib/arm",
+					"$(PROJECT_DIR)",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
@@ -2207,6 +2216,7 @@
 					"$(inherited)",
 					/Users/cedric/dev/xcode/ARGame,
 					"/Users/cedric/Downloads/vuforia-sdk-ios-2-8-7/build/lib/arm",
+					"$(PROJECT_DIR)",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
