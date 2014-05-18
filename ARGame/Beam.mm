@@ -9,7 +9,6 @@
 #import "Beam.h"
 #import "Constants.h"
 #import "PoseMatrixMathHelper.h"
-#import "Billboard.h"
 
 @interface Beam ()
 
@@ -41,17 +40,14 @@
     self.mesh.shaders = [NGLShaders shadersWithFilesVertex:nil andFragment:BEAM_CORE_FRAGMENT_SHADER_FILENAME];
     [self.mesh compileCoreMesh];
     // load billboard to make the object glow
-//    settings = [NSDictionary dictionaryWithObjectsAndKeys:
-//                kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
-//                [NSString stringWithFormat:@"%f", BEAM_GLOW_BILLBOARD_SCALE], kNGLMeshKeyNormalize,
-//                nil];
-//    self.billboardMesh = [[NGLMesh alloc] initWithFile:BEAM_GLOW_BILLBOARD_MESH_FILENAME
-//                                              settings:settings delegate:nil];
-//    self.billboardMesh.shaders = [NGLShaders shadersWithFilesVertex:nil andFragment:BEAM_GLOW_BILLBOARD_FRAGMENT_SHADER_FILENAME];
-//    [self.billboardMesh compileCoreMesh];
-//    [self.camera addMesh:self.billboardMesh];
-//    self.billboardMesh.visible = NO;
-    self.billboardMesh = [[Billboard alloc] initWithScale:BEAM_GLOW_BILLBOARD_SCALE];
+    settings = [NSDictionary dictionaryWithObjectsAndKeys:
+                kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
+                [NSString stringWithFormat:@"%f", BEAM_GLOW_BILLBOARD_SCALE], kNGLMeshKeyNormalize,
+                nil];
+    self.billboardMesh = [[NGLMesh alloc] initWithFile:BEAM_GLOW_BILLBOARD_MESH_FILENAME
+                                              settings:settings delegate:nil];
+    self.billboardMesh.shaders = [NGLShaders shadersWithFilesVertex:nil andFragment:BEAM_GLOW_BILLBOARD_FRAGMENT_SHADER_FILENAME];
+    [self.billboardMesh compileCoreMesh];
     [self.camera addMesh:self.billboardMesh];
     self.billboardMesh.visible = NO;
 }
