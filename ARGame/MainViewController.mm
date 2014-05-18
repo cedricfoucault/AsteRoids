@@ -37,6 +37,7 @@
 @property (strong, nonatomic) NGLMesh *beam;
 @property (strong, nonatomic) NGLMesh *beamGlowBillboard;
 @property (strong, nonatomic) NGLCamera *camera;
+@property (strong, nonatomic) NGLCamera *cameraForTranslucentObjects;
 @property BOOL useExtendedTracking;
 
 @property NSTimeInterval *timeLastDraw;
@@ -277,6 +278,7 @@
     
 	// Set the camera
     self.camera = [[NGLCamera alloc] initWithMeshes:self.dummy, nil];
+    self.cameraForTranslucentObjects = [[NGLCamera alloc] initWithMeshes:nil];
 //	[self.camera autoAdjustAspectRatio:YES animated:YES];
     
     // Set the light
@@ -361,6 +363,7 @@ static const float sqrt_2 = sqrtf(2);
                 
                 // update the rebase matrices of the camera and the light
                 [self.camera rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
+                [self.cameraForTranslucentObjects rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
                 [[NGLLight defaultLight] rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
                 [self.skydome rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
                 [self.wall rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
@@ -471,9 +474,10 @@ static const float sqrt_2 = sqrtf(2);
             // render skydome without writing to the z-buffer
             glDepthMask(GL_FALSE);
             [self.skydome drawMeshWithCamera:self.camera];
+            // render rest of the world with z-buffering read/write and alpha test
             glDepthMask(GL_TRUE);
-            // render rest of the world with z-buffering read/write
             [self.camera drawCamera];
+            [self.cameraForTranslucentObjects drawCamera];
         }
         glDisable(GL_BLEND);
         
@@ -647,6 +651,7 @@ int signf(float f) {
     float fovRadians = 2 * atan(0.5f * size.data[1] / focalLength.data[1]);
     float fovDegrees = fovRadians * 180.0f / M_PI;
     [self.camera lensPerspective:(size.data[0] / size.data[1]) near:NEAR far:FAR angle:fovDegrees];
+    [self.cameraForTranslucentObjects lensPerspective:(size.data[0] / size.data[1]) near:NEAR far:FAR angle:fovDegrees];
 //    [self.camera lensPerspective:(size.data[0] / size.data[1]) near:0.001f far:100.0f angle:fovDegrees];
     
     // print projection matrices
@@ -880,7 +885,7 @@ int signf(float f) {
 - (void)spawnBeam {
     NSLog(@"spawn beam");
     if (self.gameHasStarted && self.gameIsPlaying) {
-        Beam *beam = [[Beam alloc] initWithCamera:self.camera
+        Beam *beam = [[Beam alloc] initWithCamera:self.cameraForTranslucentObjects
                            cameraFromTargetMatrix:self.cameraFromTargetMatrix
                                    collisionWorld:self.physCollisionWorld];
         [self.gameObjects addObject:beam];
