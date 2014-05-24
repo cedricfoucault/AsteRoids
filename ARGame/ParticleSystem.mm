@@ -11,9 +11,10 @@
 #import "Constants.h"
 #import "PoseMatrixMathHelper.h"
 #import "GLSLProgram.h"
+#import "CameraManager.h"
 
-#define N_PARTICLES_MAX 2000
-#define PARTICLE_SIZE 0.006f
+#define N_PARTICLES_MAX 200
+#define PARTICLE_SIZE 0.08f
 
 typedef struct {
 	NGLvec3 position;
@@ -47,6 +48,8 @@ static const struct {
 
 @interface ParticleSystem()
 
+@property (weak, nonatomic) CameraManager *cameraManager;
+
 @property (nonatomic) Particle *particles;
 @property (nonatomic) ParticleQuad *quads;
 @property (nonatomic) GLushort *indices;
@@ -57,20 +60,15 @@ static const struct {
                              inTexCoord,
                              u_texture,
                              u_VPMatrix;
-@property NGLCamera *camera;
-@property (nonatomic) float *targetFromCameraMatrix;
-@property (nonatomic) float *cameraFromTargetMatrix;
 
 @end
 
 @implementation ParticleSystem
 
-- (id)initWithCamera:(NGLCamera *)camera cameraFromTargetMatrix:(float *)cameraFromTargetMatrix targetFromCameraMatrix:(float *)targetFromCameraMatrix {
+- (id)init {
     self = [super init];
     if (self) {
-        _camera = camera;
-        _cameraFromTargetMatrix = cameraFromTargetMatrix;
-        _targetFromCameraMatrix = targetFromCameraMatrix;
+        _cameraManager = [CameraManager sharedManager];
     }
     return self;
 }
@@ -136,7 +134,7 @@ static const struct {
                              [NSNumber numberWithBool:YES], GLKTextureLoaderOriginBottomLeft,
                              nil];
     // Use GLKTextureLoader to load the data into a texture
-    NSString *texturePath = [[NSBundle mainBundle] pathForResource:@"redTexture" ofType:@"jpg"];
+    NSString *texturePath = [[NSBundle mainBundle] pathForResource:@"particle4u" ofType:@"png"];
     _texture = [GLKTextureLoader textureWithContentsOfFile:texturePath options:options error:&error];
     if (_texture == nil) {
         NSLog(@"Error loading file: %@", [error localizedDescription]);
@@ -232,6 +230,9 @@ static const struct {
     // Set the blend function based on the configuration
     //    glBlendFunc(blendFuncSource, blendFuncDestination);
     
+    // Do not write in Z buffer to prevent particle-particle occlusion
+    glDepthMask(GL_FALSE);
+    
     // Set the view projection matrix once and for all
     NGLmat4 vpMatrix;
     [self getViewProjectionMatrix:vpMatrix];
@@ -245,15 +246,16 @@ static const struct {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
     glUseProgram(0);
+    glDepthMask(GL_TRUE);
 }
 
 
 - (void)getViewProjectionMatrix:(NGLmat4)result {
     // compute view matrix (including the AR pose matrix)
     NGLmat4 viewMatrix;
-    nglMatrixMultiply(*(self.camera.matrixView), *self.camera.matrix, viewMatrix);
+    nglMatrixMultiply(*self.cameraManager.camera.matrixView, *self.cameraManager.camera.matrix, viewMatrix);
     // multiply by projection matrix to get the final model view projection matrix
-    nglMatrixMultiply(*(self.camera.matrixProjection), viewMatrix, result);
+    nglMatrixMultiply(*self.cameraManager.camera.matrixProjection, viewMatrix, result);
 }
 
 - (void)getBillboardModelMatrixWithPosition:(NGLvec3)position size:(float)size result:(NGLmat4)result {
@@ -265,13 +267,14 @@ static const struct {
     modelMatrix[14] = position.z;
     modelMatrix[15] = 1;
     // 3rd column = normal of the billboard's surface = look vector = cameraPos - billboardPos
-    NGLvec3 cameraPosition = getCameraPosition(self.cameraFromTargetMatrix);
+    NGLvec3 cameraPosition = self.cameraManager.cameraPosition;
     NGLvec3 look = nglVec3Normalize(nglVec3Subtract(cameraPosition, position));
     modelMatrix[8] = look.x * size;
     modelMatrix[9] = look.y * size;
     modelMatrix[10] = look.z * size;
     modelMatrix[11] = 0;
-    // 1st column = right vector = cameraUp x look = 2nd column of cameraFromTargetMatrix x look
+    // align billboard so that it doesn't rotate when camera spins around its z-axis
+    // 1st column = right vector = worldUp x look = 2nd column of cameraFromTargetMatrix x look
     //    NGLvec3 cameraUp = nglVec3Make(self.cameraFromTargetMatrix[4], self.cameraFromTargetMatrix[5], self.cameraFromTargetMatrix[6]);
     NGLvec3 right = nglVec3Cross(nglVec3Make(0, 1, 0), look);
     modelMatrix[0] = right.x * size;
@@ -286,7 +289,7 @@ static const struct {
     modelMatrix[7] = 0;
     
     // Rebase matrix with current camera pose matrix (AR)
-    nglMatrixMultiply(self.targetFromCameraMatrix, modelMatrix, result);
+    nglMatrixMultiply(self.cameraManager.targetFromCameraMatrix, modelMatrix, result);
 }
 
 @end

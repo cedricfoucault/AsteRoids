@@ -13,21 +13,11 @@
 @interface Beam ()
 
 @property (strong, nonatomic) NGLMesh *billboardMesh;
-@property (nonatomic) float *cameraFromTargetMatrixCurrent;
 
 @end
 
 
 @implementation Beam
-
-- (id)initWithCamera:(NGLCamera *)camera cameraFromTargetMatrix:(float *)cameraFromTargetMatrix collisionWorld:(btCollisionWorld *)collisionWorld {
-    self = [super initWithCamera:camera cameraFromTargetMatrix:cameraFromTargetMatrix collisionWorld:collisionWorld];
-    if (self) {
-        // retain reference to the up-to-date cameraFromTargetMatrix
-        _cameraFromTargetMatrixCurrent = cameraFromTargetMatrix;
-    }
-    return self;
-}
 
 - (void)loadMesh {
     NSDictionary *settings = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -47,7 +37,7 @@
                                               settings:settings delegate:nil];
     self.billboardMesh.shaders = [NGLShaders shadersWithFilesVertex:nil andFragment:BEAM_GLOW_BILLBOARD_FRAGMENT_SHADER_FILENAME];
     [self.billboardMesh compileCoreMesh];
-    [self.camera addMesh:self.billboardMesh];
+    [self.cameraManager.camera addMesh:self.billboardMesh];
     self.billboardMesh.visible = NO;
 }
 
@@ -97,13 +87,13 @@
     self.billboardMesh.x = self.mesh.x;
     self.billboardMesh.y = self.mesh.y;
     self.billboardMesh.z = self.mesh.z;
-    NGLvec3 cameraPosition = getCameraPosition(self.cameraFromTargetMatrixCurrent);
+    NGLvec3 cameraPosition = self.cameraManager.cameraPosition;
     [self.billboardMesh lookAtPointX:cameraPosition.x toY:cameraPosition.y toZ:cameraPosition.z];
 }
 
 - (void)destroy {
     [super destroy];
-    [self.camera removeMesh:self.billboardMesh];
+    [self.cameraManager.camera removeMesh:self.billboardMesh];
 }
 
 

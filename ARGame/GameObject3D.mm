@@ -12,22 +12,20 @@
 
 @interface GameObject3D ()
 
-
 @end
 
 @implementation GameObject3D
 
-- (id)initWithCamera:(NGLCamera *)camera cameraFromTargetMatrix:(float *)cameraFromTargetMatrix
-      collisionWorld:(btCollisionWorld *)collisionWorld {
+- (id)initWithCollisionWorld:(btCollisionWorld *)collisionWorld {
     self = [super init];
     if (self) {
         _isLoaded = NO;
-        // retain references to 3D graphics and physics worlds
-        _camera = camera;
+        _cameraManager = [CameraManager sharedManager];
+        // retain references to physics worlds
         _collisionWorld = collisionWorld;
         // copy given matrix
         _cameraFromTargetMatrixAtCreation = (float *) malloc(16 * sizeof(float));
-        nglMatrixCopy(cameraFromTargetMatrix, _cameraFromTargetMatrixAtCreation);
+        nglMatrixCopy(_cameraManager.cameraFromTargetMatrix, _cameraFromTargetMatrixAtCreation);
         // load 3D mesh
         [self loadMesh];
     }
@@ -59,7 +57,7 @@
 
 - (void)destroy {
     // remove mesh and collision object from both worlds
-    [self.camera removeMesh:self.mesh];
+    [self.cameraManager.camera removeMesh:self.mesh];
     self.collisionWorld->removeCollisionObject(self.collisionObject);
 }
 
@@ -78,7 +76,7 @@
     // init physics
     [self initCollisionObject];
     // add mesh and collision objects to both worlds
-    [self.camera addMesh:self.mesh];
+    [self.cameraManager.camera addMesh:self.mesh];
     self.collisionWorld->addCollisionObject(self.collisionObject);
     // done loading
     self.isLoaded = YES;

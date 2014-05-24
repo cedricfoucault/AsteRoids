@@ -11,7 +11,6 @@
 
 @interface ParticleSystem : NSObject
 
-- (id)initWithCamera:(NGLCamera *)camera cameraFromTargetMatrix:(float *)cameraFromTargetMatrix targetFromCameraMatrix:(float *)targetFromCameraMatrix;
 - (void)setupParticles;
 - (void)renderParticles;
 

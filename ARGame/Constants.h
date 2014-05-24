@@ -9,6 +9,7 @@
 #ifndef ARGame_Constants_h
 #define ARGame_Constants_h
 
+extern const BOOL DEBUG_LOG;
 extern const float NEAR;
 extern const float FAR;
 

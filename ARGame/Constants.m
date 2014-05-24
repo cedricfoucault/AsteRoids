@@ -8,6 +8,8 @@
 
 #import "Constants.h"
 
+const BOOL DEBUG_LOG = NO;
+
 const float NEAR = 0.01f;
 const float FAR = 100.0f;
 
