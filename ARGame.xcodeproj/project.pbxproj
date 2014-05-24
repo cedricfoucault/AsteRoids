@@ -271,6 +271,7 @@
 		82E68D4018A63B8300F77F10 /* Tarmac.dat in Resources */ = {isa = PBXBuildFile; fileRef = 82E68D1018A63B8200F77F10 /* Tarmac.dat */; };
 		82E68D4118A63B8300F77F10 /* Tarmac.xml in Resources */ = {isa = PBXBuildFile; fileRef = 82E68D1118A63B8200F77F10 /* Tarmac.xml */; };
 		82E68D7118A6591D00F77F10 /* dummy.obj in Resources */ = {isa = PBXBuildFile; fileRef = 82E68D7018A6591D00F77F10 /* dummy.obj */; };
+		82E95DA5193038A10017BDC1 /* ParticleSystem.mm in Sources */ = {isa = PBXBuildFile; fileRef = 82E95DA4193038A10017BDC1 /* ParticleSystem.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -809,6 +810,8 @@
 		82E68D1018A63B8200F77F10 /* Tarmac.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = Tarmac.dat; sourceTree = "<group>"; };
 		82E68D1118A63B8200F77F10 /* Tarmac.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Tarmac.xml; sourceTree = "<group>"; };
 		82E68D7018A6591D00F77F10 /* dummy.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dummy.obj; path = dummy/dummy.obj; sourceTree = "<group>"; };
+		82E95DA3193038A10017BDC1 /* ParticleSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleSystem.h; sourceTree = "<group>"; };
+		82E95DA4193038A10017BDC1 /* ParticleSystem.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ParticleSystem.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1560,6 +1563,8 @@
 				82E68C8018A61B7800F77F10 /* AppDelegate.m */,
 				82E68CEC18A6250B00F77F10 /* MainViewController.h */,
 				82E68CED18A6250B00F77F10 /* MainViewController.mm */,
+				82E95DA3193038A10017BDC1 /* ParticleSystem.h */,
+				82E95DA4193038A10017BDC1 /* ParticleSystem.mm */,
 				828E1331191EF310002EB107 /* PoseMatrixMathHelper.h */,
 				828E1332191EF310002EB107 /* PoseMatrixMathHelper.mm */,
 				8214CA6618B5A2590022D7B9 /* HUDOverlayView.h */,
@@ -2072,6 +2077,7 @@
 				8248A4FB18A963F800BDE25E /* btCompoundCollisionAlgorithm.cpp in Sources */,
 				8248A4F718A963F800BDE25E /* btBoxBoxDetector.cpp in Sources */,
 				8248A4F218A963F800BDE25E /* btSimpleBroadphase.cpp in Sources */,
+				82E95DA5193038A10017BDC1 /* ParticleSystem.mm in Sources */,
 				8248A56618A963F800BDE25E /* btMLCPSolver.cpp in Sources */,
 				82E68C7D18A61B7800F77F10 /* main.m in Sources */,
 				8248A55518A963F800BDE25E /* btSequentialImpulseConstraintSolver.cpp in Sources */,

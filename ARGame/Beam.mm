@@ -20,7 +20,6 @@
 
 @implementation Beam
 
-
 - (id)initWithCamera:(NGLCamera *)camera cameraFromTargetMatrix:(float *)cameraFromTargetMatrix collisionWorld:(btCollisionWorld *)collisionWorld {
     self = [super initWithCamera:camera cameraFromTargetMatrix:cameraFromTargetMatrix collisionWorld:collisionWorld];
     if (self) {
