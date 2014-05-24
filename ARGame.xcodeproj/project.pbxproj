@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		820EB25E192A315300658B4C /* particle4u.png in Resources */ = {isa = PBXBuildFile; fileRef = 820EB25D192A315300658B4C /* particle4u.png */; };
 		8214CA6518B59FC80022D7B9 /* hudGame.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8214CA6418B59FC80022D7B9 /* hudGame.xib */; };
 		8214CA6818B5A2590022D7B9 /* HUDOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8214CA6718B5A2590022D7B9 /* HUDOverlayView.m */; };
 		8214CA6B18B5BFBD0022D7B9 /* Asteroid.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8214CA6A18B5BFBD0022D7B9 /* Asteroid.mm */; };
@@ -223,6 +224,11 @@
 		8277042419172F54005C4F0C /* viewfinder white.png in Resources */ = {isa = PBXBuildFile; fileRef = 8277042219172F54005C4F0C /* viewfinder white.png */; };
 		8277042B19173F29005C4F0C /* AsteRoids_acm.dat in Resources */ = {isa = PBXBuildFile; fileRef = 8277042919173F29005C4F0C /* AsteRoids_acm.dat */; };
 		8277042C19173F29005C4F0C /* AsteRoids_acm.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8277042A19173F29005C4F0C /* AsteRoids_acm.xml */; };
+		8277386A19296AA100F25004 /* GLSLProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = 8277386919296AA100F25004 /* GLSLProgram.m */; };
+		8277386C19296AFD00F25004 /* particle.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 8277386B19296AFD00F25004 /* particle.fsh */; };
+		8277386E19296B0600F25004 /* particle.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 8277386D19296B0600F25004 /* particle.vsh */; };
+		8277387019296E8800F25004 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8277386F19296E8800F25004 /* GLKit.framework */; };
+		827738761929834D00F25004 /* asteroid.png in Resources */ = {isa = PBXBuildFile; fileRef = 827738751929834D00F25004 /* asteroid.png */; };
 		828E1327191E9FBF002EB107 /* Beam.mm in Sources */ = {isa = PBXBuildFile; fileRef = 828E1326191E9FBF002EB107 /* Beam.mm */; };
 		828E132F191ED58F002EB107 /* sphere.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 828E132B191ED58F002EB107 /* sphere.mtl */; };
 		828E1330191ED58F002EB107 /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = 828E132C191ED58F002EB107 /* sphere.obj */; };
@@ -278,6 +284,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		820EB25D192A315300658B4C /* particle4u.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = particle4u.png; sourceTree = "<group>"; };
 		8214CA6418B59FC80022D7B9 /* hudGame.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = hudGame.xib; sourceTree = "<group>"; };
 		8214CA6618B5A2590022D7B9 /* HUDOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDOverlayView.h; sourceTree = "<group>"; };
 		8214CA6718B5A2590022D7B9 /* HUDOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDOverlayView.m; sourceTree = "<group>"; };
@@ -697,6 +704,12 @@
 		8277042219172F54005C4F0C /* viewfinder white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viewfinder white.png"; sourceTree = "<group>"; };
 		8277042919173F29005C4F0C /* AsteRoids_acm.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = AsteRoids_acm.dat; sourceTree = "<group>"; };
 		8277042A19173F29005C4F0C /* AsteRoids_acm.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = AsteRoids_acm.xml; sourceTree = "<group>"; };
+		8277386819296AA100F25004 /* GLSLProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLSLProgram.h; sourceTree = "<group>"; };
+		8277386919296AA100F25004 /* GLSLProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLSLProgram.m; sourceTree = "<group>"; };
+		8277386B19296AFD00F25004 /* particle.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = particle.fsh; sourceTree = "<group>"; };
+		8277386D19296B0600F25004 /* particle.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = particle.vsh; sourceTree = "<group>"; };
+		8277386F19296E8800F25004 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		827738751929834D00F25004 /* asteroid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = asteroid.png; path = ../../../../Downloads/asteroid.png; sourceTree = "<group>"; };
 		828E1325191E9FBF002EB107 /* Beam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Beam.h; sourceTree = "<group>"; };
 		828E1326191E9FBF002EB107 /* Beam.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Beam.mm; sourceTree = "<group>"; };
 		828E132B191ED58F002EB107 /* sphere.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.mtl; sourceTree = "<group>"; };
@@ -803,11 +816,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82E68CA018A61C0E00F77F10 /* OpenGLES.framework in Frameworks */,
+				8277387019296E8800F25004 /* GLKit.framework in Frameworks */,
 				82E68CE118A6221E00F77F10 /* libQCAR.a in Frameworks */,
 				82E68CA418A61C5B00F77F10 /* NinevehGL.framework in Frameworks */,
 				82E68C7518A61B7800F77F10 /* UIKit.framework in Frameworks */,
 				82E68CA218A61C1700F77F10 /* QuartzCore.framework in Frameworks */,
-				82E68CA018A61C0E00F77F10 /* OpenGLES.framework in Frameworks */,
 				82E68CE518A623E500F77F10 /* AVFoundation.framework in Frameworks */,
 				82E68CEB18A6246D00F77F10 /* CoreMedia.framework in Frameworks */,
 				82E68C7318A61B7800F77F10 /* CoreGraphics.framework in Frameworks */,
@@ -946,6 +960,8 @@
 		8248A20A18A7FE7500BDE25E /* Textures */ = {
 			isa = PBXGroup;
 			children = (
+				820EB25D192A315300658B4C /* particle4u.png */,
+				827738751929834D00F25004 /* asteroid.png */,
 				8248A20B18A7FE7F00BDE25E /* black pixel.jpg */,
 				8252317418B5EC5000F475CE /* redTexture.jpg */,
 				8252317218B5DB6500F475CE /* gunsight.png */,
@@ -1474,6 +1490,8 @@
 				82BBD4E01916CF680077B0B6 /* StarDome.fsh */,
 				82C7F4F01921C3F8000F4029 /* beam_core.fsh */,
 				82C7F4F21921C469000F4029 /* beam_glow_billboard.fsh */,
+				8277386D19296B0600F25004 /* particle.vsh */,
+				8277386B19296AFD00F25004 /* particle.fsh */,
 				822F0EFA19282E7E0084A59D /* particleFragmentShader.fsh */,
 				822F0EFB19282E7E0084A59D /* particleVertexShader.vsh */,
 			);
@@ -1518,6 +1536,7 @@
 		82E68C6F18A61B7800F77F10 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8277386F19296E8800F25004 /* GLKit.framework */,
 				82E68CEA18A6246D00F77F10 /* CoreMedia.framework */,
 				82E68CE818A6244300F77F10 /* SystemConfiguration.framework */,
 				82E68CE618A6240600F77F10 /* CoreMotion.framework */,
@@ -1551,6 +1570,8 @@
 				8214CA6A18B5BFBD0022D7B9 /* Asteroid.mm */,
 				828E1325191E9FBF002EB107 /* Beam.h */,
 				828E1326191E9FBF002EB107 /* Beam.mm */,
+				8277386819296AA100F25004 /* GLSLProgram.h */,
+				8277386919296AA100F25004 /* GLSLProgram.m */,
 				8214CA6418B59FC80022D7B9 /* hudGame.xib */,
 				82BBD50D191718660077B0B6 /* OverlayViewfinder.xib */,
 				82E68CF518A6323400F77F10 /* QCARAppSession.h */,
@@ -1799,6 +1820,7 @@
 				822F0EB51927CAE30084A59D /* asteroid8.obj in Resources */,
 				822F0EA41927CAE30084A59D /* asteroid2.obj in Resources */,
 				822F0E9F1927CAE30084A59D /* asteroid15.obj in Resources */,
+				8277386C19296AFD00F25004 /* particle.fsh in Resources */,
 				822F0ED31927CAE30084A59D /* Am6.jpg in Resources */,
 				822F0E9B1927CAE30084A59D /* asteroid11.obj in Resources */,
 				822F0EE21927F8190084A59D /* beam_glow_billboard.obj in Resources */,
@@ -1866,6 +1888,8 @@
 				82BBD4F41916F0AD0077B0B6 /* StarDome.mtl in Resources */,
 				822F0EFD19282E7E0084A59D /* particleVertexShader.vsh in Resources */,
 				82BBD4F81916F4920077B0B6 /* StarDome2_cropped2.jpg in Resources */,
+				8277386E19296B0600F25004 /* particle.vsh in Resources */,
+				827738761929834D00F25004 /* asteroid.png in Resources */,
 				822F0EA71927CAE30084A59D /* asteroid22.obj in Resources */,
 				828E132F191ED58F002EB107 /* sphere.mtl in Resources */,
 				822F0EB01927CAE30084A59D /* asteroid30.obj in Resources */,
@@ -1887,6 +1911,7 @@
 				8277042319172F54005C4F0C /* viewfinder red.png in Resources */,
 				822F0EA31927CAE30084A59D /* asteroid19.obj in Resources */,
 				8277042B19173F29005C4F0C /* AsteRoids_acm.dat in Resources */,
+				820EB25E192A315300658B4C /* particle4u.png in Resources */,
 				823841C719161A3100581333 /* target viewfinder.png in Resources */,
 				822F0EA51927CAE30084A59D /* asteroid20.obj in Resources */,
 				8259FE35191810AD00BD72F9 /* AsteRoids.dat in Resources */,
@@ -1990,6 +2015,7 @@
 				8248A50418A963F800BDE25E /* btHashedSimplePairCache.cpp in Sources */,
 				8248A56C18A963F800BDE25E /* btConvexHullComputer.cpp in Sources */,
 				8248A56418A963F800BDE25E /* btMultiBodyPoint2Point.cpp in Sources */,
+				8277386A19296AA100F25004 /* GLSLProgram.m in Sources */,
 				8248A4FC18A963F800BDE25E /* btCompoundCompoundCollisionAlgorithm.cpp in Sources */,
 				8248A4FD18A963F800BDE25E /* btConvex2dConvex2dAlgorithm.cpp in Sources */,
 				8248A52E18A963F800BDE25E /* btTriangleMesh.cpp in Sources */,
