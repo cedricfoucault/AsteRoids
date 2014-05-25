@@ -29,6 +29,7 @@
 #import "GLSLProgram.h"
 #import "ParticleSystem.h"
 #import "CameraManager.h"
+#import "ParticleManager.h"
 
 
 @interface MainViewController () <NGLViewDelegate, NGLMeshDelegate, QCARAppControl, UIGestureRecognizerDelegate>
@@ -42,20 +43,19 @@
 @property (strong, nonatomic) NGLMesh *beamGlowBillboard;
 @property BOOL useExtendedTracking;
 
-@property NSTimeInterval *timeLastDraw;
-
 @property (nonatomic) btBroadphaseInterface* physBroadphase;
 @property (nonatomic) btCollisionDispatcher*	physDispatcher;
 @property (nonatomic) btDefaultCollisionConfiguration* physCollisionConfiguration;
 @property (nonatomic) btCollisionWorld* physCollisionWorld;
 @property (nonatomic) btCollisionObject* physPlayerObject;
-@property (nonatomic) btCollisionObject* physAsteroidObject;
 
 @property (weak, nonatomic) CameraManager *cameraManager;
 @property (nonatomic) NGLvec3 u0;
 @property (nonatomic) BOOL gameHasStarted;
 @property (nonatomic) BOOL gameIsPlaying;
 @property (nonatomic) BOOL gunIsLoaded;
+
+@property (nonatomic) CFAbsoluteTime lastFrameTime;
 
 @property (strong, nonatomic) IBOutlet HUDOverlayView *hudOverlayView;
 @property (strong, nonatomic) IBOutlet UIView *overlayViewfinder;
@@ -70,7 +70,8 @@
 @property (strong, nonatomic) NSMutableArray *gameObjects;
 @property (strong, nonatomic) NSTimer *spawnAsteroidTimer;
 
-@property (strong, nonatomic) ParticleSystem *particleSystem;
+@property (weak, nonatomic) ParticleManager *particleManager;
+//@property (strong, nonatomic) ParticleSystem *particleSystem;
 
 @end
 
@@ -105,7 +106,6 @@
         // init the physics
         btTransform transform = btTransform();
         transform.setOrigin(btVector3(10.0, 5.0, 100.0));
-        btVector3 vec3 = transform.getOrigin();
         [self initPhysics];
         
         // init custom properties
@@ -115,6 +115,7 @@
         _score = 0;
         _gameObjects = [[NSMutableArray alloc] init];
         _cameraManager = [CameraManager sharedManager];
+        _particleManager = [ParticleManager sharedManager];
     }
     
     return self;
@@ -128,14 +129,13 @@
 	///use the default collision dispatcher.
 	_physDispatcher = new	btCollisionDispatcher(_physCollisionConfiguration);
     // broadphase algortihm
-//	_physBroadphase = new btDbvtBroadphase();
-    _physBroadphase = new btSimpleBroadphase();
+	_physBroadphase = new btDbvtBroadphase();
+//    _physBroadphase = new btSimpleBroadphase();
     // collision world
     _physCollisionWorld = new btCollisionWorld(_physDispatcher, _physBroadphase, _physCollisionConfiguration);
     
     // collision shapes
     _physPlayerObject = new btCollisionObject();
-    _physAsteroidObject = new btCollisionObject();
     // player collision shape
     btMatrix3x3 basis;
 	basis.setIdentity();
@@ -144,13 +144,10 @@
     btSphereShape *playerSphere = new btSphereShape(playerRadius);
     _physPlayerObject->setCollisionShape(playerSphere);
     _physCollisionWorld->addCollisionObject(_physPlayerObject);
-    
-    // init rebase matrix to identity
 }
 
 - (void)dealloc {
     // destroy the Bullet Physics objects that were allocated
-    delete _physBroadphase;
     delete _physDispatcher;
     delete _physBroadphase;
 }
@@ -301,8 +298,11 @@
 	// Starts the debug monitor.
 	[[NGLDebug debugMonitor] startWithView:(NGLView *)self.view];
     
-    self.particleSystem = [[ParticleSystem alloc] init];
-    [self.particleSystem setupParticles];
+//    self.particleSystem = [[ParticleSystem alloc] init];
+//    [self.particleSystem initSystem];
+//    ParticleSystem *system = [[ParticleSystem alloc] init];
+//    [system initSystem];
+//    [self.particleManager addSystem:system];
 }
 
 //- (void)meshLoadingDidFinish:(NGLParsing)parsing {
@@ -325,6 +325,9 @@ static const float sqrt_2 = sqrtf(2);
 // draw a frame
 - (void) drawView {
     if (self.arSession.cameraIsStarted) {
+        CFAbsoluteTime thisFrameTime = CFAbsoluteTimeGetCurrent();
+        CFTimeInterval timeDelta = self.lastFrameTime? (thisFrameTime - self.lastFrameTime) : 0.0;
+        
         QCAR::State state = QCAR::Renderer::getInstance().begin();
         glDepthRangef(0.0f, 1.0f);
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -381,6 +384,7 @@ static const float sqrt_2 = sqrtf(2);
         if (self.gameHasStarted && self.gameIsPlaying) {
             // add objects to destroy in an array and destroy them after the collision detection is done
             NSMutableArray *toDestroy = [[NSMutableArray alloc] init];
+            
             // update game objects in 3D simulation (graphics and physics)
             for (GameObject3D *gameObject in [self.gameObjects copy]) {
                 if (gameObject.isLoaded) {
@@ -393,6 +397,9 @@ static const float sqrt_2 = sqrtf(2);
                     }
                 }
             }
+            
+            // update particles
+            [self.particleManager updateWithTimeDelta:timeDelta];
 
             // update player collision object
             self.physPlayerObject->getWorldTransform().setFromOpenGLMatrix(*self.cameraManager.camera.matrix);
@@ -439,8 +446,15 @@ static const float sqrt_2 = sqrtf(2);
                         [toDestroy addObject:gameObjectB];
                         if (DEBUG_LOG) {
                             NSLog(@"asteroid was shot!");
-                            NSLog(@"destroy asteroid & asteroid");
+                            NSLog(@"destroy asteroid & beam");
                         }
+                        // add new particle debris effect on shot asteroid
+                        ParticleSystem *system = [[ParticleSystem alloc] init];
+                        NGLvec3 sourcePosition = nglVec3Make(gameObjectB.mesh.x, gameObjectB.mesh.y, gameObjectB.mesh.z);
+                        NGLvec3 sourceDirection = nglVec3Multiplyf(gameObjectB.translationDirection,
+                                                                   gameObjectB.translationSpeed);
+                        [system initSystemWithSourcePosition:sourcePosition sourceDirection:sourceDirection];
+                        [self.particleManager addSystem:system];
                     } else if ([gameObjectB isKindOfClass:[Beam class]] &&
                                [gameObjectA isKindOfClass:[Asteroid class]]) {
                         [self incrementScore];
@@ -448,8 +462,15 @@ static const float sqrt_2 = sqrtf(2);
                         [toDestroy addObject:gameObjectB];
                         if (DEBUG_LOG) {
                             NSLog(@"asteroid was shot!");
-                            NSLog(@"destroy asteroid & asteroid");
+                            NSLog(@"destroy asteroid & beam");
                         }
+                        // add new particle debris effect on shot asteroid
+                        ParticleSystem *system = [[ParticleSystem alloc] init];
+                        NGLvec3 sourcePosition = nglVec3Make(gameObjectA.mesh.x, gameObjectA.mesh.y, gameObjectA.mesh.z);
+                        NGLvec3 sourceDirection = nglVec3Multiplyf(gameObjectA.translationDirection,
+                                                                   gameObjectA.translationSpeed);
+                        [system initSystemWithSourcePosition:sourcePosition sourceDirection:sourceDirection];
+                        [self.particleManager addSystem:system];
                     }
                     
                 }
@@ -482,12 +503,17 @@ static const float sqrt_2 = sqrtf(2);
             [self.cameraManager.cameraForTranslucentObjects drawCamera];
             
             // render particles
-//            [self renderParticles];
-            [self.particleSystem renderParticles];
+            [self.particleManager renderParticles];
+//            if (self.particleSystem.isAlive) {
+//                [self.particleSystem updateWithTimeDelta:timeDelta];
+//                [self.particleSystem renderParticles];
+//            }
         }
         glDisable(GL_BLEND);
         
         QCAR::Renderer::getInstance().end();
+        
+        self.lastFrameTime = thisFrameTime;
     }
 }
 

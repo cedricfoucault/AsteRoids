@@ -273,6 +273,8 @@
 		82E68D7118A6591D00F77F10 /* dummy.obj in Resources */ = {isa = PBXBuildFile; fileRef = 82E68D7018A6591D00F77F10 /* dummy.obj */; };
 		82E95DA5193038A10017BDC1 /* ParticleSystem.mm in Sources */ = {isa = PBXBuildFile; fileRef = 82E95DA4193038A10017BDC1 /* ParticleSystem.mm */; };
 		82E95DA81930FD200017BDC1 /* CameraManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 82E95DA71930FD200017BDC1 /* CameraManager.mm */; };
+		82E95DAC19314C5A0017BDC1 /* debris.png in Resources */ = {isa = PBXBuildFile; fileRef = 82E95DAB19314C5A0017BDC1 /* debris.png */; };
+		82E95DAF1931882F0017BDC1 /* ParticleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E95DAE1931882F0017BDC1 /* ParticleManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -815,6 +817,9 @@
 		82E95DA4193038A10017BDC1 /* ParticleSystem.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ParticleSystem.mm; sourceTree = "<group>"; };
 		82E95DA61930FD200017BDC1 /* CameraManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraManager.h; sourceTree = "<group>"; };
 		82E95DA71930FD200017BDC1 /* CameraManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CameraManager.mm; sourceTree = "<group>"; };
+		82E95DAB19314C5A0017BDC1 /* debris.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = debris.png; sourceTree = "<group>"; };
+		82E95DAD1931882F0017BDC1 /* ParticleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleManager.h; sourceTree = "<group>"; };
+		82E95DAE1931882F0017BDC1 /* ParticleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParticleManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -966,6 +971,7 @@
 		8248A20A18A7FE7500BDE25E /* Textures */ = {
 			isa = PBXGroup;
 			children = (
+				82E95DAB19314C5A0017BDC1 /* debris.png */,
 				820EB25D192A315300658B4C /* particle4u.png */,
 				827738751929834D00F25004 /* asteroid.png */,
 				8248A20B18A7FE7F00BDE25E /* black pixel.jpg */,
@@ -1568,6 +1574,8 @@
 				82E68CED18A6250B00F77F10 /* MainViewController.mm */,
 				82E95DA61930FD200017BDC1 /* CameraManager.h */,
 				82E95DA71930FD200017BDC1 /* CameraManager.mm */,
+				82E95DAD1931882F0017BDC1 /* ParticleManager.h */,
+				82E95DAE1931882F0017BDC1 /* ParticleManager.m */,
 				82E95DA3193038A10017BDC1 /* ParticleSystem.h */,
 				82E95DA4193038A10017BDC1 /* ParticleSystem.mm */,
 				828E1331191EF310002EB107 /* PoseMatrixMathHelper.h */,
@@ -1869,6 +1877,7 @@
 				82BBD4E11916CF680077B0B6 /* StarDome.fsh in Resources */,
 				822F0ED41927CAE30084A59D /* Am7.jpg in Resources */,
 				823841AD1915A8DB00581333 /* BlueRock.mtl in Resources */,
+				82E95DAC19314C5A0017BDC1 /* debris.png in Resources */,
 				822F0EA21927CAE30084A59D /* asteroid18.obj in Resources */,
 				82E68D4018A63B8300F77F10 /* Tarmac.dat in Resources */,
 				8259FE36191810AD00BD72F9 /* AsteRoids.xml in Resources */,
@@ -1969,6 +1978,7 @@
 				8248A52118A963F800BDE25E /* btMultiSphereShape.cpp in Sources */,
 				8248A53618A963F800BDE25E /* btGImpactQuantizedBvh.cpp in Sources */,
 				8248A50018A963F800BDE25E /* btConvexPlaneCollisionAlgorithm.cpp in Sources */,
+				82E95DAF1931882F0017BDC1 /* ParticleManager.m in Sources */,
 				8248A4F518A963F800BDE25E /* btBox2dBox2dCollisionAlgorithm.cpp in Sources */,
 				8248A51618A963F800BDE25E /* btConvexHullShape.cpp in Sources */,
 				8248A4F918A963F800BDE25E /* btCollisionObject.cpp in Sources */,
