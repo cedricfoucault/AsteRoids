@@ -43,7 +43,8 @@
 - (id)initWithCollisionWorld:(btCollisionWorld *)collisionWorld;
 - (void)loadMesh; // to be overriden
 - (void)initMotionProperties; // to be overriden
-- (void)updateFrame;
+//- (void)updateFrame;
+- (void)updateFrameWithTimeDelta:(float)timeDelta shipSpeed:(float)shipSpeed;
 - (void)destroy;
 
 

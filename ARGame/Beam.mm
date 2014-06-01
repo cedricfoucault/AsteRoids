@@ -76,8 +76,12 @@
     }
 }
 
-- (void)updateFrame {
-    [super updateFrame];
+//- (void)updateFrame {
+//    [super updateFrame];
+//    [self updateBillboardMesh];
+//}
+- (void)updateFrameWithTimeDelta:(float)timeDelta shipSpeed:(float)shipSpeed {
+    [super updateFrameWithTimeDelta:timeDelta shipSpeed:0]; // beam travels with ship
     [self updateBillboardMesh];
 }
 

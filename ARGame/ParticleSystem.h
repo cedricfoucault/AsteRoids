@@ -32,7 +32,7 @@
 
 - (void)initSystem;
 - (void)initSystemWithSourcePosition:(NGLvec3)sourceStartPosition sourceDirection:(NGLvec3)sourceDirection;
-- (void)updateWithTimeDelta:(float)timeDelta;
+- (void)updateWithTimeDelta:(float)timeDelta shipSpeed:(float)shipSpeed;
 - (void)renderParticles;
 
 @end

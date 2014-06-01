@@ -73,6 +73,10 @@
 @property (weak, nonatomic) ParticleManager *particleManager;
 //@property (strong, nonatomic) ParticleSystem *particleSystem;
 
+@property (nonatomic) float shipSpeed;
+@property (nonatomic) float distanceTraveled;
+@property (nonatomic) float spawnDistanceCounter;
+
 @end
 
 @implementation MainViewController
@@ -116,6 +120,8 @@
         _gameObjects = [[NSMutableArray alloc] init];
         _cameraManager = [CameraManager sharedManager];
         _particleManager = [ParticleManager sharedManager];
+        
+        _shipSpeed = 0.0;
     }
     
     return self;
@@ -382,106 +388,7 @@ static const float sqrt_2 = sqrtf(2);
 		}
         
         if (self.gameHasStarted && self.gameIsPlaying) {
-            // add objects to destroy in an array and destroy them after the collision detection is done
-            NSMutableArray *toDestroy = [[NSMutableArray alloc] init];
-            
-            // update game objects in 3D simulation (graphics and physics)
-            for (GameObject3D *gameObject in [self.gameObjects copy]) {
-                if (gameObject.isLoaded) {
-                    [gameObject updateFrame];
-                    if ([self isOutOfBounds:gameObject]) {
-                        if (DEBUG_LOG) {
-                            NSLog(@"destroy object (out of bounds)");
-                        }
-                        [toDestroy addObject:gameObject];
-                    }
-                }
-            }
-            
-            // update particles
-            [self.particleManager updateWithTimeDelta:timeDelta];
-
-            // update player collision object
-            self.physPlayerObject->getWorldTransform().setFromOpenGLMatrix(*self.cameraManager.camera.matrix);
-            
-            // detect collisions
-            self.physCollisionWorld->performDiscreteCollisionDetection();
-            int numManifolds = self.physCollisionWorld->getDispatcher()->getNumManifolds();
-            for (int i = 0; i < numManifolds; i++) {
-                btPersistentManifold* contactManifold = self.physCollisionWorld->getDispatcher()->getManifoldByIndexInternal(i);
-                const btCollisionObject* obA = static_cast<const btCollisionObject*>(contactManifold->getBody0());
-                const btCollisionObject* obB = static_cast<const btCollisionObject*>(contactManifold->getBody1());
-                GameObject3D *gameObjectA = (__bridge GameObject3D *) obA->getUserPointer();
-                GameObject3D *gameObjectB = (__bridge GameObject3D *) obB->getUserPointer();
-                
-                int numContacts = contactManifold->getNumContacts();
-                if (numContacts > 0) {
-                    // check Player - Asteroid collision
-                    if (obA == self.physPlayerObject &&
-                        [gameObjectB isKindOfClass:[Asteroid class]]) {
-                        // Player was hit by asteroid
-                        [self playerWasHit];
-                        // destroy collided asteroid
-                        Asteroid *asteroid = (Asteroid *)gameObjectB;
-                        [toDestroy addObject:asteroid];
-                        if (DEBUG_LOG) {
-                            NSLog(@"destroy asteroid (collision with player)");
-                        }
-                    } else if (obB == self.physPlayerObject &&
-                               [gameObjectA isKindOfClass:[Asteroid class]]) {
-                        // Player was hit by asteroid
-                        [self playerWasHit];
-                        // destroy collided asteroid
-                        Asteroid *asteroid = (Asteroid *)gameObjectA;
-                        [toDestroy addObject:asteroid];
-                        if (DEBUG_LOG) {
-                            NSLog(@"destroy asteroid (collision with player)");
-                        }
-                        
-                    // check Beam - Asteroid collision
-                    } else if ([gameObjectA isKindOfClass:[Beam class]] &&
-                               [gameObjectB isKindOfClass:[Asteroid class]]) {
-                        [self incrementScore];
-                        [toDestroy addObject:gameObjectA];
-                        [toDestroy addObject:gameObjectB];
-                        if (DEBUG_LOG) {
-                            NSLog(@"asteroid was shot!");
-                            NSLog(@"destroy asteroid & beam");
-                        }
-                        // add new particle debris effect on shot asteroid
-                        ParticleSystem *system = [[ParticleSystem alloc] init];
-                        NGLvec3 sourcePosition = nglVec3Make(gameObjectB.mesh.x, gameObjectB.mesh.y, gameObjectB.mesh.z);
-                        NGLvec3 sourceDirection = nglVec3Multiplyf(gameObjectB.translationDirection,
-                                                                   gameObjectB.translationSpeed);
-                        [system initSystemWithSourcePosition:sourcePosition sourceDirection:sourceDirection];
-                        [self.particleManager addSystem:system];
-                    } else if ([gameObjectB isKindOfClass:[Beam class]] &&
-                               [gameObjectA isKindOfClass:[Asteroid class]]) {
-                        [self incrementScore];
-                        [toDestroy addObject:gameObjectA];
-                        [toDestroy addObject:gameObjectB];
-                        if (DEBUG_LOG) {
-                            NSLog(@"asteroid was shot!");
-                            NSLog(@"destroy asteroid & beam");
-                        }
-                        // add new particle debris effect on shot asteroid
-                        ParticleSystem *system = [[ParticleSystem alloc] init];
-                        NGLvec3 sourcePosition = nglVec3Make(gameObjectA.mesh.x, gameObjectA.mesh.y, gameObjectA.mesh.z);
-                        NGLvec3 sourceDirection = nglVec3Multiplyf(gameObjectA.translationDirection,
-                                                                   gameObjectA.translationSpeed);
-                        [system initSystemWithSourcePosition:sourcePosition sourceDirection:sourceDirection];
-                        [self.particleManager addSystem:system];
-                    }
-                    
-                }
-                contactManifold->clearManifold();
-            }
-            
-            // Destroy all the objects marked
-            for (GameObject3D *gameObject in toDestroy) {
-                [self.gameObjects removeObject:gameObject];
-                [gameObject destroy];
-            }
+            [self update3DWithTimeDelta:timeDelta];
         }
         
         glEnable (GL_BLEND);
@@ -630,13 +537,16 @@ int signf(float f) {
     self.gameHasStarted = YES;
     self.gameIsPlaying = YES;
     self.gunIsLoaded = YES;
-    self.spawnAsteroidTimer = [NSTimer scheduledTimerWithTimeInterval:SPAWN_DELAY target:self selector:@selector(spawnAsteroid) userInfo:nil repeats:YES];
+//    self.spawnAsteroidTimer = [NSTimer scheduledTimerWithTimeInterval:SPAWN_DELAY target:self selector:@selector(spawnAsteroid) userInfo:nil repeats:YES];
     self.overlayViewfinder.hidden = YES;
     self.hudOverlayView.hidden = NO;
+    
+    self.shipSpeed = 5.0;
 }
 
 - (void)stopGame {
-    [self.spawnAsteroidTimer invalidate];
+//    [self.spawnAsteroidTimer invalidate];
+    self.shipSpeed = 0.;
 }
 
 - (void)playerWasHit {
@@ -919,6 +829,128 @@ int signf(float f) {
     self.gameIsPlaying = YES;
 }
 
+- (void)update3DWithTimeDelta:(float)timeDelta {
+    // Spawn asteroids
+    if (self.gameHasStarted && self.gameIsPlaying) {
+        static const float SPAWN_DISTANCE = 1 / ASTEROIDS_DENSITY;
+        float distanceDelta = self.shipSpeed * timeDelta; // distance travelled by the ship since last frame
+        self.distanceTraveled += distanceDelta;
+        self.spawnDistanceCounter += distanceDelta;
+        
+        while (self.spawnDistanceCounter > SPAWN_DISTANCE) {
+            [self spawnAsteroid];
+            self.spawnDistanceCounter -= SPAWN_DISTANCE;
+        }
+	}
+    
+    @synchronized ([[NSLock alloc] init]) {
+    
+        // add objects to destroy in an array and destroy them after the collision detection is done
+        NSMutableArray *toDestroy = [[NSMutableArray alloc] init];
+        
+        // update game objects in 3D simulation (graphics and physics)
+        for (GameObject3D *gameObject in [self.gameObjects copy]) {
+            if (gameObject.isLoaded) {
+                [gameObject updateFrameWithTimeDelta:timeDelta shipSpeed:self.shipSpeed];
+                if ([self isOutOfBounds:gameObject]) {
+                    if (DEBUG_LOG) {
+                        NSLog(@"destroy object (out of bounds)");
+                    }
+                    [toDestroy addObject:gameObject];
+                }
+            }
+        }
+        
+        // update particles
+        [self.particleManager updateWithTimeDelta:timeDelta shipSpeed:self.shipSpeed];
+        
+        // update player collision object
+        self.physPlayerObject->getWorldTransform().setFromOpenGLMatrix(*self.cameraManager.camera.matrix);
+        
+        // detect collisions
+        self.physCollisionWorld->performDiscreteCollisionDetection();
+        int numManifolds = self.physCollisionWorld->getDispatcher()->getNumManifolds();
+        for (int i = 0; i < numManifolds; i++) {
+            btPersistentManifold* contactManifold = self.physCollisionWorld->getDispatcher()->getManifoldByIndexInternal(i);
+            const btCollisionObject* obA = static_cast<const btCollisionObject*>(contactManifold->getBody0());
+            const btCollisionObject* obB = static_cast<const btCollisionObject*>(contactManifold->getBody1());
+            GameObject3D *gameObjectA = (__bridge GameObject3D *) obA->getUserPointer();
+            GameObject3D *gameObjectB = (__bridge GameObject3D *) obB->getUserPointer();
+            
+            int numContacts = contactManifold->getNumContacts();
+            if (numContacts > 0) {
+                // check Player - Asteroid collision
+                if (obA == self.physPlayerObject &&
+                    [gameObjectB isKindOfClass:[Asteroid class]]) {
+                    // Player was hit by asteroid
+                    [self playerWasHit];
+                    // destroy collided asteroid
+                    Asteroid *asteroid = (Asteroid *)gameObjectB;
+                    [toDestroy addObject:asteroid];
+                    if (DEBUG_LOG) {
+                        NSLog(@"destroy asteroid (collision with player)");
+                    }
+                } else if (obB == self.physPlayerObject &&
+                           [gameObjectA isKindOfClass:[Asteroid class]]) {
+                    // Player was hit by asteroid
+                    [self playerWasHit];
+                    // destroy collided asteroid
+                    Asteroid *asteroid = (Asteroid *)gameObjectA;
+                    [toDestroy addObject:asteroid];
+                    if (DEBUG_LOG) {
+                        NSLog(@"destroy asteroid (collision with player)");
+                    }
+                    
+                    // check Beam - Asteroid collision
+                } else if ([gameObjectA isKindOfClass:[Beam class]] &&
+                           [gameObjectB isKindOfClass:[Asteroid class]]) {
+                    [self incrementScore];
+                    [toDestroy addObject:gameObjectA];
+                    [toDestroy addObject:gameObjectB];
+                    if (DEBUG_LOG) {
+                        NSLog(@"asteroid was shot!");
+                        NSLog(@"destroy asteroid & beam");
+                    }
+                    // add new particle debris effect on shot asteroid
+                    ParticleSystem *system = [[ParticleSystem alloc] init];
+                    NGLvec3 sourcePosition = nglVec3Make(gameObjectB.mesh.x, gameObjectB.mesh.y, gameObjectB.mesh.z);
+    //                NGLvec3 sourceDirection = nglVec3Multiplyf(gameObjectB.translationDirection,
+    //                                                           gameObjectB.translationSpeed);
+                    NGLvec3 sourceDirection = nglVec3Multiplyf(gameObjectA.translationDirection,
+                                                               gameObjectA.translationSpeed / 2.5f); // get beam direction and speed
+                    [system initSystemWithSourcePosition:sourcePosition sourceDirection:sourceDirection];
+                    [self.particleManager addSystem:system];
+                } else if ([gameObjectB isKindOfClass:[Beam class]] &&
+                           [gameObjectA isKindOfClass:[Asteroid class]]) {
+                    [self incrementScore];
+                    [toDestroy addObject:gameObjectA];
+                    [toDestroy addObject:gameObjectB];
+                    if (DEBUG_LOG) {
+                        NSLog(@"asteroid was shot!");
+                        NSLog(@"destroy asteroid & beam");
+                    }
+                    // add new particle debris effect on shot asteroid
+                    ParticleSystem *system = [[ParticleSystem alloc] init];
+                    NGLvec3 sourcePosition = nglVec3Make(gameObjectA.mesh.x, gameObjectA.mesh.y, gameObjectA.mesh.z);
+                    NGLvec3 sourceDirection = nglVec3Multiplyf(gameObjectB.translationDirection,
+                                                               gameObjectB.translationSpeed / 2.5f); // get beam direction and speed
+                    [system initSystemWithSourcePosition:sourcePosition sourceDirection:sourceDirection];
+                    [self.particleManager addSystem:system];
+                }
+                
+            }
+            contactManifold->clearManifold();
+        }
+        
+        // Destroy all the objects marked
+        for (GameObject3D *gameObject in toDestroy) {
+            [self.gameObjects removeObject:gameObject];
+            [gameObject destroy];
+        }
+            
+    }
+}
+
 - (void)spawnAsteroid {
     if (self.gameHasStarted && self.gameIsPlaying) {
         if (DEBUG_LOG) {
@@ -941,7 +973,12 @@ int signf(float f) {
 
 
 - (BOOL)isOutOfBounds:(GameObject3D *)gameObject {
-    return (gameObject.mesh.x > SPAWN_DISTANCE || gameObject.mesh.y > SPAWN_DISTANCE || gameObject.mesh.z > SPAWN_DISTANCE || gameObject.mesh.x < -SPAWN_DISTANCE || gameObject.mesh.y < -SPAWN_DISTANCE || gameObject.mesh.z < -SPAWN_DISTANCE);
+    return (gameObject.mesh.x > CUTOFF_DISTANCE_MAX_X ||
+            gameObject.mesh.y > CUTOFF_DISTANCE_MAX_Y ||
+            gameObject.mesh.z > CUTOFF_DISTANCE_MAX_Z ||
+            gameObject.mesh.x < CUTOFF_DISTANCE_MIN_X ||
+            gameObject.mesh.y < CUTOFF_DISTANCE_MIN_Y ||
+            gameObject.mesh.z < CUTOFF_DISTANCE_MIN_Z);
 }
 
 - (BOOL)prefersStatusBarHidden {

@@ -52,30 +52,45 @@ static const int NUMBER_OF_TEXTURES = 15;
 }
 
 
+//- (void)initMotionProperties {
+//    float maxSize = fmaxf(fmaxf(self.meshBoxSizeX, self.meshBoxSizeY), self.meshBoxSizeZ);
+//    float r;
+//    r = randfUniform() - 0.5;
+//    float xAtZ0 = r * (WINDOW_SCALE - maxSize);
+//    r = randfUniform() - 0.5;
+//    float yAtZ0 = r * (WINDOW_SCALE / WINDOW_ASPECT_RATIO - maxSize);
+//    //    NSLog(@"%f %f", xAtZ0, yAtZ0);
+//    
+//    NGLvec3 cameraPosition = getCameraPosition(self.cameraFromTargetMatrixAtCreation);
+//    self.translationDirection = nglVec3Add(cameraPosition, nglVec3Make(-xAtZ0, -yAtZ0, 0));
+//    self.translationDirection = nglVec3Normalize(self.translationDirection);
+//    
+//    self.mesh.x = xAtZ0 - SPAWN_DISTANCE * self.translationDirection.x;
+//    self.mesh.y = yAtZ0 - SPAWN_DISTANCE * self.translationDirection.y;
+//    self.mesh.z = - SPAWN_DISTANCE * self.translationDirection.z;
+//    
+//    // init random translation speed
+//    r = randfUniform() - 0.5;
+//    self.translationSpeed = 0.053 + 0.015 * r;
+//    
+//    // init random rotation (spinning)
+//    self.rotationSpeed = randfUniform() * ASTEROID_MAX_SPEED_ROTATION;
+//    self.rotationAxis = nglVec3Normalize(nglVec3Make(randfUniform() - 0.5, randfUniform() - 0.5, randfUniform() - 0.5));
+//}
+
 - (void)initMotionProperties {
-    float maxSize = fmaxf(fmaxf(self.meshBoxSizeX, self.meshBoxSizeY), self.meshBoxSizeZ);
-    float r;
-    r = randfUniform() - 0.5;
-    float xAtZ0 = r * (WINDOW_SCALE - maxSize);
-    r = randfUniform() - 0.5;
-    float yAtZ0 = r * (WINDOW_SCALE / WINDOW_ASPECT_RATIO - maxSize);
-    //    NSLog(@"%f %f", xAtZ0, yAtZ0);
-    
-    NGLvec3 cameraPosition = getCameraPosition(self.cameraFromTargetMatrixAtCreation);
-    self.translationDirection = nglVec3Add(cameraPosition, nglVec3Make(-xAtZ0, -yAtZ0, 0));
-    self.translationDirection = nglVec3Normalize(self.translationDirection);
-    
-    self.mesh.x = xAtZ0 - SPAWN_DISTANCE * self.translationDirection.x;
-    self.mesh.y = yAtZ0 - SPAWN_DISTANCE * self.translationDirection.y;
-    self.mesh.z = - SPAWN_DISTANCE * self.translationDirection.z;
-    
-    // init random translation speed
-    r = randfUniform() - 0.5;
-    self.translationSpeed = 0.053 + 0.015 * r;
-    
-    // init random rotation (spinning)
-    self.rotationSpeed = randfUniform() * ASTEROID_MAX_SPEED_ROTATION;
-    self.rotationAxis = nglVec3Normalize(nglVec3Make(randfUniform() - 0.5, randfUniform() - 0.5, randfUniform() - 0.5));
+    // init random x,y position; z at given spawn distance
+    self.mesh.x = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_X_VARIANCE;
+    self.mesh.y = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_Y_VARIANCE;
+    self.mesh.z = ASTEROIDS_SPAWN_Z;
+//    NSLog(@"spawn: %f, %f", self.mesh.x, self.mesh.y);
+    // init random translation and rotation
+    self.translationDirection = nglVec3Normalize(nglVec3Make(RANDOM_MINUS_1_TO_1(),
+                                                             RANDOM_MINUS_1_TO_1(),
+                                                             RANDOM_MINUS_1_TO_1()));
+    self.translationSpeed = ASTEROID_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_SPEED_VARIANCE;
+    self.rotationAxis = nglVec3Normalize(nglVec3Make(RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1()));
+    self.rotationSpeed = ASTEROID_ROTATION_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_ROTATION_SPEED_VARIANCE;
 }
 
 float randfUniform() {

@@ -14,7 +14,7 @@
 + (ParticleManager *)sharedManager;
 
 - (void)addSystem:(ParticleSystem *)system;
-- (void)updateWithTimeDelta:(float)timeDelta;
+- (void)updateWithTimeDelta:(float)timeDelta shipSpeed:(float)shipSpeed;
 - (void)renderParticles;
 
 @end

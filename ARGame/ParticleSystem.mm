@@ -15,10 +15,7 @@
 
 #define N_PARTICLES_MAX 500
 #define PARTICLE_SIZE_MAX 0.04f
-#define TTL_MAX 7.0f
-
-#define DEG_TO_RAD(X) (X*M_PI/180.0)
-#define RANDOM_MINUS_1_TO_1() ((float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX - 0.5f) * 2
+#define TTL_MAX 2.25f
 
 typedef struct {
 	NGLvec3 position; // position relative to emitter
@@ -395,7 +392,7 @@ static GLuint inPosition,   // Shader program attributes and uniforms
     [self initGL];
 }
 
-- (void)updateWithTimeDelta:(float)timeDelta {
+- (void)updateWithTimeDelta:(float)timeDelta shipSpeed:(float)shipSpeed {
     // update the whole system timeToLive
     _systemTimeToLive -= timeDelta;
     if (_systemTimeToLive <= 0) {
@@ -435,7 +432,9 @@ static GLuint inPosition,   // Shader program attributes and uniforms
         particle->timeToLive -= timeDelta;
         if (particle->timeToLive > 0) {
             // Particle is still alive, update its attributes
-            particle->position = nglVec3Add(particle->position, nglVec3Multiplyf(particle->direction, timeDelta));
+            NGLvec3 localTranslation = nglVec3Multiplyf(particle->direction, timeDelta);
+            NGLvec3 shipTranslation = nglVec3Make(0, 0, shipSpeed * timeDelta);
+            particle->position = nglVec3Add(particle->position, nglVec3Add(localTranslation, shipTranslation));
             particle->rotationAngle += particle->rotationSpeed * timeDelta;
             
             i++;

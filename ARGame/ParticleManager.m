@@ -37,9 +37,9 @@
     [self.particleSystems addObject:system];
 }
 
-- (void)updateWithTimeDelta:(float)timeDelta {
+- (void)updateWithTimeDelta:(float)timeDelta shipSpeed:(float)shipSpeed {
     for (ParticleSystem *system in [self.particleSystems copy]) {
-        [system updateWithTimeDelta:timeDelta];
+        [system updateWithTimeDelta:timeDelta shipSpeed:shipSpeed];
         // destroy system if not alive
         if (!system.isAlive) {
             [self.particleSystems removeObject:system];

@@ -36,22 +36,43 @@
     free(_cameraFromTargetMatrixAtCreation);
 }
 
-- (void)updateFrame {
+//- (void)updateFrame {
+//    // update mesh position
+//    if (self.translationSpeed > 0) {
+//        self.mesh.x += self.translationDirection.x * self.translationSpeed;
+//        self.mesh.y += self.translationDirection.y * self.translationSpeed;
+//        self.mesh.z += self.translationDirection.z * self.translationSpeed;
+//    }
+//    // update mesh rotation
+//    if (self.rotationSpeed > 0) {
+//        self.mesh.rotationSpace = NGLRotationSpaceLocal;
+//        NGLmat4 rotationMatrix;
+//        getRotationMatrixFromAxisAngle(self.rotationAxis, self.rotationSpeed, rotationMatrix);
+//        [self.mesh rotateRelativeWithMatrix:rotationMatrix];
+//    }
+//    // update collision object position
+////    nglMatrixDescribe(*(self.mesh.matrix));
+//    self.collisionObject->getWorldTransform().setFromOpenGLMatrix(*self.mesh.matrix);
+//}
+
+- (void)updateFrameWithTimeDelta:(float)timeDelta shipSpeed:(float)shipSpeed {
+    // update mesh relative to ship
+    self.mesh.z += shipSpeed * timeDelta;
     // update mesh position
     if (self.translationSpeed > 0) {
-        self.mesh.x += self.translationDirection.x * self.translationSpeed;
-        self.mesh.y += self.translationDirection.y * self.translationSpeed;
-        self.mesh.z += self.translationDirection.z * self.translationSpeed;
+        self.mesh.x += self.translationDirection.x * self.translationSpeed * timeDelta;
+        self.mesh.y += self.translationDirection.y * self.translationSpeed * timeDelta;
+        self.mesh.z += self.translationDirection.z * self.translationSpeed * timeDelta;
     }
     // update mesh rotation
     if (self.rotationSpeed > 0) {
         self.mesh.rotationSpace = NGLRotationSpaceLocal;
         NGLmat4 rotationMatrix;
-        getRotationMatrixFromAxisAngle(self.rotationAxis, self.rotationSpeed, rotationMatrix);
+        getRotationMatrixFromAxisAngle(self.rotationAxis, self.rotationSpeed * timeDelta, rotationMatrix);
         [self.mesh rotateRelativeWithMatrix:rotationMatrix];
     }
     // update collision object position
-//    nglMatrixDescribe(*(self.mesh.matrix));
+    //    nglMatrixDescribe(*(self.mesh.matrix));
     self.collisionObject->getWorldTransform().setFromOpenGLMatrix(*self.mesh.matrix);
 }
 
