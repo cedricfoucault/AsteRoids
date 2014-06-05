@@ -12,6 +12,8 @@
 
 @interface GameObject3D ()
 
+@property (nonatomic, readwrite) float lastFrameX, lastFrameY, lastFrameZ;
+
 @end
 
 @implementation GameObject3D
@@ -28,6 +30,9 @@
         nglMatrixCopy(_cameraManager.cameraFromTargetMatrix, _cameraFromTargetMatrixAtCreation);
         // load 3D mesh
         [self loadMesh];
+        _lastFrameX = 0;
+        _lastFrameY = 0;
+        _lastFrameZ = 0;
     }
     return self;
 }
@@ -55,7 +60,27 @@
 //    self.collisionObject->getWorldTransform().setFromOpenGLMatrix(*self.mesh.matrix);
 //}
 
+- (float)x {
+    return self.mesh.x;
+}
+
+- (float)y {
+    return self.mesh.y;
+}
+
+- (float)z {
+    return self.mesh.z;
+}
+
+- (NGLbounds)aabb {
+    return self.mesh.boundingBox.aligned;
+}
+
 - (void)updateFrameWithTimeDelta:(float)timeDelta shipSpeed:(float)shipSpeed {
+    // update lastFrame coordinates
+    self.lastFrameX = self.mesh.x;
+    self.lastFrameY = self.mesh.y;
+    self.lastFrameZ = self.mesh.z;
     // update mesh relative to ship
     self.mesh.z += shipSpeed * timeDelta;
     // update mesh position

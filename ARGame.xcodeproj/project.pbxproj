@@ -2229,6 +2229,7 @@
 					"\"$(SRCROOT)/include\"",
 				);
 				INFOPLIST_FILE = "ARGame/ARGame-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/cedric/dev/xcode/ARGame,
@@ -2260,6 +2261,7 @@
 					"\"$(SRCROOT)/include\"",
 				);
 				INFOPLIST_FILE = "ARGame/ARGame-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/cedric/dev/xcode/ARGame,

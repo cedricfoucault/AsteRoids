@@ -15,18 +15,20 @@ const float FAR = 100.0f;
 
 const float WINDOW_SCALE = 1.0f;
 const float WINDOW_ASPECT_RATIO = 29.7 / 21;
-const float ASTEROID_SCALE = 0.3f;
+const float ASTEROID_SCALE = 0.2f;
 
 const float BEAM_CORE_SCALE = 0.07f;
 const float BEAM_GLOW_BILLBOARD_SCALE = 2.8 * BEAM_CORE_SCALE;
 
-const float ASTEROIDS_DENSITY = 0.4f; // number of asteroids / distance unit
-const float ASTEROIDS_SPAWN_Z = -60.0f;
+const float ASTEROIDS_DENSITY = 0.5f; // number of asteroids / distance unit
+const float ASTEROIDS_SPAWN_Z = -50.0f;
 const float ASTEROIDS_SPAWN_X_VARIANCE = 0.4f;
 const float ASTEROIDS_SPAWN_Y_VARIANCE = ASTEROIDS_SPAWN_X_VARIANCE / WINDOW_ASPECT_RATIO;
 
-const float ASTEROID_SPEED_MEAN = 0.25f; // distance unit / second
-const float ASTEROID_SPEED_VARIANCE = 0.25f;
+//const float ASTEROID_SPEED_MEAN = 0.25f; // distance unit / second
+//const float ASTEROID_SPEED_VARIANCE = 0.25f;
+const float ASTEROID_SPEED_MEAN = 0.1f; // distance unit / second
+const float ASTEROID_SPEED_VARIANCE = 0.1f;
 const float ASTEROID_ROTATION_SPEED_MEAN = 2.25f; // degrees / second
 const float ASTEROID_ROTATION_SPEED_VARIANCE = 2.25f;
 

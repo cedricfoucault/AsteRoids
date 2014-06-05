@@ -7,6 +7,7 @@
 //
 
 #import "GLSLProgram.h"
+#import <OpenGLES/ES2/gl.h>
 
 #pragma mark Function Pointer Definitions
 typedef void (*GLInfoFunction)(GLuint program,

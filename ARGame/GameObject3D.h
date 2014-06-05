@@ -38,6 +38,10 @@
 @property (nonatomic) float meshBoxSizeY;
 @property (nonatomic) float meshBoxSizeZ;
 
+@property (nonatomic, readonly) float x, y, z;
+@property (nonatomic, readonly) NGLbounds aabb; // axis aligned bounding box
+@property (nonatomic, readonly) float lastFrameX, lastFrameY, lastFrameZ; // store last frame coordinates (for collision detection)
+
 //- (id)initWithCamera:(NGLCamera *)camera cameraFromTargetMatrix:(float *)cameraFromTargetMatrix
 //      collisionWorld:(btCollisionWorld *)collisionWorld;
 - (id)initWithCollisionWorld:(btCollisionWorld *)collisionWorld;

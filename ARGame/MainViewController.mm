@@ -386,11 +386,11 @@ static const float sqrt_2 = sqrtf(2);
                 break;
 			}
 		}
-        
+        // update objects in 3D simulation
         if (self.gameHasStarted && self.gameIsPlaying) {
             [self update3DWithTimeDelta:timeDelta];
         }
-        
+        // render
         glEnable (GL_BLEND);
         glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         if (self.gameHasStarted) {
@@ -541,7 +541,7 @@ int signf(float f) {
     self.overlayViewfinder.hidden = YES;
     self.hudOverlayView.hidden = NO;
     
-    self.shipSpeed = 5.0;
+    self.shipSpeed = 2.5;
 }
 
 - (void)stopGame {
@@ -867,7 +867,30 @@ int signf(float f) {
         // update player collision object
         self.physPlayerObject->getWorldTransform().setFromOpenGLMatrix(*self.cameraManager.camera.matrix);
         
-        // detect collisions
+        // check objects collision with virtual wall
+        for (GameObject3D *gameObject in self.gameObjects) {
+            // check if object has crossed the wall
+            if ([self didCollideWall:gameObject]) {
+                [toDestroy addObject:gameObject];
+                if (DEBUG_LOG) {
+                    NSLog(@"destroy object (collision with wall)");
+                }
+                if ([gameObject isKindOfClass:[Asteroid class]]) {
+                    // add new particle debris effect on shot asteroid
+                    ParticleSystem *system = [[ParticleSystem alloc] init];
+                    NGLvec3 sourcePosition = nglVec3Make(gameObject.mesh.x, gameObject.y, gameObject.z);
+                    NGLvec3 sourceDirection = nglVec3Multiplyf(nglVec3Make(- gameObject.translationDirection.x,
+                                                                           - gameObject.translationDirection.y,
+                                                                           - gameObject.translationDirection.z),
+                                                               gameObject.translationSpeed);
+                    sourceDirection.z -= 2 * self.shipSpeed;  // take ship translation into account
+                    [system initSystemWithSourcePosition:sourcePosition sourceDirection:sourceDirection];
+                    [self.particleManager addSystem:system];
+                }
+            }
+        }
+        
+        // detect collisions (using Bullet simulation)
         self.physCollisionWorld->performDiscreteCollisionDetection();
         int numManifolds = self.physCollisionWorld->getDispatcher()->getNumManifolds();
         for (int i = 0; i < numManifolds; i++) {
@@ -971,14 +994,46 @@ int signf(float f) {
     }
 }
 
-
 - (BOOL)isOutOfBounds:(GameObject3D *)gameObject {
-    return (gameObject.mesh.x > CUTOFF_DISTANCE_MAX_X ||
-            gameObject.mesh.y > CUTOFF_DISTANCE_MAX_Y ||
-            gameObject.mesh.z > CUTOFF_DISTANCE_MAX_Z ||
-            gameObject.mesh.x < CUTOFF_DISTANCE_MIN_X ||
-            gameObject.mesh.y < CUTOFF_DISTANCE_MIN_Y ||
-            gameObject.mesh.z < CUTOFF_DISTANCE_MIN_Z);
+    return (gameObject.x > CUTOFF_DISTANCE_MAX_X ||
+            gameObject.y > CUTOFF_DISTANCE_MAX_Y ||
+            gameObject.z > CUTOFF_DISTANCE_MAX_Z ||
+            gameObject.x < CUTOFF_DISTANCE_MIN_X ||
+            gameObject.y < CUTOFF_DISTANCE_MIN_Y ||
+            gameObject.z < CUTOFF_DISTANCE_MIN_Z);
+}
+
+- (BOOL)didCollideWall:(GameObject3D *)gameObject {
+    NGLbounds bounds = gameObject.aabb;
+    NGLvec3 size = nglVec3Subtract(bounds.max, bounds.min);
+//    BOOL wasBehindWall = gameObject.lastFrameZ + gameObject.meshBoxSizeZ / 2 < 0;
+    BOOL wasBehindWall = gameObject.lastFrameZ + size.z / 2 < 0;
+//    BOOL isBehindWall = gameObject.z + gameObject.meshBoxSizeZ / 2 < 0;
+    BOOL isBehindWall = gameObject.z + size.z / 2 < 0;
+//    BOOL wasInFrontOfWall = gameObject.lastFrameZ - gameObject.meshBoxSizeZ / 2 > 0;
+    BOOL wasInFrontOfWall = gameObject.lastFrameZ - size.z / 2 > 0;
+//    BOOL isInFrontOfWall = gameObject.z - gameObject.meshBoxSizeZ / 2 > 0;
+    BOOL isInFrontOfWall = gameObject.z - size.z / 2 > 0;
+    return ((wasBehindWall && !isBehindWall) || (wasInFrontOfWall && !isInFrontOfWall)) &&
+           ![self isInWindowBounds:gameObject];
+}
+
+- (BOOL)isInWindowBounds:(GameObject3D *)gameObject {
+    NGLbounds bounds = gameObject.aabb;
+    NGLvec3 size = nglVec3Subtract(bounds.max, bounds.min);
+    // check 2D (x,y) coordinates if they are within the virtual "window"'s bounds
+//    return fabsf(gameObject.x) + gameObject.meshBoxSizeX / 2 < [self windowSizeX] &&
+    return fabsf(gameObject.x) + size.x / 2 < [self windowHalfExtentX] &&
+//    fabsf(gameObject.y) + gameObject.meshBoxSizeY / 2 < [self windowSizeY];
+           fabsf(gameObject.y) + size.y / 2 < [self windowHalfExtentY];
+}
+
+- (float)windowHalfExtentX {
+    return WINDOW_SCALE / 2;
+}
+
+- (float)windowHalfExtentY {
+    return [self windowHalfExtentX] / WINDOW_ASPECT_RATIO;
 }
 
 - (BOOL)prefersStatusBarHidden {
