@@ -123,7 +123,10 @@
     [self initCollisionObject];
     // add mesh and collision objects to both worlds
     [self.cameraManager.camera addMesh:self.mesh];
+    // add to world, making sure that we don't set in the simulation while object is being added
+    self.collisionObject->setActivationState(ISLAND_SLEEPING);
     self.collisionWorld->addCollisionObject(self.collisionObject);
+    self.collisionObject->setActivationState(ACTIVE_TAG);
     // done loading
     self.isLoaded = YES;
 }

@@ -185,6 +185,11 @@ btBroadphaseProxy*				btDbvtBroadphase::createProxy(	const btVector3& aabbMin,
 		m_sets[0].collideTV(m_sets[0].m_root,aabb,collider);
 		m_sets[1].collideTV(m_sets[1].m_root,aabb,collider);
 	}
+    
+    if (proxy == NULL) {
+        printf("PROXY IS NULL\n");
+    }
+    
 	return(proxy);
 }
 

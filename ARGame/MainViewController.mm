@@ -38,6 +38,7 @@
 @property (strong, nonatomic) NGLMesh *dummy;
 @property (strong, nonatomic) NGLMesh *skydome;
 @property (strong, nonatomic) NGLMesh *wall;
+@property (strong, nonatomic) NGLMesh *frame;
 @property (strong, nonatomic) NGLMesh *asteroid;
 @property (strong, nonatomic) NGLMesh *beam;
 @property (strong, nonatomic) NGLMesh *beamGlowBillboard;
@@ -139,6 +140,9 @@
 //    _physBroadphase = new btSimpleBroadphase();
     // collision world
     _physCollisionWorld = new btCollisionWorld(_physDispatcher, _physBroadphase, _physCollisionConfiguration);
+    // do not update Aaabbs of inactive object
+    // -- needed so that it is not done on partially initialized object (causes crash due to multithreading)
+    _physCollisionWorld->setForceUpdateAllAabbs(false);
     
     // collision shapes
     _physPlayerObject = new btCollisionObject();
@@ -240,13 +244,19 @@
     // Setting the invisible "occlusion" wall
     settings = [NSDictionary dictionaryWithObjectsAndKeys:
                 kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
-                [NSString stringWithFormat:@"%f", WINDOW_SCALE * 10], kNGLMeshKeyNormalize,
+                [NSString stringWithFormat:@"%f", WALL_SCALE], kNGLMeshKeyNormalize,
                 nil];
     self.wall = [[NGLMesh alloc] initWithFile:@"Wall with hole.obj" settings:settings delegate:self];
     NGLMaterial *transparentMaterial = [[NGLMaterial alloc] init];
     transparentMaterial.alpha = 0.05;
     self.wall.material = transparentMaterial;
     [self.wall compileCoreMesh];
+    
+    // Setting the porthole frame
+    settings = [NSDictionary dictionaryWithObjectsAndKeys:
+//                kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
+                nil];
+    self.frame = [[NGLMesh alloc] initWithFile:FRAME_MESH_FILENAME settings:settings delegate:nil];
     
     // Setting the asteroid mesh
     settings = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -265,7 +275,7 @@
     [self.beam compileCoreMesh];
     self.beam.visible = NO;
     
-    // Test lookAt routine
+    // beam glow
     settings = [NSDictionary dictionaryWithObjectsAndKeys:
                 kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
                 [NSString stringWithFormat:@"%f", 0.2], kNGLMeshKeyNormalize,
@@ -276,7 +286,7 @@
     self.beamGlowBillboard.visible = NO;
     
 	// Set the camera
-    self.cameraManager.camera = [[NGLCamera alloc] initWithMeshes:self.dummy, nil];
+    self.cameraManager.camera = [[NGLCamera alloc] initWithMeshes:self.dummy, self.frame, nil];
     self.cameraManager.cameraForTranslucentObjects = [[NGLCamera alloc] initWithMeshes:nil];
 //	[self.camera autoAdjustAspectRatio:YES animated:YES];
     
@@ -868,7 +878,7 @@ int signf(float f) {
         self.physPlayerObject->getWorldTransform().setFromOpenGLMatrix(*self.cameraManager.camera.matrix);
         
         // check objects collision with virtual wall
-        for (GameObject3D *gameObject in self.gameObjects) {
+        for (GameObject3D *gameObject in [self.gameObjects copy]) {
             // check if object has crossed the wall
             if ([self didCollideWall:gameObject]) {
                 [toDestroy addObject:gameObject];

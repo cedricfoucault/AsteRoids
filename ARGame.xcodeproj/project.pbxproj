@@ -220,6 +220,11 @@
 		8252317518B5EC5000F475CE /* redTexture.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8252317418B5EC5000F475CE /* redTexture.jpg */; };
 		8259FE35191810AD00BD72F9 /* AsteRoids.dat in Resources */ = {isa = PBXBuildFile; fileRef = 8259FE33191810AD00BD72F9 /* AsteRoids.dat */; };
 		8259FE36191810AD00BD72F9 /* AsteRoids.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8259FE34191810AD00BD72F9 /* AsteRoids.xml */; };
+		82713AA619452E2E00D964EE /* frame.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 82713AA219452E2E00D964EE /* frame.mtl */; };
+		82713AA719452E2E00D964EE /* frame.obj in Resources */ = {isa = PBXBuildFile; fileRef = 82713AA319452E2E00D964EE /* frame.obj */; };
+		82713AA819452E2E00D964EE /* Metal_Seamed.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 82713AA419452E2E00D964EE /* Metal_Seamed.jpg */; };
+		82713AAB1945303800D964EE /* frame_rotated.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 82713AA91945303800D964EE /* frame_rotated.mtl */; };
+		82713AAE1945319900D964EE /* frame_rotated.obj in Resources */ = {isa = PBXBuildFile; fileRef = 82713AAD1945319900D964EE /* frame_rotated.obj */; };
 		8277042319172F54005C4F0C /* viewfinder red.png in Resources */ = {isa = PBXBuildFile; fileRef = 8277042119172F54005C4F0C /* viewfinder red.png */; };
 		8277042419172F54005C4F0C /* viewfinder white.png in Resources */ = {isa = PBXBuildFile; fileRef = 8277042219172F54005C4F0C /* viewfinder white.png */; };
 		8277042B19173F29005C4F0C /* AsteRoids_acm.dat in Resources */ = {isa = PBXBuildFile; fileRef = 8277042919173F29005C4F0C /* AsteRoids_acm.dat */; };
@@ -704,6 +709,11 @@
 		8252317418B5EC5000F475CE /* redTexture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = redTexture.jpg; sourceTree = "<group>"; };
 		8259FE33191810AD00BD72F9 /* AsteRoids.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = AsteRoids.dat; sourceTree = "<group>"; };
 		8259FE34191810AD00BD72F9 /* AsteRoids.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = AsteRoids.xml; sourceTree = "<group>"; };
+		82713AA219452E2E00D964EE /* frame.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = frame.mtl; sourceTree = "<group>"; };
+		82713AA319452E2E00D964EE /* frame.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = frame.obj; sourceTree = "<group>"; };
+		82713AA419452E2E00D964EE /* Metal_Seamed.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Metal_Seamed.jpg; sourceTree = "<group>"; };
+		82713AA91945303800D964EE /* frame_rotated.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = frame_rotated.mtl; sourceTree = "<group>"; };
+		82713AAD1945319900D964EE /* frame_rotated.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = frame_rotated.obj; sourceTree = "<group>"; };
 		8277042119172F54005C4F0C /* viewfinder red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viewfinder red.png"; sourceTree = "<group>"; };
 		8277042219172F54005C4F0C /* viewfinder white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viewfinder white.png"; sourceTree = "<group>"; };
 		8277042919173F29005C4F0C /* AsteRoids_acm.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = AsteRoids_acm.dat; sourceTree = "<group>"; };
@@ -1487,6 +1497,18 @@
 			path = LinearMath;
 			sourceTree = "<group>";
 		};
+		82713AA019452E2E00D964EE /* frame */ = {
+			isa = PBXGroup;
+			children = (
+				82713AA91945303800D964EE /* frame_rotated.mtl */,
+				82713AAD1945319900D964EE /* frame_rotated.obj */,
+				82713AA219452E2E00D964EE /* frame.mtl */,
+				82713AA319452E2E00D964EE /* frame.obj */,
+				82713AA419452E2E00D964EE /* Metal_Seamed.jpg */,
+			);
+			path = frame;
+			sourceTree = "<group>";
+		};
 		828E1328191ED58F002EB107 /* sphere */ = {
 			isa = PBXGroup;
 			children = (
@@ -1733,6 +1755,7 @@
 		82E68D5C18A64CD100F77F10 /* 3D */ = {
 			isa = PBXGroup;
 			children = (
+				82713AA019452E2E00D964EE /* frame */,
 				822F0ED71927F8190084A59D /* Beam */,
 				822F0E531927CAE30084A59D /* low-poly asteroids */,
 				828E1328191ED58F002EB107 /* sphere */,
@@ -1839,6 +1862,7 @@
 				822F0EA41927CAE30084A59D /* asteroid2.obj in Resources */,
 				822F0E9F1927CAE30084A59D /* asteroid15.obj in Resources */,
 				8277386C19296AFD00F25004 /* particle.fsh in Resources */,
+				82713AA619452E2E00D964EE /* frame.mtl in Resources */,
 				822F0ED31927CAE30084A59D /* Am6.jpg in Resources */,
 				822F0E9B1927CAE30084A59D /* asteroid11.obj in Resources */,
 				822F0EE21927F8190084A59D /* beam_glow_billboard.obj in Resources */,
@@ -1853,6 +1877,7 @@
 				8252317318B5DB6500F475CE /* gunsight.png in Resources */,
 				822F0E9C1927CAE30084A59D /* asteroid12.obj in Resources */,
 				822F0EE31927F8190084A59D /* glow.png in Resources */,
+				82713AAB1945303800D964EE /* frame_rotated.mtl in Resources */,
 				822F0EA91927CAE30084A59D /* asteroid24.obj in Resources */,
 				8214CA6518B59FC80022D7B9 /* hudGame.xib in Resources */,
 				822F0ED21927CAE30084A59D /* Am5.jpg in Resources */,
@@ -1879,6 +1904,7 @@
 				823841AD1915A8DB00581333 /* BlueRock.mtl in Resources */,
 				82E95DAC19314C5A0017BDC1 /* debris.png in Resources */,
 				822F0EA21927CAE30084A59D /* asteroid18.obj in Resources */,
+				82713AA819452E2E00D964EE /* Metal_Seamed.jpg in Resources */,
 				82E68D4018A63B8300F77F10 /* Tarmac.dat in Resources */,
 				8259FE36191810AD00BD72F9 /* AsteRoids.xml in Resources */,
 				822F0EAA1927CAE30084A59D /* asteroid25.obj in Resources */,
@@ -1923,6 +1949,7 @@
 				822F0EA61927CAE30084A59D /* asteroid21.obj in Resources */,
 				822F0EE01927F8190084A59D /* beam_core.obj in Resources */,
 				822F0E9E1927CAE30084A59D /* asteroid14.obj in Resources */,
+				82713AAE1945319900D964EE /* frame_rotated.obj in Resources */,
 				822F0EB31927CAE30084A59D /* asteroid6.obj in Resources */,
 				8248A20C18A7FE7F00BDE25E /* black pixel.jpg in Resources */,
 				822F0ECA1927CAE30084A59D /* Am11.jpg in Resources */,
@@ -1932,6 +1959,7 @@
 				8277042B19173F29005C4F0C /* AsteRoids_acm.dat in Resources */,
 				820EB25E192A315300658B4C /* particle4u.png in Resources */,
 				823841C719161A3100581333 /* target viewfinder.png in Resources */,
+				82713AA719452E2E00D964EE /* frame.obj in Resources */,
 				822F0EA51927CAE30084A59D /* asteroid20.obj in Resources */,
 				8259FE35191810AD00BD72F9 /* AsteRoids.dat in Resources */,
 			);

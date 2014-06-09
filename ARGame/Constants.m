@@ -14,7 +14,9 @@ const float NEAR = 0.01f;
 const float FAR = 100.0f;
 
 const float WINDOW_SCALE = 1.0f;
-const float WINDOW_ASPECT_RATIO = 29.7 / 21;
+//const float WINDOW_ASPECT_RATIO = 29.7 / 21;
+const float WINDOW_ASPECT_RATIO = 1 / 0.772727;
+const float WALL_SCALE = 10.0f;
 const float ASTEROID_SCALE = 0.2f;
 
 const float BEAM_CORE_SCALE = 0.07f;
@@ -27,8 +29,8 @@ const float ASTEROIDS_SPAWN_Y_VARIANCE = ASTEROIDS_SPAWN_X_VARIANCE / WINDOW_ASP
 
 //const float ASTEROID_SPEED_MEAN = 0.25f; // distance unit / second
 //const float ASTEROID_SPEED_VARIANCE = 0.25f;
-const float ASTEROID_SPEED_MEAN = 0.1f; // distance unit / second
-const float ASTEROID_SPEED_VARIANCE = 0.1f;
+const float ASTEROID_SPEED_MEAN = 0.f; // distance unit / second
+const float ASTEROID_SPEED_VARIANCE = 0.f;
 const float ASTEROID_ROTATION_SPEED_MEAN = 2.25f; // degrees / second
 const float ASTEROID_ROTATION_SPEED_VARIANCE = 2.25f;
 
@@ -51,6 +53,7 @@ const float CUTOFF_DISTANCE_MAX_Z = 15.0f;
 const float CUTOFF_DISTANCE_MAX_X = - CUTOFF_DISTANCE_MIN_X;
 const float CUTOFF_DISTANCE_MAX_Y = - CUTOFF_DISTANCE_MIN_Y;
 
+NSString * const FRAME_MESH_FILENAME = @"frame_rotated.obj";
 NSString * const ASTEROID_MESH_FILENAME = @"BlueRock.obj";
 NSString * const BEAM_CORE_MESH_FILENAME = @"beam_core.obj";
 NSString * const BEAM_CORE_FRAGMENT_SHADER_FILENAME = @"beam_core.fsh";

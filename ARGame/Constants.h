@@ -24,6 +24,7 @@ extern const float FOG_END;
 
 extern const float WINDOW_SCALE;
 extern const float WINDOW_ASPECT_RATIO;
+extern const float WALL_SCALE;
 extern const float ASTEROID_SCALE;
 extern const float BEAM_CORE_SCALE;
 extern const float BEAM_GLOW_BILLBOARD_SCALE;
@@ -55,6 +56,7 @@ extern const float CUTOFF_DISTANCE_MAX_Z;
 extern const float CUTOFF_DISTANCE_MAX_X;
 extern const float CUTOFF_DISTANCE_MAX_Y;
 
+extern NSString * const FRAME_MESH_FILENAME;
 extern NSString * const ASTEROID_MESH_FILENAME;
 extern NSString * const BEAM_CORE_MESH_FILENAME;
 extern NSString * const BEAM_CORE_FRAGMENT_SHADER_FILENAME;
