@@ -46,7 +46,7 @@ const float RELOAD_PROGRESS_TIMER_DELAY = 0.02f;
 const float BEAM_SPEED = 20.0f;
 const float SPAWN_DISTANCE = - ASTEROIDS_SPAWN_Z;
 //const float SKYDOME_DISTANCE = SPAWN_DISTANCE + 0.1;
-const float SKYDOME_DISTANCE = 5.0f;
+const float SKYDOME_DISTANCE = 2.7f;
 const float LIGHT_HALF_ATTENUATION = SPAWN_DISTANCE * 2;
 const float FOG_END = SPAWN_DISTANCE + 2;
 const float FOG_START= FOG_END * 2 / 3;
@@ -63,7 +63,7 @@ const float SHIP_SPEED_MAX = 4.0f;
 
 NSString * const FRAME_MESH_FILENAME = @"frame_rotated.obj";
 NSString * const BEAM_CATCHER_MESH_FILENAME = @"Aperture-Science-High-Energy-Pellet-Reciever-(Fixed).dae";
-NSString * const ASTEROID_MESH_FILENAME = @"BlueRock.obj";
+//NSString * const ASTEROID_MESH_FILENAME = @"BlueRock.obj";
 NSString * const BEAM_CORE_MESH_FILENAME = @"beam_core.obj";
 NSString * const BEAM_CORE_FRAGMENT_SHADER_FILENAME = @"beam_core.fsh";
 NSString * const BEAM_GLOW_BILLBOARD_MESH_FILENAME = @"beam_glow_billboard.obj";

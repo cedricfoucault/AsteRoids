@@ -66,7 +66,7 @@ extern const float CUTOFF_DISTANCE_MAX_Y;
 
 extern NSString * const FRAME_MESH_FILENAME;
 extern NSString * const BEAM_CATCHER_MESH_FILENAME;
-extern NSString * const ASTEROID_MESH_FILENAME;
+//extern NSString * const ASTEROID_MESH_FILENAME;
 extern NSString * const BEAM_CORE_MESH_FILENAME;
 extern NSString * const BEAM_CORE_FRAGMENT_SHADER_FILENAME;
 extern NSString * const BEAM_GLOW_BILLBOARD_MESH_FILENAME;

@@ -266,6 +266,32 @@
     nglGlobalColorFormat(NGLColorFormatRGBA);
     nglGlobalFlush();
     
+    // Set the light
+    //    nglGlobalLightEffects(NGLLightEffectsOFF);
+    nglGlobalLightEffects(NGLLightEffectsON);
+    nglGlobalFlush();
+    NGLLight *light = [NGLLight defaultLight];
+    light.x = 0.0f;
+    light.y = 4.0f;
+    light.z = 5.0f;
+    light.attenuation = LIGHT_HALF_ATTENUATION / 10;
+    light.type = NGLLightTypePoint;
+    [light lookAtPointX:0.0 toY:0.0 toZ:0.0];
+    
+    // Set texture quality
+    nglGlobalTextureQuality(NGLTextureQualityTrilinear);
+    nglGlobalTextureOptimize(NGLTextureOptimizeNone);
+    nglGlobalFlush();
+    
+    // Set the fog
+    NGLFog *defaultFog = [NGLFog defaultFog];
+    defaultFog.color = nglVec4Make(0, 0, 0, 1);
+    //	defaultFog.type = NGLFogTypeLinear;
+    defaultFog.type = NGLFogTypeNone;
+    defaultFog.start = FOG_START;
+    defaultFog.end = FOG_END;
+    
+    
     // Set the world
     //THIS IS ONLY TO AVOID THE "VUFORIA" ERROR
     NSDictionary *settings = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -307,11 +333,11 @@
     self.frame = [[NGLMesh alloc] initWithFile:FRAME_MESH_FILENAME settings:settings delegate:nil];
     
     // Setting the asteroid mesh
-    settings = [NSDictionary dictionaryWithObjectsAndKeys:
-                kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
-                [NSString stringWithFormat:@"%f", ASTEROID_SCALE], kNGLMeshKeyNormalize,
-                nil];
-    self.asteroid = [[NGLMesh alloc] initWithFile:ASTEROID_MESH_FILENAME settings:settings delegate:nil];
+//    settings = [NSDictionary dictionaryWithObjectsAndKeys:
+//                kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
+//                [NSString stringWithFormat:@"%f", ASTEROID_SCALE], kNGLMeshKeyNormalize,
+//                nil];
+//    self.asteroid = [[NGLMesh alloc] initWithFile:ASTEROID_MESH_FILENAME settings:settings delegate:nil];
     
     // Setting the beam
     settings = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -337,27 +363,6 @@
     self.cameraManager.camera = [[NGLCamera alloc] initWithMeshes:self.dummy, self.frame, nil];
     self.cameraManager.cameraForTranslucentObjects = [[NGLCamera alloc] initWithMeshes:nil];
 //	[self.camera autoAdjustAspectRatio:YES animated:YES];
-    
-    
-    // Set the light
-//    nglGlobalLightEffects(NGLLightEffectsOFF);
-    nglGlobalLightEffects(NGLLightEffectsON);
-    nglGlobalFlush();
-    NGLLight *light = [NGLLight defaultLight];
-    light.x = 0.0f;
-    light.y = 4.0f;
-    light.z = 5.0f;
-    light.attenuation = LIGHT_HALF_ATTENUATION / 10;
-    light.type = NGLLightTypePoint;
-    [light lookAtPointX:0.0 toY:0.0 toZ:0.0];
-    
-    // Set the fog
-    NGLFog *defaultFog = [NGLFog defaultFog];
-    defaultFog.color = nglVec4Make(0, 0, 0, 1);
-//	defaultFog.type = NGLFogTypeLinear;
-    defaultFog.type = NGLFogTypeNone;
-    defaultFog.start = FOG_START;
-    defaultFog.end = FOG_END;
     
     // Setting the beam catcher
     self.beamCatcher = [[BeamCatcher alloc] initWithCollisionWorld:self.physCollisionWorld];
