@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *lifeCountLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *viewFinder;
 @property (weak, nonatomic) IBOutlet UILabel *scoreCountLabel;
+@property (weak, nonatomic) IBOutlet UILabel *speedLabel;
 - (IBAction)pauseTapped:(UIButton *)sender;
 @property (weak, nonatomic) IBOutlet id<HUDDelegate> delegate;
 

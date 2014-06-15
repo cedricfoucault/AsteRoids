@@ -18,6 +18,7 @@
 
 @implementation GameObject3D
 
+
 - (id)initWithCollisionWorld:(btCollisionWorld *)collisionWorld {
     self = [super init];
     if (self) {
@@ -118,7 +119,9 @@
     self.meshBoxSizeY = boundingBox.volume[1].y - boundingBox.volume[0].y;
     self.meshBoxSizeZ = boundingBox.volume[4].z - boundingBox.volume[0].z;
     // init motion properties
-    [self initMotionProperties];
+    if (!self.areMotionPropertiesInitialized) {
+        [self initMotionProperties];
+    }
     // init physics
     [self initCollisionObject];
     // add mesh and collision objects to both worlds
@@ -149,6 +152,7 @@
     self.collisionObject->setCollisionShape(boxCollisionShape);
     // set reference from collision to this object
     self.collisionObject->setUserPointer((__bridge void *)self);
+    self.collisionObject->getWorldTransform().setFromOpenGLMatrix(*self.mesh.matrix);
 }
 
 @end

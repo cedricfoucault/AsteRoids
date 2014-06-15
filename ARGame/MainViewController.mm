@@ -30,6 +30,7 @@
 #import "ParticleSystem.h"
 #import "CameraManager.h"
 #import "ParticleManager.h"
+#import "BeamCatcher.h"
 
 
 @interface MainViewController () <NGLViewDelegate, NGLMeshDelegate, QCARAppControl, UIGestureRecognizerDelegate>
@@ -50,10 +51,13 @@
 @property (nonatomic) btCollisionWorld* physCollisionWorld;
 @property (nonatomic) btCollisionObject* physPlayerObject;
 
+@property (strong, nonatomic) BeamCatcher *beamCatcher;
+
 @property (weak, nonatomic) CameraManager *cameraManager;
 @property (nonatomic) NGLvec3 u0;
 @property (nonatomic) BOOL gameHasStarted;
 @property (nonatomic) BOOL gameIsPlaying;
+@property (nonatomic) BOOL shipIsStarted;
 @property (nonatomic) BOOL gunIsLoaded;
 
 @property (nonatomic) CFAbsoluteTime lastFrameTime;
@@ -214,6 +218,50 @@
     self.hitOverlayView.alpha = 0.85;
     self.hitOverlayView.hidden = YES;
     [self.view addSubview:self.hitOverlayView];
+    // Set layout constraints
+    [self.overlayViewfinder setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.hudOverlayView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.hitOverlayView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    UIView *subview = self.overlayViewfinder;
+    NSDictionary *views = NSDictionaryOfVariableBindings(subview);
+    [self.view addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[subview]|"
+                                             options:0
+                                             metrics:nil
+                                               views:views]];
+    
+    [self.view addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[subview]|"
+                                             options:0
+                                             metrics:nil
+                                               views:views]];
+    subview = self.hudOverlayView;
+    views = NSDictionaryOfVariableBindings(subview);
+    [self.view addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[subview]|"
+                                             options:0
+                                             metrics:nil
+                                               views:views]];
+    
+    [self.view addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[subview]|"
+                                             options:0
+                                             metrics:nil
+                                               views:views]];
+    subview = self.hitOverlayView;
+    views = NSDictionaryOfVariableBindings(subview);
+    [self.view addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[subview]|"
+                                             options:0
+                                             metrics:nil
+                                               views:views]];
+    
+    [self.view addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[subview]|"
+                                             options:0
+                                             metrics:nil
+                                               views:views]];
+    
     // Set OpenGL parameters
     nglGlobalColorFormat(NGLColorFormatRGBA);
     nglGlobalFlush();
@@ -306,19 +354,30 @@
     // Set the fog
     NGLFog *defaultFog = [NGLFog defaultFog];
     defaultFog.color = nglVec4Make(0, 0, 0, 1);
-	defaultFog.type = NGLFogTypeLinear;
-//    defaultFog.type = NGLFogTypeNone;
+//	defaultFog.type = NGLFogTypeLinear;
+    defaultFog.type = NGLFogTypeNone;
     defaultFog.start = FOG_START;
     defaultFog.end = FOG_END;
     
-	// Starts the debug monitor.
-	[[NGLDebug debugMonitor] startWithView:(NGLView *)self.view];
+    // Setting the beam catcher
+    self.beamCatcher = [[BeamCatcher alloc] initWithCollisionWorld:self.physCollisionWorld];
+    [self.gameObjects addObject:self.beamCatcher];
     
-//    self.particleSystem = [[ParticleSystem alloc] init];
-//    [self.particleSystem initSystem];
-//    ParticleSystem *system = [[ParticleSystem alloc] init];
-//    [system initSystem];
-//    [self.particleManager addSystem:system];
+    // Setting initial asteroids
+    Asteroid *asteroid;
+    for (float z = -4.0f; z > ASTEROIDS_SPAWN_Z; z -= 1 / ASTEROIDS_DENSITY) {
+        asteroid = [[Asteroid alloc] initWithCollisionWorld:self.physCollisionWorld];
+        asteroid.mesh.x = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_X_VARIANCE;
+        asteroid.mesh.y = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_Y_VARIANCE;
+        asteroid.mesh.z = z;
+        asteroid.translationSpeed = 0.0f;
+        asteroid.rotationSpeed = 0.0f;
+        asteroid.motionPropertiesInitialized = TRUE;
+        [self.gameObjects addObject:asteroid];
+    }
+    
+	// Starts the debug monitor.
+//	[[NGLDebug debugMonitor] startWithView:(NGLView *)self.view];
 }
 
 //- (void)meshLoadingDidFinish:(NGLParsing)parsing {
@@ -550,13 +609,17 @@ int signf(float f) {
 //    self.spawnAsteroidTimer = [NSTimer scheduledTimerWithTimeInterval:SPAWN_DELAY target:self selector:@selector(spawnAsteroid) userInfo:nil repeats:YES];
     self.overlayViewfinder.hidden = YES;
     self.hudOverlayView.hidden = NO;
-    
-    self.shipSpeed = 2.5;
+}
+
+- (void)startShip {
+    self.shipIsStarted = YES;
+    self.shipSpeed = 0.1f;
 }
 
 - (void)stopGame {
 //    [self.spawnAsteroidTimer invalidate];
     self.shipSpeed = 0.;
+    self.shipIsStarted = NO;
 }
 
 - (void)playerWasHit {
@@ -586,6 +649,7 @@ int signf(float f) {
         [self.arSession startAR:QCAR::CameraDevice::CAMERA_BACK error:&error];
         if (error) {
             NSLog(@"ERROR: Error starting AR:%@", [error description]);
+            exit(-1);
         }
         
         // by default, we try to set the continuous auto focus mode
@@ -596,6 +660,7 @@ int signf(float f) {
         }
     } else {
         NSLog(@"ERROR: Error initializing AR:%@", [initError description]);
+        exit(-1);
     }
     
     // Adjust NGL camera parameters
@@ -840,6 +905,11 @@ int signf(float f) {
 }
 
 - (void)update3DWithTimeDelta:(float)timeDelta {
+    // Update ship speed
+    if (self.gameHasStarted && self.gameIsPlaying && self.shipIsStarted && self.shipSpeed < SHIP_SPEED_MAX) {
+        self.shipSpeed += SHIP_ACCELERATION * timeDelta;
+        self.hudOverlayView.speedLabel.text = [NSString stringWithFormat:@"%.1f", self.shipSpeed];
+    }
     // Spawn asteroids
     if (self.gameHasStarted && self.gameIsPlaying) {
         static const float SPAWN_DISTANCE = 1 / ASTEROIDS_DENSITY;
@@ -856,7 +926,7 @@ int signf(float f) {
     @synchronized ([[NSLock alloc] init]) {
     
         // add objects to destroy in an array and destroy them after the collision detection is done
-        NSMutableArray *toDestroy = [[NSMutableArray alloc] init];
+        NSMutableSet *toDestroy = [[NSMutableSet alloc] init];
         
         // update game objects in 3D simulation (graphics and physics)
         for (GameObject3D *gameObject in [self.gameObjects copy]) {
@@ -900,6 +970,24 @@ int signf(float f) {
             }
         }
         
+        // check if beam goes into beam catcher
+        if (self.shipSpeed == 0) {
+            for (GameObject3D *gameObject in [self.gameObjects copy]) {
+                if ([gameObject isKindOfClass:[Beam class]]) {
+                    Beam *beam = (Beam *)gameObject;
+                    if ([self didCatchBeam:beam]) {
+                        // start the ship
+                        [self startShip];
+                        [toDestroy addObject:beam];
+                        [self.beamCatcher commitBeam];
+                        if (DEBUG_LOG) {
+                            NSLog(@"beam catcher caught a beam!");
+                        }
+                    }
+                }
+            }
+        }
+        
         // detect collisions (using Bullet simulation)
         self.physCollisionWorld->performDiscreteCollisionDetection();
         int numManifolds = self.physCollisionWorld->getDispatcher()->getNumManifolds();
@@ -912,6 +1000,18 @@ int signf(float f) {
             
             int numContacts = contactManifold->getNumContacts();
             if (numContacts > 0) {
+                NSLog(@"class A: %@, class B: %@", [gameObjectA class], [gameObjectB class]);
+                if (!obA) {
+                    NSLog(@"obA is null");
+                } else if (obA == self.beamCatcher.collisionObject) {
+                    NSLog(@"obA is beam catcher");
+                } else if (obA == self.physPlayerObject) {
+                    NSLog(@"obA is player");
+                }
+                if (!gameObjectA) {
+                    NSLog(@"gameObjectA is null");
+                }
+                
                 // check Player - Asteroid collision
                 if (obA == self.physPlayerObject &&
                     [gameObjectB isKindOfClass:[Asteroid class]]) {
@@ -934,7 +1034,7 @@ int signf(float f) {
                         NSLog(@"destroy asteroid (collision with player)");
                     }
                     
-                    // check Beam - Asteroid collision
+                // check Beam - Asteroid collision
                 } else if ([gameObjectA isKindOfClass:[Beam class]] &&
                            [gameObjectB isKindOfClass:[Asteroid class]]) {
                     [self incrementScore];
@@ -969,7 +1069,23 @@ int signf(float f) {
                                                                gameObjectB.translationSpeed / 2.5f); // get beam direction and speed
                     [system initSystemWithSourcePosition:sourcePosition sourceDirection:sourceDirection];
                     [self.particleManager addSystem:system];
+                // check Beam - Beam Catcher collision
                 }
+//                else if ([gameObjectA isKindOfClass:[Beam class]] &&
+//                           [gameObjectB isKindOfClass:[BeamCatcher class]]) {
+//                    [toDestroy addObject:gameObjectA];
+//                    [self.beamCatcher commitBeam];
+//                    if (DEBUG_LOG) {
+//                        NSLog(@"beam catcher caught a beam!");
+//                    }
+//                } else if ([gameObjectA isKindOfClass:[BeamCatcher class]] &&
+//                           [gameObjectB isKindOfClass:[Beam class]]) {
+//                    [toDestroy addObject:gameObjectB];
+//                    [self.beamCatcher commitBeam];
+//                    if (DEBUG_LOG) {
+//                        NSLog(@"beam catcher caught a beam!");
+//                    }
+//                }
                 
             }
             contactManifold->clearManifold();
@@ -1026,6 +1142,14 @@ int signf(float f) {
     BOOL isInFrontOfWall = gameObject.z - size.z / 2 > 0;
     return ((wasBehindWall && !isBehindWall) || (wasInFrontOfWall && !isInFrontOfWall)) &&
            ![self isInWindowBounds:gameObject];
+}
+
+- (BOOL)didCatchBeam:(Beam *)beam {
+    return (beam.x < self.beamCatcher.x + self.beamCatcher.meshBoxSizeX / 2 &&
+            beam.x > self.beamCatcher.x - self.beamCatcher.meshBoxSizeX / 2 &&
+            beam.y < self.beamCatcher.y + self.beamCatcher.meshBoxSizeY / 2 &&
+            beam.y > self.beamCatcher.y - self.beamCatcher.meshBoxSizeY / 2 &&
+            beam.z < 0.5 && beam.z > -0.5);
 }
 
 - (BOOL)isInWindowBounds:(GameObject3D *)gameObject {

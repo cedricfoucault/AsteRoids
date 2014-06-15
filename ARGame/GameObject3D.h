@@ -19,6 +19,7 @@
 @property (nonatomic) btCollisionObject *collisionObject; // representation of the object in the physics engine
 
 @property (nonatomic) BOOL isLoaded; // true when object has been loaded into the game world
+@property (nonatomic, getter=areMotionPropertiesInitialized) BOOL motionPropertiesInitialized;
 
 // motion properties
 @property (nonatomic) NGLvec3 translationDirection;

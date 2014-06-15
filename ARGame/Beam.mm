@@ -54,6 +54,7 @@
     self.collisionObject->setCollisionShape(collisionShape);
     // set reference from collision to this object
     self.collisionObject->setUserPointer((__bridge void *)self);
+    self.collisionObject->getWorldTransform().setFromOpenGLMatrix(*self.mesh.matrix);
 }
 
 - (void)initMotionProperties {
@@ -61,11 +62,12 @@
     self.mesh.x = cameraPosition.x;
     self.mesh.y = cameraPosition.y;
     self.mesh.z = cameraPosition.z;
-    
     self.translationDirection = getCameraViewDirection(self.cameraFromTargetMatrixAtCreation);
     self.translationSpeed = BEAM_SPEED;
     
     [self updateBillboardMesh];
+    
+    self.motionPropertiesInitialized = TRUE;
 }
 
 - (void)setIsLoaded:(BOOL)isLoaded {

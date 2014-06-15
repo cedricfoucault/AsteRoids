@@ -8,7 +8,6 @@
 
 #import "Asteroid.h"
 #import <NinevehGL/NinevehGL.h>
-#import <NinevehGL/NGLMesh.h>
 #import "Constants.h"
 #import "PoseMatrixMathHelper.h"
 
@@ -91,6 +90,8 @@ static const int NUMBER_OF_TEXTURES = 15;
     self.translationSpeed = ASTEROID_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_SPEED_VARIANCE;
     self.rotationAxis = nglVec3Normalize(nglVec3Make(RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1()));
     self.rotationSpeed = ASTEROID_ROTATION_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_ROTATION_SPEED_VARIANCE;
+    //
+    self.motionPropertiesInitialized = TRUE;
 }
 
 float randfUniform() {

@@ -13,7 +13,7 @@
 #import "GLSLProgram.h"
 #import "CameraManager.h"
 
-#define N_PARTICLES_MAX 500
+#define N_PARTICLES_MAX 300
 #define PARTICLE_SIZE_MAX 0.04f
 #define TTL_MAX 2.25f
 
