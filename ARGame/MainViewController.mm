@@ -33,6 +33,7 @@
 
 #define MAX_LIFE 30
 #define ANIMATION_DURATION 2.5
+#define SHOWHIDE_ANIMATION_DURATION 0.67
 
 
 @interface MainViewController () <NGLViewDelegate, NGLMeshDelegate, QCARAppControl, UIGestureRecognizerDelegate>
@@ -502,17 +503,15 @@ int signf(float f) {
     if (DEBUG_LOG) {
         NSLog(@"tap");
     }
-    if (self.gameIsPlaying && self.gunIsLoaded) {
-        // test hit
-//        [self shotHitTest];
+    static UIImage *imageUnloadedGunViewfinder = nil;
+    if (imageUnloadedGunViewfinder == nil) {
+        imageUnloadedGunViewfinder = [UIImage imageNamed:UNLOADED_VIEWFINDER_FILENAME];
+    }
+    if (self.shipIsStarted && self.gameIsPlaying && self.gunIsLoaded) {
         // spawn beam
         [self spawnBeam];
         // consume one load and start reload timer
         self.gunIsLoaded = NO;
-        static UIImage *imageUnloadedGunViewfinder = nil;
-        if (imageUnloadedGunViewfinder == nil) {
-            imageUnloadedGunViewfinder = [UIImage imageNamed:UNLOADED_VIEWFINDER_FILENAME];
-        }
         [self.gunViewfinder setImage:imageUnloadedGunViewfinder];
         [NSTimer scheduledTimerWithTimeInterval:RELOAD_DELAY target:self selector:@selector(reload) userInfo:nil repeats:NO];
         [NSTimer scheduledTimerWithTimeInterval:RELOAD_PROGRESS_TIMER_DELAY
@@ -523,14 +522,36 @@ int signf(float f) {
         // init progress bar
         self.reloadProgressView.progress = 0;
         self.reloadProgressView.hidden = NO;
-    }
-    if (!self.shipIsStarted) {
+    } else if (self.gameIsPlaying && self.gunIsLoaded) {
+        // spawn beam
+        [self spawnBeam];
+        // consume one load and start reload timer
+        self.gunIsLoaded = NO;
+        [self.gunViewfinderInstruction setImage:imageUnloadedGunViewfinder];
+        [NSTimer scheduledTimerWithTimeInterval:RELOAD_DELAY target:self selector:@selector(reloadInstruction) userInfo:nil repeats:NO];
+        [NSTimer scheduledTimerWithTimeInterval:RELOAD_PROGRESS_TIMER_DELAY
+                                         target: self
+                                       selector: @selector(updateReloadProgressTimerInstruction:)
+                                       userInfo: nil
+                                        repeats: YES];
+        // init progress bar
+        self.reloadProgressViewInstruction.progress = 0;
+        self.reloadProgressViewInstruction.hidden = NO;
         [self displayStartButton];
     }
 }
+
 -(void)updateReloadProgressTimer: (NSTimer*) timer {
     self.reloadProgressView.progress += RELOAD_PROGRESS_TIMER_DELAY / RELOAD_DELAY;
-    if(self.reloadProgressView.progress >= 0.99f) {
+    if (self.reloadProgressView.progress >= 0.99f) {
+        // Invalidate timer progress bar is done
+        [timer invalidate];
+    }
+}
+
+-(void)updateReloadProgressTimerInstruction: (NSTimer*) timer {
+    self.reloadProgressViewInstruction.progress += RELOAD_PROGRESS_TIMER_DELAY / RELOAD_DELAY;
+    if (self.reloadProgressViewInstruction.progress >= 0.99f) {
         // Invalidate timer progress bar is done
         [timer invalidate];
     }
@@ -546,6 +567,18 @@ int signf(float f) {
     
     // reset progress bar
     self.reloadProgressView.hidden = YES;
+}
+
+- (void)reloadInstruction {
+    self.gunIsLoaded = YES;
+    static UIImage *imageLoadedGunViewfinder = nil;
+    if (imageLoadedGunViewfinder == nil) {
+        imageLoadedGunViewfinder = [UIImage imageNamed:LOADED_VIEWFINDER_FILENAME];
+    }
+    [self.gunViewfinderInstruction setImage:imageLoadedGunViewfinder];
+    
+    // reset progress bar
+    self.reloadProgressViewInstruction.hidden = YES;
 }
 
 //- (void)shotHitTest {
@@ -597,8 +630,14 @@ int signf(float f) {
 //}
 
 - (void)incrementScore {
-    self.score++;
-    self.asteroidsLabel.text = [NSString stringWithFormat:@"%d", self.score];
+    // only count asteroids destroyed once ship is started
+    if (self.shipIsStarted) {
+        self.score++;
+        self.asteroidsLabel.text = [NSString stringWithFormat:@"%d", self.score];
+    }
+//    if (self.score == 3) {
+//        [self displayEndGame];
+//    }
 }
 - (void)targetWasFound {
     if (!self.gameHasStarted) {
@@ -611,6 +650,8 @@ int signf(float f) {
     self.gunIsLoaded = YES;
     self.instruction1CenterXConstraint.constant = 640;
     self.instruction2CenterXConstraint.constant = 0;
+    [self.targetViewfinder removeFromSuperview];
+    self.gunViewfinderInstruction.hidden = NO;
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
         [self.instruction1 layoutIfNeeded];
         [self.instruction2 layoutIfNeeded];
@@ -621,7 +662,7 @@ int signf(float f) {
     // update overlay to take the whole view
     self.instruction2CenterXConstraint.constant = 640;
     self.overlayBottomSpaceConstraint.constant = 0;
-    self.startButtonBottomAlignConstraint.constant = 0;
+    self.startButtonCenterYConstraint.constant = 0;
     self.startButtonCenterXConstraint.constant = 0;
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
         [self.overlay layoutIfNeeded];
@@ -629,6 +670,28 @@ int signf(float f) {
         [self.startButton layoutIfNeeded];
     }];
 }
+
+- (void)displayEndGame {
+    // update overlay to take the whole view
+    self.instruction2CenterXConstraint.constant = 640;
+    self.endgameOverlayTopSpaceConstraint.constant = 0;
+    self.endgameOverlayBottomSpaceConstraint.constant = 0;
+    [self.hudOverlayView removeConstraints:@[
+         self.asteroidsLabelLeftAlignConstraint,
+         self.asteroidsLabelRightAlignConstraint,
+         self.asteroidsIconLeftAlignConstraint,
+         self.asteroidsIconBottomAlignConstraint
+    ]];
+    self.startButtonCenterXConstraint.constant = 0;
+    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
+        [self.hudOverlayView layoutIfNeeded];
+        self.ingameOverlay.alpha = 0;
+    } completion:^(BOOL finished) {
+        self.ingameOverlay.alpha = 1;
+        self.ingameOverlay.hidden = TRUE;
+    }];
+}
+
 
 - (IBAction)markerButtonTapped {
 }
@@ -660,7 +723,7 @@ int signf(float f) {
 - (void)startShip {
     [UIView transitionFromView:self.hudInstructions
                         toView:self.hudOverlayView
-                      duration:ANIMATION_DURATION options:UIViewAnimationOptionShowHideTransitionViews
+                      duration:SHOWHIDE_ANIMATION_DURATION options:UIViewAnimationOptionShowHideTransitionViews|UIViewAnimationOptionTransitionCrossDissolve
                     completion:^(BOOL finished){
                         self.shipIsStarted = YES;
                         self.shipSpeed = 0.1f;

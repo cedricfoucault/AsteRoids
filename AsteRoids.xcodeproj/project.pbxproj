@@ -244,6 +244,11 @@
 		828E1333191EF310002EB107 /* PoseMatrixMathHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 828E1332191EF310002EB107 /* PoseMatrixMathHelper.mm */; };
 		828E133619201A4B002EB107 /* GameObject3D.mm in Sources */ = {isa = PBXBuildFile; fileRef = 828E133519201A4B002EB107 /* GameObject3D.mm */; };
 		829291BB195491C100DFA1F1 /* PIA16887_2400px.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 829291BA195491C100DFA1F1 /* PIA16887_2400px.jpg */; };
+		8296323E1968604A00AF4CB0 /* beam.png in Resources */ = {isa = PBXBuildFile; fileRef = 8296323D1968604A00AF4CB0 /* beam.png */; };
+		82963244196877B700AF4CB0 /* Exo2.0-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 82CDD1EA1967422B00385BAD /* Exo2.0-Bold.otf */; };
+		82963245196877B700AF4CB0 /* Exo2.0-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 82CDD1EB1967422B00385BAD /* Exo2.0-Light.otf */; };
+		82963246196877B700AF4CB0 /* Exo2.0-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 82CDD1EC1967422B00385BAD /* Exo2.0-Medium.otf */; };
+		82963247196877B700AF4CB0 /* Exo2.0-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 82CDD1ED1967422B00385BAD /* Exo2.0-Regular.otf */; };
 		82BBD4E11916CF680077B0B6 /* StarDome.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4E01916CF680077B0B6 /* StarDome.fsh */; };
 		82BBD4F01916F0AD0077B0B6 /* spacedome.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4E91916F0AD0077B0B6 /* spacedome.jpg */; };
 		82BBD4F41916F0AD0077B0B6 /* StarDome.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4ED1916F0AD0077B0B6 /* StarDome.mtl */; };
@@ -747,6 +752,7 @@
 		828E133419201A4B002EB107 /* GameObject3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObject3D.h; sourceTree = "<group>"; };
 		828E133519201A4B002EB107 /* GameObject3D.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameObject3D.mm; sourceTree = "<group>"; };
 		829291BA195491C100DFA1F1 /* PIA16887_2400px.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PIA16887_2400px.jpg; sourceTree = "<group>"; };
+		8296323D1968604A00AF4CB0 /* beam.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beam.png; sourceTree = "<group>"; };
 		82BBD4E01916CF680077B0B6 /* StarDome.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = StarDome.fsh; sourceTree = "<group>"; };
 		82BBD4E91916F0AD0077B0B6 /* spacedome.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = spacedome.jpg; sourceTree = "<group>"; };
 		82BBD4ED1916F0AD0077B0B6 /* StarDome.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StarDome.mtl; sourceTree = "<group>"; };
@@ -967,6 +973,7 @@
 				822F0EDB1927F8190084A59D /* beam_glow_billboard.mtl */,
 				822F0EDC1927F8190084A59D /* beam_glow_billboard.obj */,
 				822F0EDD1927F8190084A59D /* glow.png */,
+				8296323D1968604A00AF4CB0 /* beam.png */,
 			);
 			path = Beam;
 			sourceTree = "<group>";
@@ -1900,6 +1907,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82963244196877B700AF4CB0 /* Exo2.0-Bold.otf in Resources */,
+				82963245196877B700AF4CB0 /* Exo2.0-Light.otf in Resources */,
+				82963246196877B700AF4CB0 /* Exo2.0-Medium.otf in Resources */,
+				82963247196877B700AF4CB0 /* Exo2.0-Regular.otf in Resources */,
 				82BBD4F51916F0AD0077B0B6 /* StarDome.obj in Resources */,
 				8248A57318A963F800BDE25E /* premake4.lua in Resources */,
 				822F0ECC1927CAE30084A59D /* Am13.jpg in Resources */,
@@ -1999,6 +2010,7 @@
 				822F0E9D1927CAE30084A59D /* asteroid13.obj in Resources */,
 				8238419E19159EEE00581333 /* sandstone8.jpg in Resources */,
 				822F0EA11927CAE30084A59D /* asteroid17.obj in Resources */,
+				8296323E1968604A00AF4CB0 /* beam.png in Resources */,
 				822F0EA61927CAE30084A59D /* asteroid21.obj in Resources */,
 				82CDD1E819673E7200385BAD /* speed_icon.png in Resources */,
 				822F0EE01927F8190084A59D /* beam_core.obj in Resources */,

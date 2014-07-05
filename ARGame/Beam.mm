@@ -28,6 +28,8 @@
     self.mesh = [[NGLMesh alloc] initWithFile:BEAM_CORE_MESH_FILENAME settings:settings delegate:self];
     self.mesh.shaders = [NGLShaders shadersWithFilesVertex:nil andFragment:BEAM_CORE_FRAGMENT_SHADER_FILENAME];
     [self.mesh compileCoreMesh];
+    self.mesh.visible = NO;
+    
     // load billboard to make the object glow
     settings = [NSDictionary dictionaryWithObjectsAndKeys:
                 kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,

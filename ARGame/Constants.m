@@ -17,10 +17,10 @@ const float WINDOW_SCALE = 1.0f;
 //const float WINDOW_ASPECT_RATIO = 29.7 / 21;
 const float WINDOW_ASPECT_RATIO = 1 / 0.772727;
 const float WALL_SCALE = 10.0f;
-const float ASTEROID_SCALE = 0.2f;
+const float ASTEROID_SCALE = 0.3f;
 
-const float BEAM_CORE_SCALE = 0.07f;
-const float BEAM_GLOW_BILLBOARD_SCALE = 2.8 * BEAM_CORE_SCALE;
+const float BEAM_CORE_SCALE = 0.11f;
+const float BEAM_GLOW_BILLBOARD_SCALE = BEAM_CORE_SCALE;
 
 const float ASTEROIDS_DENSITY = 0.2f; // number of asteroids / distance unit
 const float ASTEROIDS_SPAWN_Z = -50.0f;
@@ -54,7 +54,7 @@ const float CUTOFF_DISTANCE_MAX_X = - CUTOFF_DISTANCE_MIN_X;
 const float CUTOFF_DISTANCE_MAX_Y = - CUTOFF_DISTANCE_MIN_Y;
 
 const float SHIP_ACCELERATION = 0.04333333333f;
-const float SHIP_SPEED_MAX = 4.0f;
+const float SHIP_SPEED_MAX = 5.0f;
 
 NSString * const FRAME_MESH_FILENAME = @"frame_rotated.obj";
 //NSString * const ASTEROID_MESH_FILENAME = @"BlueRock.obj";

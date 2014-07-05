@@ -6,5 +6,5 @@ Ks 0.0 0.0 0.0
 Ni 1.000000
 d 0.000000
 illum 0
-map_Kd glow.png
-map_d glow.png
+map_Kd beam.png
+map_d beam.png
