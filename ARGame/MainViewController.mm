@@ -32,6 +32,9 @@
 #import "ParticleManager.h"
 #import "BeamCatcher.h"
 
+#define MAX_LIFE 30
+#define ANIMATION_DURATION 2.5
+
 
 @interface MainViewController () <NGLViewDelegate, NGLMeshDelegate, QCARAppControl, UIGestureRecognizerDelegate>
 
@@ -62,14 +65,10 @@
 
 @property (nonatomic) CFAbsoluteTime lastFrameTime;
 
-@property (strong, nonatomic) IBOutlet HUDOverlayView *hudOverlayView;
-@property (strong, nonatomic) IBOutlet UIView *overlayViewfinder;
 @property (strong, nonatomic) UIView *hitOverlayView;
-@property (weak, nonatomic) IBOutlet UIImageView *gunViewfinder;
-@property (weak, nonatomic) IBOutlet UIProgressView *reloadProgressView;
 
 @property (strong, nonatomic) NSTimer *hitTimer;
-@property (nonatomic) int playerLifes;
+@property (nonatomic) int life;
 @property (nonatomic) int score;
 
 @property (strong, nonatomic) NSMutableArray *gameObjects;
@@ -120,7 +119,7 @@
         // init custom properties
         _gameHasStarted = NO;
         _gameIsPlaying = NO;
-        _playerLifes = 3;
+        _life = MAX_LIFE;
         _score = 0;
         _gameObjects = [[NSMutableArray alloc] init];
         _cameraManager = [CameraManager sharedManager];
@@ -183,8 +182,11 @@
 	//	QCAR Stuff
 	//*************************
     CGRect arViewFrame = screenBounds;
+    CGSize arViewBoundsSize = arViewFrame.size.width > arViewFrame.size.height?
+        CGSizeMake(arViewFrame.size.height, arViewFrame.size.width) :
+        arViewFrame.size; // arViewBoundsSize should always be in portraint orientation
     // initialize the AR session
-    [self.arSession initAR:QCAR::GL_20 ARViewBoundsSize:arViewFrame.size orientation:UIInterfaceOrientationLandscapeRight];
+    [self.arSession initAR:QCAR::GL_20 ARViewBoundsSize:arViewBoundsSize orientation:UIInterfaceOrientationLandscapeRight];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
@@ -206,8 +208,8 @@
     [self.view addGestureRecognizer:tapRecognizer];
     
     // Init overlays
-    [[NSBundle mainBundle] loadNibNamed:@"OverlayViewfinder" owner:self options:nil];
-    [self.view addSubview:self.overlayViewfinder];
+    [[NSBundle mainBundle] loadNibNamed:@"hudInstructions" owner:self options:nil];
+    [self.view addSubview:self.hudInstructions];
     // HUD
     [[NSBundle mainBundle] loadNibNamed:@"hudGame" owner:self options:nil];
     [self.view addSubview:self.hudOverlayView];
@@ -219,10 +221,10 @@
     self.hitOverlayView.hidden = YES;
     [self.view addSubview:self.hitOverlayView];
     // Set layout constraints
-    [self.overlayViewfinder setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.hudInstructions setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.hudOverlayView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.hitOverlayView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    UIView *subview = self.overlayViewfinder;
+    UIView *subview = self.hudInstructions;
     NSDictionary *views = NSDictionaryOfVariableBindings(subview);
     [self.view addConstraints:
      [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[subview]|"
@@ -375,8 +377,8 @@
         asteroid.mesh.x = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_X_VARIANCE;
         asteroid.mesh.y = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_Y_VARIANCE;
         asteroid.mesh.z = z;
-        asteroid.translationSpeed = 0.0f;
-        asteroid.rotationSpeed = 0.0f;
+        asteroid.translationSpeed = ASTEROID_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_SPEED_VARIANCE;
+        asteroid.rotationSpeed = ASTEROID_ROTATION_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_ROTATION_SPEED_VARIANCE;
         asteroid.motionPropertiesInitialized = TRUE;
         [self.gameObjects addObject:asteroid];
     }
@@ -528,6 +530,9 @@ int signf(float f) {
         self.reloadProgressView.progress = 0;
         self.reloadProgressView.hidden = NO;
     }
+    if (!self.shipIsStarted) {
+        [self displayStartButton];
+    }
 }
 -(void)updateReloadProgressTimer: (NSTimer*) timer {
     self.reloadProgressView.progress += RELOAD_PROGRESS_TIMER_DELAY / RELOAD_DELAY;
@@ -599,12 +604,44 @@ int signf(float f) {
 
 - (void)incrementScore {
     self.score++;
-    self.hudOverlayView.scoreCountLabel.text = [NSString stringWithFormat:@"%3d", self.score];
+    self.asteroidsLabel.text = [NSString stringWithFormat:@"%d", self.score];
 }
 - (void)targetWasFound {
     if (!self.gameHasStarted) {
         [self startGame];
+        [self displayInstruction2];
     }
+}
+
+- (void)displayInstruction2 {
+    self.gunIsLoaded = YES;
+    self.instruction1CenterXConstraint.constant = 640;
+    self.instruction2CenterXConstraint.constant = 0;
+    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
+        [self.instruction1 layoutIfNeeded];
+        [self.instruction2 layoutIfNeeded];
+    }];
+}
+
+- (void)displayStartButton {
+    // update overlay to take the whole view
+    self.instruction2CenterXConstraint.constant = 640;
+    self.overlayBottomSpaceConstraint.constant = 0;
+    self.startButtonBottomAlignConstraint.constant = 0;
+    self.startButtonCenterXConstraint.constant = 0;
+    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
+        [self.overlay layoutIfNeeded];
+        [self.instruction2 layoutIfNeeded];
+        [self.startButton layoutIfNeeded];
+    }];
+}
+
+- (IBAction)markerButtonTapped {
+}
+
+- (IBAction)startButtonTapped {
+//    [self startGame];
+    [self startShip];
 }
 
 - (void)startGame {
@@ -612,13 +649,29 @@ int signf(float f) {
     self.gameIsPlaying = YES;
     self.gunIsLoaded = YES;
 //    self.spawnAsteroidTimer = [NSTimer scheduledTimerWithTimeInterval:SPAWN_DELAY target:self selector:@selector(spawnAsteroid) userInfo:nil repeats:YES];
-    self.overlayViewfinder.hidden = YES;
-    self.hudOverlayView.hidden = NO;
+    
+//    self.hudInstructions.hidden = YES;
+//    self.hudOverlayView.hidden = NO;
+    
+//    [UIView transitionFromView:self.hudInstructions
+//                        toView:self.hudOverlayView
+//                      duration:ANIMATION_DURATION options:UIViewAnimationOptionShowHideTransitionViews
+//                    completion:^(BOOL finished){
+//                        self.gameHasStarted = YES;
+//                        self.gameIsPlaying = YES;
+//                        self.gunIsLoaded = YES;
+//                    }];
 }
 
 - (void)startShip {
-    self.shipIsStarted = YES;
-    self.shipSpeed = 0.1f;
+    [UIView transitionFromView:self.hudInstructions
+                        toView:self.hudOverlayView
+                      duration:ANIMATION_DURATION options:UIViewAnimationOptionShowHideTransitionViews
+                    completion:^(BOOL finished){
+                        self.shipIsStarted = YES;
+                        self.shipSpeed = 0.1f;
+                    }];
+
 }
 
 - (void)stopGame {
@@ -629,8 +682,9 @@ int signf(float f) {
 
 - (void)playerWasHit {
     // decrement player lifes
-    self.playerLifes--;
-    self.hudOverlayView.lifeCountLabel.text = [NSString stringWithFormat:@"%d/3", self.playerLifes];
+    self.life--;
+    self.lifebarWidthConstraint.constant = self.maxLifebarWidthConstraint.constant * self.life / (CGFloat)MAX_LIFE;
+    [self.lifebarView layoutIfNeeded];
     // show hit overlay for a certain duration
     if (self.hitTimer) {
         [self.hitTimer invalidate];
@@ -913,7 +967,7 @@ int signf(float f) {
     // Update ship speed
     if (self.gameHasStarted && self.gameIsPlaying && self.shipIsStarted && self.shipSpeed < SHIP_SPEED_MAX) {
         self.shipSpeed += SHIP_ACCELERATION * timeDelta;
-        self.hudOverlayView.speedLabel.text = [NSString stringWithFormat:@"%.1f", self.shipSpeed];
+        self.speedLabel.text = [NSString stringWithFormat:@"%.1f", self.shipSpeed];
     }
     // Spawn asteroids
     if (self.gameHasStarted && self.gameIsPlaying) {
