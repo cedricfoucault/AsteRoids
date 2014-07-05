@@ -29,11 +29,6 @@ extern const float ASTEROID_SCALE;
 extern const float BEAM_CORE_SCALE;
 extern const float BEAM_GLOW_BILLBOARD_SCALE;
 
-extern const float BEAM_CATCHER_SCALE;
-extern const float BEAM_CATCHER_X;
-extern const float BEAM_CATCHER_Y;
-extern const float BEAM_CATCHER_Z;
-
 extern const float ASTEROID_MAX_SPEED_ROTATION;
 
 extern const float ASTEROIDS_DENSITY; // number of asteroids / distance unit
@@ -65,7 +60,6 @@ extern const float CUTOFF_DISTANCE_MAX_X;
 extern const float CUTOFF_DISTANCE_MAX_Y;
 
 extern NSString * const FRAME_MESH_FILENAME;
-extern NSString * const BEAM_CATCHER_MESH_FILENAME;
 //extern NSString * const ASTEROID_MESH_FILENAME;
 extern NSString * const BEAM_CORE_MESH_FILENAME;
 extern NSString * const BEAM_CORE_FRAGMENT_SHADER_FILENAME;

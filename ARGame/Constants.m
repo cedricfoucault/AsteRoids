@@ -22,11 +22,6 @@ const float ASTEROID_SCALE = 0.2f;
 const float BEAM_CORE_SCALE = 0.07f;
 const float BEAM_GLOW_BILLBOARD_SCALE = 2.8 * BEAM_CORE_SCALE;
 
-const float BEAM_CATCHER_SCALE = 0.5f;
-const float BEAM_CATCHER_X = 0.0f;
-const float BEAM_CATCHER_Y = 0.6f + 0.1;
-const float BEAM_CATCHER_Z = 0.0f;
-
 const float ASTEROIDS_DENSITY = 0.2f; // number of asteroids / distance unit
 const float ASTEROIDS_SPAWN_Z = -50.0f;
 const float ASTEROIDS_SPAWN_X_VARIANCE = 0.8f;
@@ -62,7 +57,6 @@ const float SHIP_ACCELERATION = 0.04333333333f;
 const float SHIP_SPEED_MAX = 4.0f;
 
 NSString * const FRAME_MESH_FILENAME = @"frame_rotated.obj";
-NSString * const BEAM_CATCHER_MESH_FILENAME = @"Aperture-Science-High-Energy-Pellet-Reciever-(Fixed).dae";
 //NSString * const ASTEROID_MESH_FILENAME = @"BlueRock.obj";
 NSString * const BEAM_CORE_MESH_FILENAME = @"beam_core.obj";
 NSString * const BEAM_CORE_FRAGMENT_SHADER_FILENAME = @"beam_core.fsh";

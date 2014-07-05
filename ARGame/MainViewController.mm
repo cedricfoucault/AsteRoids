@@ -30,7 +30,6 @@
 #import "ParticleSystem.h"
 #import "CameraManager.h"
 #import "ParticleManager.h"
-#import "BeamCatcher.h"
 
 #define MAX_LIFE 30
 #define ANIMATION_DURATION 2.5
@@ -54,7 +53,6 @@
 @property (nonatomic) btCollisionWorld* physCollisionWorld;
 @property (nonatomic) btCollisionObject* physPlayerObject;
 
-@property (strong, nonatomic) BeamCatcher *beamCatcher;
 
 @property (weak, nonatomic) CameraManager *cameraManager;
 @property (nonatomic) NGLvec3 u0;
@@ -365,10 +363,6 @@
     self.cameraManager.camera = [[NGLCamera alloc] initWithMeshes:self.dummy, self.frame, nil];
     self.cameraManager.cameraForTranslucentObjects = [[NGLCamera alloc] initWithMeshes:nil];
 //	[self.camera autoAdjustAspectRatio:YES animated:YES];
-    
-    // Setting the beam catcher
-    self.beamCatcher = [[BeamCatcher alloc] initWithCollisionWorld:self.physCollisionWorld];
-    [self.gameObjects addObject:self.beamCatcher];
     
     // Setting initial asteroids
     Asteroid *asteroid;
@@ -1029,24 +1023,6 @@ int signf(float f) {
             }
         }
         
-        // check if beam goes into beam catcher
-        if (self.shipSpeed == 0) {
-            for (GameObject3D *gameObject in [self.gameObjects copy]) {
-                if ([gameObject isKindOfClass:[Beam class]]) {
-                    Beam *beam = (Beam *)gameObject;
-                    if ([self didCatchBeam:beam]) {
-                        // start the ship
-                        [self startShip];
-                        [toDestroy addObject:beam];
-                        [self.beamCatcher commitBeam];
-                        if (DEBUG_LOG) {
-                            NSLog(@"beam catcher caught a beam!");
-                        }
-                    }
-                }
-            }
-        }
-        
         // detect collisions (using Bullet simulation)
         self.physCollisionWorld->performDiscreteCollisionDetection();
         int numManifolds = self.physCollisionWorld->getDispatcher()->getNumManifolds();
@@ -1062,8 +1038,6 @@ int signf(float f) {
                 NSLog(@"class A: %@, class B: %@", [gameObjectA class], [gameObjectB class]);
                 if (!obA) {
                     NSLog(@"obA is null");
-                } else if (obA == self.beamCatcher.collisionObject) {
-                    NSLog(@"obA is beam catcher");
                 } else if (obA == self.physPlayerObject) {
                     NSLog(@"obA is player");
                 }
@@ -1128,23 +1102,7 @@ int signf(float f) {
                                                                gameObjectB.translationSpeed / 2.5f); // get beam direction and speed
                     [system initSystemWithSourcePosition:sourcePosition sourceDirection:sourceDirection];
                     [self.particleManager addSystem:system];
-                // check Beam - Beam Catcher collision
                 }
-//                else if ([gameObjectA isKindOfClass:[Beam class]] &&
-//                           [gameObjectB isKindOfClass:[BeamCatcher class]]) {
-//                    [toDestroy addObject:gameObjectA];
-//                    [self.beamCatcher commitBeam];
-//                    if (DEBUG_LOG) {
-//                        NSLog(@"beam catcher caught a beam!");
-//                    }
-//                } else if ([gameObjectA isKindOfClass:[BeamCatcher class]] &&
-//                           [gameObjectB isKindOfClass:[Beam class]]) {
-//                    [toDestroy addObject:gameObjectB];
-//                    [self.beamCatcher commitBeam];
-//                    if (DEBUG_LOG) {
-//                        NSLog(@"beam catcher caught a beam!");
-//                    }
-//                }
                 
             }
             contactManifold->clearManifold();
@@ -1201,14 +1159,6 @@ int signf(float f) {
     BOOL isInFrontOfWall = gameObject.z - size.z / 2 > 0;
     return ((wasBehindWall && !isBehindWall) || (wasInFrontOfWall && !isInFrontOfWall)) &&
            ![self isInWindowBounds:gameObject];
-}
-
-- (BOOL)didCatchBeam:(Beam *)beam {
-    return (beam.x < self.beamCatcher.x + self.beamCatcher.meshBoxSizeX / 2 &&
-            beam.x > self.beamCatcher.x - self.beamCatcher.meshBoxSizeX / 2 &&
-            beam.y < self.beamCatcher.y + self.beamCatcher.meshBoxSizeY / 2 &&
-            beam.y > self.beamCatcher.y - self.beamCatcher.meshBoxSizeY / 2 &&
-            beam.z < 0.5 && beam.z > -0.5);
 }
 
 - (BOOL)isInWindowBounds:(GameObject3D *)gameObject {
