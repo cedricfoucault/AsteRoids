@@ -27,6 +27,7 @@
 
 @property (strong, nonatomic) IBOutlet HUDOverlayView *hudOverlayView;
 @property (weak, nonatomic) IBOutlet UIView *ingameOverlay;
+@property (weak, nonatomic) IBOutlet UIView *hitOverlayView;
 @property (weak, nonatomic) IBOutlet UIView *endgameOverlay;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *endgameOverlayTopSpaceConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *endgameOverlayBottomSpaceConstraint;

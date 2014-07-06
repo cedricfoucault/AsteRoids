@@ -253,6 +253,7 @@
 		829632511968E0B700AF4CB0 /* planet_earth_billboard.obj in Resources */ = {isa = PBXBuildFile; fileRef = 8296324C1968E0B700AF4CB0 /* planet_earth_billboard.obj */; };
 		829632551968E1E000AF4CB0 /* billboard.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 829632541968E1E000AF4CB0 /* billboard.fsh */; };
 		829632571968E80C00AF4CB0 /* planet_earth_billboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 829632561968E80C00AF4CB0 /* planet_earth_billboard.png */; };
+		829632591968F36000AF4CB0 /* hit_overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 829632581968F36000AF4CB0 /* hit_overlay.png */; };
 		82BBD4E11916CF680077B0B6 /* StarDome.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4E01916CF680077B0B6 /* StarDome.fsh */; };
 		82BBD4F01916F0AD0077B0B6 /* spacedome.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4E91916F0AD0077B0B6 /* spacedome.jpg */; };
 		82BBD4F41916F0AD0077B0B6 /* StarDome.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4ED1916F0AD0077B0B6 /* StarDome.mtl */; };
@@ -761,6 +762,7 @@
 		8296324C1968E0B700AF4CB0 /* planet_earth_billboard.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = planet_earth_billboard.obj; sourceTree = "<group>"; };
 		829632541968E1E000AF4CB0 /* billboard.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = billboard.fsh; sourceTree = "<group>"; };
 		829632561968E80C00AF4CB0 /* planet_earth_billboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = planet_earth_billboard.png; sourceTree = "<group>"; };
+		829632581968F36000AF4CB0 /* hit_overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hit_overlay.png; sourceTree = "<group>"; };
 		82BBD4E01916CF680077B0B6 /* StarDome.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = StarDome.fsh; sourceTree = "<group>"; };
 		82BBD4E91916F0AD0077B0B6 /* spacedome.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = spacedome.jpg; sourceTree = "<group>"; };
 		82BBD4ED1916F0AD0077B0B6 /* StarDome.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StarDome.mtl; sourceTree = "<group>"; };
@@ -999,6 +1001,7 @@
 		823841C519161A0800581333 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				829632581968F36000AF4CB0 /* hit_overlay.png */,
 				8247C6BB1918842C00E162B2 /* viewfinder gray 50%.png */,
 				8277042119172F54005C4F0C /* viewfinder red.png */,
 				8277042219172F54005C4F0C /* viewfinder white.png */,
@@ -1967,6 +1970,7 @@
 				8248A23C18A8EC2800BDE25E /* comet.mtl in Resources */,
 				822F0EB41927CAE30084A59D /* asteroid7.obj in Resources */,
 				82BBD4F01916F0AD0077B0B6 /* spacedome.jpg in Resources */,
+				829632591968F36000AF4CB0 /* hit_overlay.png in Resources */,
 				8248A23B18A8EC2800BDE25E /* Stone_Pavers_Flagstone_Gray.jpg in Resources */,
 				822F0ED01927CAE30084A59D /* Am3.jpg in Resources */,
 				82751D14194E08340012DA04 /* PIA15801.jpg in Resources */,

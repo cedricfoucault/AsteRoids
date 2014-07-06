@@ -66,8 +66,6 @@
 @property (nonatomic) CFAbsoluteTime timeShipStarted;
 @property (nonatomic) CFAbsoluteTime lastFrameTime;
 
-@property (strong, nonatomic) UIView *hitOverlayView;
-
 @property (strong, nonatomic) NSTimer *hitTimer;
 @property (nonatomic) int life;
 @property (nonatomic) int score;
@@ -219,15 +217,15 @@
     [self.view addSubview:self.hudOverlayView];
     self.hudOverlayView.hidden = YES;
     // Hit
-    self.hitOverlayView = [[UIView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width * 2, self.view.bounds.size.height)];
-    self.hitOverlayView.backgroundColor = [UIColor redColor];
-    self.hitOverlayView.alpha = 0.85;
-    self.hitOverlayView.hidden = YES;
-    [self.view addSubview:self.hitOverlayView];
+//    self.hitOverlayView = [[UIView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width * 2, self.view.bounds.size.height)];
+//    self.hitOverlayView.backgroundColor = [UIColor redColor];
+//    self.hitOverlayView.alpha = 0.85;
+//    self.hitOverlayView.hidden = YES;
+//    [self.view addSubview:self.hitOverlayView];
     // Set layout constraints
     [self.hudInstructions setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.hudOverlayView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.hitOverlayView setTranslatesAutoresizingMaskIntoConstraints:NO];
+//    [self.hitOverlayView setTranslatesAutoresizingMaskIntoConstraints:NO];
     UIView *subview = self.hudInstructions;
     NSDictionary *views = NSDictionaryOfVariableBindings(subview);
     [self.view addConstraints:
@@ -254,19 +252,19 @@
                                              options:0
                                              metrics:nil
                                                views:views]];
-    subview = self.hitOverlayView;
-    views = NSDictionaryOfVariableBindings(subview);
-    [self.view addConstraints:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[subview]|"
-                                             options:0
-                                             metrics:nil
-                                               views:views]];
-    
-    [self.view addConstraints:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[subview]|"
-                                             options:0
-                                             metrics:nil
-                                               views:views]];
+//    subview = self.hitOverlayView;
+//    views = NSDictionaryOfVariableBindings(subview);
+//    [self.view addConstraints:
+//     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[subview]|"
+//                                             options:0
+//                                             metrics:nil
+//                                               views:views]];
+//    
+//    [self.view addConstraints:
+//     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[subview]|"
+//                                             options:0
+//                                             metrics:nil
+//                                               views:views]];
     
     // Set OpenGL parameters
     nglGlobalColorFormat(NGLColorFormatRGBA);
@@ -851,9 +849,16 @@ int signf(float f) {
         [self.hitTimer invalidate];
     }
     self.hitOverlayView.hidden = NO;
+    self.hitOverlayView.alpha = 0.8;
     [self.view setNeedsDisplay];
-    NSTimeInterval secondsShown = 0.25;
-    self.hitTimer = [NSTimer scheduledTimerWithTimeInterval:secondsShown target:self selector:@selector(hideHitOverlay) userInfo:nil repeats:NO];
+    NSTimeInterval secondsShown = 1.0;
+//    self.hitTimer = [NSTimer scheduledTimerWithTimeInterval:secondsShown target:self selector:@selector(hideHitOverlay) userInfo:nil repeats:NO];
+    [UIView animateWithDuration:secondsShown animations:^{
+        self.hitOverlayView.alpha = 0;
+    } completion:^(BOOL finished) {
+//        self.hitOverlayView.hidden = TRUE;
+    }];
+    
 }
 
  - (void)hideHitOverlay {
@@ -1177,11 +1182,11 @@ int signf(float f) {
         for (GameObject3D *gameObject in [self.gameObjects copy]) {
             // check if object has crossed the wall
             if ([self didCollideWall:gameObject]) {
+                // destroy asteroid mesh
                 [toDestroy addObject:gameObject];
-                if (DEBUG_LOG) {
-                    NSLog(@"destroy object (collision with wall)");
-                }
                 if ([gameObject isKindOfClass:[Asteroid class]]) {
+                    // ship was hit by asteroid == player hit
+                    [self playerWasHit];
                     // add new particle debris effect on shot asteroid
                     ParticleSystem *system = [[ParticleSystem alloc] init];
                     NGLvec3 sourcePosition = nglVec3Make(gameObject.mesh.x, gameObject.y, gameObject.z);
@@ -1192,6 +1197,9 @@ int signf(float f) {
                     sourceDirection.z -= 2 * self.shipSpeed;  // take ship translation into account
                     [system initSystemWithSourcePosition:sourcePosition sourceDirection:sourceDirection];
                     [self.particleManager addSystem:system];
+                }
+                if (DEBUG_LOG) {
+                    NSLog(@"destroy object (collision with wall)");
                 }
             }
         }
