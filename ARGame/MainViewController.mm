@@ -41,6 +41,7 @@
 @property (strong, nonatomic) QCARAppSession *arSession;
 @property (strong, nonatomic) NGLMesh *dummy;
 @property (strong, nonatomic) NGLMesh *skydome;
+@property (strong, nonatomic) NGLMesh *destinationPlanet;
 @property (strong, nonatomic) NGLMesh *wall;
 @property (strong, nonatomic) NGLMesh *frame;
 @property (strong, nonatomic) NGLMesh *asteroid;
@@ -62,6 +63,7 @@
 @property (nonatomic) BOOL shipIsStarted;
 @property (nonatomic) BOOL gunIsLoaded;
 
+@property (nonatomic) CFAbsoluteTime timeShipStarted;
 @property (nonatomic) CFAbsoluteTime lastFrameTime;
 
 @property (strong, nonatomic) UIView *hitOverlayView;
@@ -80,13 +82,16 @@
 @property (nonatomic) float distanceTraveled;
 @property (nonatomic) float spawnDistanceCounter;
 
+@property (nonatomic) float destinationPlanetZ;
+
 @end
 
 @implementation MainViewController
 
 - (id)init {
     self = [super init];
-    
+    NSLog(@"DESTINATION_PLANET_START_Z: %f\nDESTINATION_PLANET_RADIUS: %f\nEYE_PLANET_FOCAL: %f\nACCELERATION_TIME: %f\nMAX_SPEED_TIME: %f\nTRAVEL_DISTANCE: %f", DESTINATION_PLANET_START_Z, DESTINATION_PLANET_RADIUS, EYE_PLANET_FOCAL, ACCELERATION_TIME, MAX_SPEED_TIME, TRAVEL_DISTANCE);
+
     if (self) {
         // Init AR session
         _arSession = [[QCARAppSession alloc] initWithDelegate:self];
@@ -309,11 +314,24 @@
                 [NSString stringWithFormat:@"%f", SKYDOME_DISTANCE], kNGLMeshKeyNormalize,
                 nil];
     self.skydome = [[NGLMesh alloc] initWithFile:SKYDOME_MESH_FILENAME settings:settings delegate:self];
-    self.skydome.shaders = [NGLShaders shadersWithFilesVertex:nil andFragment:@"StarDome.fsh"];
+    self.skydome.shaders = [NGLShaders shadersWithFilesVertex:nil andFragment:BILLBOARD_FRAGMENT_SHADER_FILENAME];
     [self.skydome compileCoreMesh];
     self.skydome.x = 0;
     self.skydome.y = 0;
     self.skydome.z = 0;
+    
+    // Setting the destination planet
+    settings = [NSDictionary dictionaryWithObjectsAndKeys:
+                kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
+                [NSString stringWithFormat:@"%f", 1.0], kNGLMeshKeyNormalize,
+                nil];
+    self.destinationPlanet = [[NGLMesh alloc] initWithFile:DESTINATION_PLANET_MESH_FILENAME settings:settings delegate:self];
+    self.destinationPlanet.shaders = [NGLShaders shadersWithFilesVertex:nil andFragment:BILLBOARD_FRAGMENT_SHADER_FILENAME];
+    [self.destinationPlanet compileCoreMesh];
+    self.destinationPlanet.x = 0;
+    self.destinationPlanet.y = 0;
+    self.destinationPlanet.z = -0.01;
+    [self resetPlanet];
     
     
     // Setting the invisible "occlusion" wall
@@ -356,7 +374,7 @@
                 [NSString stringWithFormat:@"%f", 0.2], kNGLMeshKeyNormalize,
                 nil];
     self.beamGlowBillboard = [[NGLMesh alloc] initWithFile:BEAM_GLOW_BILLBOARD_MESH_FILENAME settings:settings delegate:self];
-    self.beamGlowBillboard.shaders = [NGLShaders shadersWithFilesVertex:nil andFragment:BEAM_GLOW_BILLBOARD_FRAGMENT_SHADER_FILENAME];
+    self.beamGlowBillboard.shaders = [NGLShaders shadersWithFilesVertex:nil andFragment:BILLBOARD_FRAGMENT_SHADER_FILENAME];
     [self.beamGlowBillboard compileCoreMesh];
     self.beamGlowBillboard.visible = NO;
     
@@ -366,21 +384,45 @@
 //	[self.camera autoAdjustAspectRatio:YES animated:YES];
     
     // Setting initial asteroids
-    Asteroid *asteroid;
-    for (float z = -4.0f; z > ASTEROIDS_SPAWN_Z; z -= 1 / ASTEROIDS_DENSITY) {
-        asteroid = [[Asteroid alloc] initWithCollisionWorld:self.physCollisionWorld];
-        asteroid.mesh.x = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_X_VARIANCE;
-        asteroid.mesh.y = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_Y_VARIANCE;
-        asteroid.mesh.z = z;
-        asteroid.translationSpeed = ASTEROID_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_SPEED_VARIANCE;
-        asteroid.rotationSpeed = ASTEROID_ROTATION_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_ROTATION_SPEED_VARIANCE;
-        asteroid.motionPropertiesInitialized = TRUE;
-        [self.gameObjects addObject:asteroid];
-    }
+//    Asteroid *asteroid;
+//    for (float z = -4.0f; z > ASTEROIDS_SPAWN_Z; z -= 1 / ASTEROIDS_DENSITY) {
+//        asteroid = [[Asteroid alloc] initWithCollisionWorld:self.physCollisionWorld];
+//        asteroid.mesh.x = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_X_VARIANCE;
+//        asteroid.mesh.y = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_Y_VARIANCE;
+//        asteroid.mesh.z = z;
+//        asteroid.translationSpeed = ASTEROID_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_SPEED_VARIANCE;
+//        asteroid.rotationSpeed = ASTEROID_ROTATION_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_ROTATION_SPEED_VARIANCE;
+//        asteroid.motionPropertiesInitialized = TRUE;
+//        [self.gameObjects addObject:asteroid];
+//    }
+    [self addInitialAsteroids];
     
 	// Starts the debug monitor.
 //	[[NGLDebug debugMonitor] startWithView:(NGLView *)self.view];
 }
+
+- (void)addInitialAsteroids {
+    Asteroid *asteroid;
+    for (float z = -4.0f; z > ASTEROIDS_SPAWN_Z; z -= 1 / ASTEROIDS_DENSITY) {
+        asteroid = [[Asteroid alloc] initWithCollisionWorld:self.physCollisionWorld];
+        // position
+        asteroid.mesh.x = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_X_VARIANCE;
+        asteroid.mesh.y = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_Y_VARIANCE;
+        asteroid.mesh.z = z;
+        // translation
+        asteroid.translationDirection = nglVec3Normalize(nglVec3Make(RANDOM_MINUS_1_TO_1(),
+                                                                 RANDOM_MINUS_1_TO_1(),
+                                                                 RANDOM_MINUS_1_TO_1()));
+        asteroid.translationSpeed = ASTEROID_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_SPEED_VARIANCE;
+        // rotation
+        asteroid.rotationAxis = nglVec3Normalize(nglVec3Make(RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1()));
+        asteroid.rotationSpeed = ASTEROID_ROTATION_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_ROTATION_SPEED_VARIANCE;
+        asteroid.motionPropertiesInitialized = TRUE;
+        [self.gameObjects addObject:asteroid];
+    }
+}
+
+
 
 //- (void)meshLoadingDidFinish:(NGLParsing)parsing {
 //    if (parsing.mesh == self.beamGlowBillboard) {
@@ -404,6 +446,10 @@ static const float sqrt_2 = sqrtf(2);
     if (self.arSession.cameraIsStarted) {
         CFAbsoluteTime thisFrameTime = CFAbsoluteTimeGetCurrent();
         CFTimeInterval timeDelta = self.lastFrameTime? (thisFrameTime - self.lastFrameTime) : 0.0;
+        if (self.shipIsStarted && thisFrameTime - self.timeShipStarted > TIME_SHIP_TRAVEL) {
+            // stop ship when time of travel is elapsed
+            [self stopShip];
+        }
         
         QCAR::State state = QCAR::Renderer::getInstance().begin();
         glDepthRangef(0.0f, 1.0f);
@@ -441,6 +487,7 @@ static const float sqrt_2 = sqrtf(2);
                 [[NGLLight defaultLight] rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
                 [self.skydome rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
                 [self.wall rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
+                [self.destinationPlanet rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
                 // move skydome with camera to give illusion of infinity, but make sure that skydome covers the whole window
                 NGLvec3 cameraPosition = self.cameraManager.cameraPosition;
                 self.skydome.x = ABS(cameraPosition.x) < (SKYDOME_DISTANCE * sqrt_2 / 4 - WINDOW_SCALE / 2)?
@@ -450,6 +497,9 @@ static const float sqrt_2 = sqrtf(2);
                                     cameraPosition.y :
                                     ((SKYDOME_DISTANCE * sqrt_2 / 4 - WINDOW_SCALE / (WINDOW_ASPECT_RATIO * 2)) * signf(cameraPosition.y));
                 self.skydome.z = 0;
+                self.destinationPlanet.x = cameraPosition.x;
+                self.destinationPlanet.y = cameraPosition.y;
+                [self.destinationPlanet lookAtPointX:cameraPosition.x toY:cameraPosition.y toZ:cameraPosition.z];
                 
                 // notify that we found a target
                 [self targetWasFound];
@@ -475,6 +525,7 @@ static const float sqrt_2 = sqrtf(2);
             // render skydome without writing to the z-buffer
             glDepthMask(GL_FALSE);
             [self.skydome drawMeshWithCamera:self.cameraManager.camera];
+            [self.destinationPlanet drawMeshWithCamera:self.cameraManager.camera];
             // render rest of the world with z-buffering read/write and alpha test
             glDepthMask(GL_TRUE);
             [self.cameraManager.camera drawCamera];
@@ -673,7 +724,6 @@ int signf(float f) {
 
 - (void)displayEndGame {
     // update overlay to take the whole view
-    self.instruction2CenterXConstraint.constant = 640;
     self.endgameOverlayTopSpaceConstraint.constant = 0;
     self.endgameOverlayBottomSpaceConstraint.constant = 0;
     [self.hudOverlayView removeConstraints:@[
@@ -687,8 +737,26 @@ int signf(float f) {
         [self.hudOverlayView layoutIfNeeded];
         self.ingameOverlay.alpha = 0;
     } completion:^(BOOL finished) {
-        self.ingameOverlay.alpha = 1;
         self.ingameOverlay.hidden = TRUE;
+    }];
+}
+
+- (void)displayIngame {
+    [self.hudOverlayView addConstraints:@[
+         self.asteroidsLabelLeftAlignConstraint,
+         self.asteroidsLabelRightAlignConstraint,
+         self.asteroidsIconLeftAlignConstraint,
+         self.asteroidsIconBottomAlignConstraint
+    ]];
+    [self.hudOverlayView layoutIfNeeded];
+    self.ingameOverlay.hidden = FALSE;
+    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
+        self.endgameOverlay.alpha = 0;
+        self.ingameOverlay.alpha = 1;
+    } completion:^(BOOL finished) {
+        self.endgameOverlay.hidden = TRUE;
+        self.endgameOverlayTopSpaceConstraint.constant = -640;
+        self.endgameOverlayBottomSpaceConstraint.constant = -640;
     }];
 }
 
@@ -699,6 +767,10 @@ int signf(float f) {
 - (IBAction)startButtonTapped {
 //    [self startGame];
     [self startShip];
+}
+
+- (IBAction)playAgainButtonTapped {
+    [self restartShip];
 }
 
 - (void)startGame {
@@ -721,20 +793,52 @@ int signf(float f) {
 }
 
 - (void)startShip {
+    [self resetScore];
     [UIView transitionFromView:self.hudInstructions
                         toView:self.hudOverlayView
                       duration:SHOWHIDE_ANIMATION_DURATION options:UIViewAnimationOptionShowHideTransitionViews|UIViewAnimationOptionTransitionCrossDissolve
                     completion:^(BOOL finished){
                         self.shipIsStarted = YES;
                         self.shipSpeed = 0.1f;
+                        self.timeShipStarted = CFAbsoluteTimeGetCurrent();
                     }];
-
 }
 
-- (void)stopGame {
+- (void)restartShip {
+    [self resetScore];
+    self.shipIsStarted = YES;
+    self.shipSpeed = 0.1f;
+    self.timeShipStarted = CFAbsoluteTimeGetCurrent();
+    [self displayIngame];
+}
+
+- (void)resetPlanet {
+    self.destinationPlanetZ = DESTINATION_PLANET_START_Z;
+    [self refreshPlanetMeshScale];
+}
+
+- (void)updatePlanetWithDeltaZ:(float)deltaZ {
+    self.destinationPlanetZ += deltaZ;
+    [self refreshPlanetMeshScale];
+}
+
+- (void)refreshPlanetMeshScale {
+    float scale = DESTINATION_PLANET_RADIUS * EYE_PLANET_FOCAL / self.destinationPlanetZ;
+    self.destinationPlanet.scaleX = scale;
+    self.destinationPlanet.scaleY = scale;
+//    NSLog(@"DESTINATION PLANET SCALE %f", scale);
+}
+
+- (void)resetScore {
+    self.score = 0;
+    self.asteroidsLabel.text = [NSString stringWithFormat:@"%d", self.score];
+}
+
+- (void)stopShip {
 //    [self.spawnAsteroidTimer invalidate];
     self.shipSpeed = 0.;
     self.shipIsStarted = NO;
+    [self displayEndGame];
 }
 
 - (void)playerWasHit {
@@ -1021,13 +1125,19 @@ int signf(float f) {
 }
 
 - (void)update3DWithTimeDelta:(float)timeDelta {
+    // Update planet
+    if (self.gameHasStarted && self.gameIsPlaying && self.shipIsStarted) {
+        float deltaZ = - timeDelta * self.shipSpeed;
+        [self updatePlanetWithDeltaZ:deltaZ];
+    }
     // Update ship speed
     if (self.gameHasStarted && self.gameIsPlaying && self.shipIsStarted && self.shipSpeed < SHIP_SPEED_MAX) {
         self.shipSpeed += SHIP_ACCELERATION * timeDelta;
         self.speedLabel.text = [NSString stringWithFormat:@"%.1f", self.shipSpeed];
     }
     // Spawn asteroids
-    if (self.gameHasStarted && self.gameIsPlaying) {
+    BOOL spawnTimeElapsed = CFAbsoluteTimeGetCurrent() - self.timeShipStarted > TIME_SPAWN_ASTEROIDS;
+    if (self.gameHasStarted && self.gameIsPlaying && !spawnTimeElapsed) {
         static const float SPAWN_DISTANCE = 1 / ASTEROIDS_DENSITY;
         float distanceDelta = self.shipSpeed * timeDelta; // distance travelled by the ship since last frame
         self.distanceTraveled += distanceDelta;

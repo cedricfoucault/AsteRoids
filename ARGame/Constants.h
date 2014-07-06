@@ -52,6 +52,16 @@ extern const float SKYDOME_DISTANCE;
 extern const float SHIP_ACCELERATION;
 extern const float SHIP_SPEED_MAX;
 
+extern const float TIME_SHIP_TRAVEL;
+extern const float TIME_SPAWN_ASTEROIDS;
+
+extern const float DESTINATION_PLANET_RADIUS;
+extern const float EYE_PLANET_FOCAL;
+extern const float DESTINATION_PLANET_START_Z;
+extern const float ACCELERATION_TIME;
+extern const float MAX_SPEED_TIME;
+extern const float TRAVEL_DISTANCE;
+
 extern const float CUTOFF_DISTANCE_MIN_Z;
 extern const float CUTOFF_DISTANCE_MIN_X;
 extern const float CUTOFF_DISTANCE_MIN_Y;
@@ -64,8 +74,9 @@ extern NSString * const FRAME_MESH_FILENAME;
 extern NSString * const BEAM_CORE_MESH_FILENAME;
 extern NSString * const BEAM_CORE_FRAGMENT_SHADER_FILENAME;
 extern NSString * const BEAM_GLOW_BILLBOARD_MESH_FILENAME;
-extern NSString * const BEAM_GLOW_BILLBOARD_FRAGMENT_SHADER_FILENAME;
 extern NSString * const SKYDOME_MESH_FILENAME;
+extern NSString * const DESTINATION_PLANET_MESH_FILENAME;
+extern NSString * const BILLBOARD_FRAGMENT_SHADER_FILENAME;
 extern NSString * const LOADED_VIEWFINDER_FILENAME;
 extern NSString * const UNLOADED_VIEWFINDER_FILENAME;
 

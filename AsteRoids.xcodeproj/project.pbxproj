@@ -249,6 +249,10 @@
 		82963245196877B700AF4CB0 /* Exo2.0-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 82CDD1EB1967422B00385BAD /* Exo2.0-Light.otf */; };
 		82963246196877B700AF4CB0 /* Exo2.0-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 82CDD1EC1967422B00385BAD /* Exo2.0-Medium.otf */; };
 		82963247196877B700AF4CB0 /* Exo2.0-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 82CDD1ED1967422B00385BAD /* Exo2.0-Regular.otf */; };
+		829632501968E0B700AF4CB0 /* planet_earth_billboard.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 8296324B1968E0B700AF4CB0 /* planet_earth_billboard.mtl */; };
+		829632511968E0B700AF4CB0 /* planet_earth_billboard.obj in Resources */ = {isa = PBXBuildFile; fileRef = 8296324C1968E0B700AF4CB0 /* planet_earth_billboard.obj */; };
+		829632551968E1E000AF4CB0 /* billboard.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 829632541968E1E000AF4CB0 /* billboard.fsh */; };
+		829632571968E80C00AF4CB0 /* planet_earth_billboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 829632561968E80C00AF4CB0 /* planet_earth_billboard.png */; };
 		82BBD4E11916CF680077B0B6 /* StarDome.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4E01916CF680077B0B6 /* StarDome.fsh */; };
 		82BBD4F01916F0AD0077B0B6 /* spacedome.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4E91916F0AD0077B0B6 /* spacedome.jpg */; };
 		82BBD4F41916F0AD0077B0B6 /* StarDome.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4ED1916F0AD0077B0B6 /* StarDome.mtl */; };
@@ -753,6 +757,10 @@
 		828E133519201A4B002EB107 /* GameObject3D.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameObject3D.mm; sourceTree = "<group>"; };
 		829291BA195491C100DFA1F1 /* PIA16887_2400px.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PIA16887_2400px.jpg; sourceTree = "<group>"; };
 		8296323D1968604A00AF4CB0 /* beam.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beam.png; sourceTree = "<group>"; };
+		8296324B1968E0B700AF4CB0 /* planet_earth_billboard.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = planet_earth_billboard.mtl; sourceTree = "<group>"; };
+		8296324C1968E0B700AF4CB0 /* planet_earth_billboard.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = planet_earth_billboard.obj; sourceTree = "<group>"; };
+		829632541968E1E000AF4CB0 /* billboard.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = billboard.fsh; sourceTree = "<group>"; };
+		829632561968E80C00AF4CB0 /* planet_earth_billboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = planet_earth_billboard.png; sourceTree = "<group>"; };
 		82BBD4E01916CF680077B0B6 /* StarDome.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = StarDome.fsh; sourceTree = "<group>"; };
 		82BBD4E91916F0AD0077B0B6 /* spacedome.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = spacedome.jpg; sourceTree = "<group>"; };
 		82BBD4ED1916F0AD0077B0B6 /* StarDome.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StarDome.mtl; sourceTree = "<group>"; };
@@ -1554,6 +1562,16 @@
 			path = sphere;
 			sourceTree = "<group>";
 		};
+		829632491968E0B700AF4CB0 /* PlanetEarthBillboard */ = {
+			isa = PBXGroup;
+			children = (
+				829632561968E80C00AF4CB0 /* planet_earth_billboard.png */,
+				8296324B1968E0B700AF4CB0 /* planet_earth_billboard.mtl */,
+				8296324C1968E0B700AF4CB0 /* planet_earth_billboard.obj */,
+			);
+			path = PlanetEarthBillboard;
+			sourceTree = "<group>";
+		};
 		82BBD4DF1916CF2A0077B0B6 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
@@ -1564,6 +1582,7 @@
 				8277386B19296AFD00F25004 /* particle.fsh */,
 				822F0EFA19282E7E0084A59D /* particleFragmentShader.fsh */,
 				822F0EFB19282E7E0084A59D /* particleVertexShader.vsh */,
+				829632541968E1E000AF4CB0 /* billboard.fsh */,
 			);
 			name = Shaders;
 			sourceTree = "<group>";
@@ -1808,6 +1827,7 @@
 		82E68D5C18A64CD100F77F10 /* 3D */ = {
 			isa = PBXGroup;
 			children = (
+				829632491968E0B700AF4CB0 /* PlanetEarthBillboard */,
 				82713AA019452E2E00D964EE /* frame */,
 				822F0ED71927F8190084A59D /* Beam */,
 				822F0E531927CAE30084A59D /* low-poly asteroids */,
@@ -1910,9 +1930,11 @@
 				82963244196877B700AF4CB0 /* Exo2.0-Bold.otf in Resources */,
 				82963245196877B700AF4CB0 /* Exo2.0-Light.otf in Resources */,
 				82963246196877B700AF4CB0 /* Exo2.0-Medium.otf in Resources */,
+				829632571968E80C00AF4CB0 /* planet_earth_billboard.png in Resources */,
 				82963247196877B700AF4CB0 /* Exo2.0-Regular.otf in Resources */,
 				82BBD4F51916F0AD0077B0B6 /* StarDome.obj in Resources */,
 				8248A57318A963F800BDE25E /* premake4.lua in Resources */,
+				829632511968E0B700AF4CB0 /* planet_earth_billboard.obj in Resources */,
 				822F0ECC1927CAE30084A59D /* Am13.jpg in Resources */,
 				8248A23D18A8EC2800BDE25E /* comet.obj in Resources */,
 				822F0EB51927CAE30084A59D /* asteroid8.obj in Resources */,
@@ -1991,11 +2013,13 @@
 				82C7F4F31921C469000F4029 /* beam_glow_billboard.fsh in Resources */,
 				82E68D4118A63B8300F77F10 /* Tarmac.xml in Resources */,
 				82E68C8318A61B7800F77F10 /* Images.xcassets in Resources */,
+				829632501968E0B700AF4CB0 /* planet_earth_billboard.mtl in Resources */,
 				822F0EAD1927CAE30084A59D /* asteroid28.obj in Resources */,
 				822F0ECB1927CAE30084A59D /* Am12.jpg in Resources */,
 				82BBD4F41916F0AD0077B0B6 /* StarDome.mtl in Resources */,
 				822F0EFD19282E7E0084A59D /* particleVertexShader.vsh in Resources */,
 				82BBD4F81916F4920077B0B6 /* StarDome2_cropped2.jpg in Resources */,
+				829632551968E1E000AF4CB0 /* billboard.fsh in Resources */,
 				8277386E19296B0600F25004 /* particle.vsh in Resources */,
 				827738761929834D00F25004 /* asteroid.png in Resources */,
 				822F0EA71927CAE30084A59D /* asteroid22.obj in Resources */,

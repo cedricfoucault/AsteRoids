@@ -17,17 +17,17 @@ const float WINDOW_SCALE = 1.0f;
 //const float WINDOW_ASPECT_RATIO = 29.7 / 21;
 const float WINDOW_ASPECT_RATIO = 1 / 0.772727;
 const float WALL_SCALE = 10.0f;
-const float ASTEROID_SCALE = 0.3f;
+const float ASTEROID_SCALE = 0.4f;
 
 const float BEAM_CORE_SCALE = 0.11f;
 const float BEAM_GLOW_BILLBOARD_SCALE = BEAM_CORE_SCALE;
 
 const float ASTEROIDS_DENSITY = 0.2f; // number of asteroids / distance unit
 const float ASTEROIDS_SPAWN_Z = -50.0f;
-const float ASTEROIDS_SPAWN_X_VARIANCE = 0.8f;
+const float ASTEROIDS_SPAWN_X_VARIANCE = 1.0f;
 const float ASTEROIDS_SPAWN_Y_VARIANCE = ASTEROIDS_SPAWN_X_VARIANCE / WINDOW_ASPECT_RATIO;
 
-const float ASTEROID_SPEED_MEAN = 0.05f; // distance unit / second
+const float ASTEROID_SPEED_MEAN = 0.1f; // distance unit / second
 const float ASTEROID_SPEED_VARIANCE = 0.05f;
 //const float ASTEROID_SPEED_MEAN = 0.f; // distance unit / second
 //const float ASTEROID_SPEED_VARIANCE = 0.f;
@@ -53,18 +53,38 @@ const float CUTOFF_DISTANCE_MAX_Z = 15.0f;
 const float CUTOFF_DISTANCE_MAX_X = - CUTOFF_DISTANCE_MIN_X;
 const float CUTOFF_DISTANCE_MAX_Y = - CUTOFF_DISTANCE_MIN_Y;
 
-const float SHIP_ACCELERATION = 0.04333333333f;
+const float SHIP_ACCELERATION = 0.05f;
 const float SHIP_SPEED_MAX = 5.0f;
+
+const float TIME_SHIP_TRAVEL = 120.0f;
+const float TIME_SPAWN_ASTEROIDS = TIME_SHIP_TRAVEL -
+    (ASTEROIDS_SPAWN_Z > 0 ? ASTEROIDS_SPAWN_Z : - ASTEROIDS_SPAWN_Z) / SHIP_SPEED_MAX - 2.0f;
+
+const float DESTINATION_PLANET_RADIUS = 21390;
+const float DESTINATION_PLANET_END_SCALE = 1 / (WINDOW_ASPECT_RATIO * WINDOW_ASPECT_RATIO);
+const float DESTINATION_PLANET_START_SCALE = 0.05;
+
+const float ACCELERATION_TIME = SHIP_SPEED_MAX / SHIP_ACCELERATION; // time speed is accelerating (spped < max speed)
+const float MAX_SPEED_TIME = TIME_SHIP_TRAVEL - ACCELERATION_TIME; // time going at max speed
+const float TRAVEL_DISTANCE = 0.5 * SHIP_ACCELERATION * ACCELERATION_TIME * ACCELERATION_TIME + SHIP_SPEED_MAX * MAX_SPEED_TIME;
+
+const float EYE_PLANET_FOCAL = TRAVEL_DISTANCE * DESTINATION_PLANET_END_SCALE * DESTINATION_PLANET_START_SCALE /
+    (DESTINATION_PLANET_RADIUS * (DESTINATION_PLANET_END_SCALE - DESTINATION_PLANET_START_SCALE));
+
+const float DESTINATION_PLANET_START_Z = EYE_PLANET_FOCAL * DESTINATION_PLANET_RADIUS / DESTINATION_PLANET_START_SCALE;
+
 
 NSString * const FRAME_MESH_FILENAME = @"frame_rotated.obj";
 //NSString * const ASTEROID_MESH_FILENAME = @"BlueRock.obj";
 NSString * const BEAM_CORE_MESH_FILENAME = @"beam_core.obj";
 NSString * const BEAM_CORE_FRAGMENT_SHADER_FILENAME = @"beam_core.fsh";
 NSString * const BEAM_GLOW_BILLBOARD_MESH_FILENAME = @"beam_glow_billboard.obj";
-NSString * const BEAM_GLOW_BILLBOARD_FRAGMENT_SHADER_FILENAME = @"beam_glow_billboard.fsh";
-
 NSString * const SKYDOME_MESH_FILENAME = @"StarDome.obj";
+NSString * const DESTINATION_PLANET_MESH_FILENAME = @"planet_earth_billboard.obj";
+NSString * const BILLBOARD_FRAGMENT_SHADER_FILENAME = @"billboard.fsh";
+NSString * const BEAM_GLOW_BILLBOARD_FRAGMENT_SHADER_FILENAME = @"beam_glow_billboard.fsh";
 NSString * const LOADED_VIEWFINDER_FILENAME = @"viewfinder white.png";
 NSString * const UNLOADED_VIEWFINDER_FILENAME = @"viewfinder gray 50%.png";
 NSString * const TRACKER_DATASET_FILENAME = @"AsteRoids.xml";
+
 char * const TRACKER_TARGET_NAME = "asteroidsBackground";

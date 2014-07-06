@@ -37,7 +37,7 @@
                 nil];
     self.billboardMesh = [[NGLMesh alloc] initWithFile:BEAM_GLOW_BILLBOARD_MESH_FILENAME
                                               settings:settings delegate:nil];
-    self.billboardMesh.shaders = [NGLShaders shadersWithFilesVertex:nil andFragment:BEAM_GLOW_BILLBOARD_FRAGMENT_SHADER_FILENAME];
+    self.billboardMesh.shaders = [NGLShaders shadersWithFilesVertex:nil andFragment:BILLBOARD_FRAGMENT_SHADER_FILENAME];
     [self.billboardMesh compileCoreMesh];
     [self.cameraManager.camera addMesh:self.billboardMesh];
     self.billboardMesh.visible = NO;

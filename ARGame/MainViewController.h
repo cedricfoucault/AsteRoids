@@ -32,10 +32,10 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *endgameOverlayBottomSpaceConstraint;
 @property (weak, nonatomic) IBOutlet UILabel *speedLabel;
 @property (weak, nonatomic) IBOutlet UILabel *asteroidsLabel;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *asteroidsLabelRightAlignConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *asteroidsLabelLeftAlignConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *asteroidsIconLeftAlignConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *asteroidsIconBottomAlignConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *asteroidsLabelRightAlignConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *asteroidsLabelLeftAlignConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *asteroidsIconLeftAlignConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *asteroidsIconBottomAlignConstraint;
 @property (weak, nonatomic) IBOutlet UIView *lifebarView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *maxLifebarWidthConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *lifebarWidthConstraint;
@@ -44,5 +44,6 @@
 
 - (IBAction)markerButtonTapped;
 - (IBAction)startButtonTapped;
+- (IBAction)playAgainButtonTapped;
 
 @end
