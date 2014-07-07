@@ -73,6 +73,9 @@ const float EYE_PLANET_FOCAL = TRAVEL_DISTANCE * DESTINATION_PLANET_END_SCALE * 
 
 const float DESTINATION_PLANET_START_Z = EYE_PLANET_FOCAL * DESTINATION_PLANET_RADIUS / DESTINATION_PLANET_START_SCALE;
 
+const int LIFE_MAX = 10; // max amount of life
+const float LIFE_REGEN_RATE = 0.2; // life points / s
+
 
 NSString * const FRAME_MESH_FILENAME = @"frame_rotated.obj";
 //NSString * const ASTEROID_MESH_FILENAME = @"BlueRock.obj";
@@ -86,5 +89,12 @@ NSString * const BEAM_GLOW_BILLBOARD_FRAGMENT_SHADER_FILENAME = @"beam_glow_bill
 NSString * const LOADED_VIEWFINDER_FILENAME = @"viewfinder white.png";
 NSString * const UNLOADED_VIEWFINDER_FILENAME = @"viewfinder gray 50%.png";
 NSString * const TRACKER_DATASET_FILENAME = @"AsteRoids.xml";
+
+NSString * const SOUND_SHOT_NAME = @"shot2";
+NSString * const SOUND_SHOT_EXTENSION = @"wav";
+NSString * const SOUND_IMPACT_NAME = @"impact4";
+NSString * const SOUND_IMPACT_EXTENSION = @"aiff";
+NSString * const SOUND_EXPLOSION_NAME = @"explosion";
+NSString * const SOUND_EXPLOSION_EXTENSION = @"wav";
 
 char * const TRACKER_TARGET_NAME = "asteroidsBackground";

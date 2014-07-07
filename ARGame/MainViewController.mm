@@ -31,7 +31,8 @@
 #import "CameraManager.h"
 #import "ParticleManager.h"
 
-#define MAX_LIFE 30
+#include <AudioToolbox/AudioToolbox.h>
+
 #define ANIMATION_DURATION 2.5
 #define SHOWHIDE_ANIMATION_DURATION 0.67
 
@@ -63,9 +64,6 @@
 @property (nonatomic) BOOL shipIsStarted;
 @property (nonatomic) BOOL gunIsLoaded;
 
-@property (nonatomic) CFAbsoluteTime timeShipStarted;
-@property (nonatomic) CFAbsoluteTime lastFrameTime;
-
 @property (strong, nonatomic) NSTimer *hitTimer;
 @property (nonatomic) int life;
 @property (nonatomic) int score;
@@ -76,11 +74,19 @@
 @property (weak, nonatomic) ParticleManager *particleManager;
 //@property (strong, nonatomic) ParticleSystem *particleSystem;
 
+@property (nonatomic) CFAbsoluteTime timeShipStarted;
+@property (nonatomic) CFAbsoluteTime lastFrameTime;
+
 @property (nonatomic) float shipSpeed;
-@property (nonatomic) float distanceTraveled;
 @property (nonatomic) float spawnDistanceCounter;
 
+@property (nonatomic) float lifeRegenCounter;
+
 @property (nonatomic) float destinationPlanetZ;
+
+@property (nonatomic) SystemSoundID soundShot;
+@property (nonatomic) SystemSoundID soundImpact;
+@property (nonatomic) SystemSoundID soundExplosion;
 
 @end
 
@@ -88,7 +94,6 @@
 
 - (id)init {
     self = [super init];
-    NSLog(@"DESTINATION_PLANET_START_Z: %f\nDESTINATION_PLANET_RADIUS: %f\nEYE_PLANET_FOCAL: %f\nACCELERATION_TIME: %f\nMAX_SPEED_TIME: %f\nTRAVEL_DISTANCE: %f", DESTINATION_PLANET_START_Z, DESTINATION_PLANET_RADIUS, EYE_PLANET_FOCAL, ACCELERATION_TIME, MAX_SPEED_TIME, TRAVEL_DISTANCE);
 
     if (self) {
         // Init AR session
@@ -121,13 +126,16 @@
         // init custom properties
         _gameHasStarted = NO;
         _gameIsPlaying = NO;
-        _life = MAX_LIFE;
+        _life = LIFE_MAX;
         _score = 0;
         _gameObjects = [[NSMutableArray alloc] init];
         _cameraManager = [CameraManager sharedManager];
         _particleManager = [ParticleManager sharedManager];
         
         _shipSpeed = 0.0;
+        
+        // load sounds
+        [self loadSounds];
     }
     
     return self;
@@ -161,10 +169,31 @@
     _physCollisionWorld->addCollisionObject(_physPlayerObject);
 }
 
+- (void) loadSounds {
+    // Get the main bundle for the app
+    NSBundle *mainBundle = [NSBundle mainBundle];
+    
+    // Create sound IDs for every sounds
+    NSString *path  = [mainBundle pathForResource:SOUND_SHOT_NAME ofType:SOUND_SHOT_EXTENSION];
+    CFURLRef fileURLRef = (__bridge CFURLRef) [NSURL fileURLWithPath:path];
+    AudioServicesCreateSystemSoundID(fileURLRef, &_soundShot);
+    
+    path  = [mainBundle pathForResource:SOUND_IMPACT_NAME ofType:SOUND_IMPACT_EXTENSION];
+    fileURLRef = (__bridge CFURLRef) [NSURL fileURLWithPath:path];
+    AudioServicesCreateSystemSoundID(fileURLRef, &_soundImpact);
+    
+    path  = [mainBundle pathForResource:SOUND_EXPLOSION_NAME ofType:SOUND_EXPLOSION_EXTENSION];
+    fileURLRef = (__bridge CFURLRef) [NSURL fileURLWithPath:path];
+    AudioServicesCreateSystemSoundID(fileURLRef, &_soundExplosion);
+}
+
 - (void)dealloc {
     // destroy the Bullet Physics objects that were allocated
     delete _physDispatcher;
     delete _physBroadphase;
+    // dispose of sounds
+    AudioServicesDisposeSystemSoundID(_soundShot);
+    AudioServicesDisposeSystemSoundID(_soundImpact);
 }
 
 - (void)loadView {
@@ -557,6 +586,8 @@ int signf(float f) {
         imageUnloadedGunViewfinder = [UIImage imageNamed:UNLOADED_VIEWFINDER_FILENAME];
     }
     if (self.shipIsStarted && self.gameIsPlaying && self.gunIsLoaded) {
+        // play sound effect
+        AudioServicesPlaySystemSound(self.soundShot);
         // spawn beam
         [self spawnBeam];
         // consume one load and start reload timer
@@ -572,6 +603,8 @@ int signf(float f) {
         self.reloadProgressView.progress = 0;
         self.reloadProgressView.hidden = NO;
     } else if (self.gameIsPlaying && self.gunIsLoaded) {
+        // play sound effect
+        AudioServicesPlaySystemSound(self.soundShot);
         // spawn beam
         [self spawnBeam];
         // consume one load and start reload timer
@@ -720,8 +753,28 @@ int signf(float f) {
     }];
 }
 
+- (void)displayGameOver {
+    // update overlay to take the whole view
+    self.gameoverOverlay.hidden = FALSE;
+    self.gameoverOverlayTopSpaceConstraint.constant = 0;
+    self.gameoverOverlayBottomSpaceConstraint.constant = 0;
+    [self.hudOverlayView removeConstraints:@[
+                                             self.asteroidsLabelLeftAlignConstraint,
+                                             self.asteroidsLabelRightAlignConstraint,
+                                             self.asteroidsIconLeftAlignConstraint,
+                                             self.asteroidsIconBottomAlignConstraint
+                                             ]];
+    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
+        [self.hudOverlayView layoutIfNeeded];
+        self.ingameOverlay.alpha = 0;
+    } completion:^(BOOL finished) {
+        self.ingameOverlay.hidden = TRUE;
+    }];
+}
+
 - (void)displayEndGame {
     // update overlay to take the whole view
+    self.endgameOverlay.hidden = FALSE;
     self.endgameOverlayTopSpaceConstraint.constant = 0;
     self.endgameOverlayBottomSpaceConstraint.constant = 0;
     [self.hudOverlayView removeConstraints:@[
@@ -730,7 +783,6 @@ int signf(float f) {
          self.asteroidsIconLeftAlignConstraint,
          self.asteroidsIconBottomAlignConstraint
     ]];
-    self.startButtonCenterXConstraint.constant = 0;
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
         [self.hudOverlayView layoutIfNeeded];
         self.ingameOverlay.alpha = 0;
@@ -749,12 +801,18 @@ int signf(float f) {
     [self.hudOverlayView layoutIfNeeded];
     self.ingameOverlay.hidden = FALSE;
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
+        self.gameoverOverlay.alpha = 0;
         self.endgameOverlay.alpha = 0;
         self.ingameOverlay.alpha = 1;
     } completion:^(BOOL finished) {
+        self.gameoverOverlay.hidden = TRUE;
         self.endgameOverlay.hidden = TRUE;
+        self.endgameOverlay.alpha = 1;
+        self.gameoverOverlay.alpha = 1;
+        self.gameoverOverlayTopSpaceConstraint.constant = -640;
         self.endgameOverlayTopSpaceConstraint.constant = -640;
-        self.endgameOverlayBottomSpaceConstraint.constant = -640;
+        self.gameoverOverlayBottomSpaceConstraint.constant = 640;
+        self.endgameOverlayBottomSpaceConstraint.constant = 640;
     }];
 }
 
@@ -803,10 +861,20 @@ int signf(float f) {
 }
 
 - (void)restartShip {
+    // reset counts
     [self resetScore];
+    [self resetLife];
     self.shipIsStarted = YES;
     self.shipSpeed = 0.1f;
     self.timeShipStarted = CFAbsoluteTimeGetCurrent();
+    // reset scene
+    for (GameObject3D *gameObject in [self.gameObjects copy]) {
+        [self.gameObjects removeObject:gameObject];
+        [gameObject destroy];
+    }
+    [self addInitialAsteroids];
+    [self resetPlanet];
+    // display in-game view
     [self displayIngame];
 }
 
@@ -815,8 +883,8 @@ int signf(float f) {
     [self refreshPlanetMeshScale];
 }
 
-- (void)updatePlanetWithDeltaZ:(float)deltaZ {
-    self.destinationPlanetZ += deltaZ;
+- (void)updatePlanetWithZDelta:(float)zDelta {
+    self.destinationPlanetZ += zDelta;
     [self refreshPlanetMeshScale];
 }
 
@@ -824,12 +892,16 @@ int signf(float f) {
     float scale = DESTINATION_PLANET_RADIUS * EYE_PLANET_FOCAL / self.destinationPlanetZ;
     self.destinationPlanet.scaleX = scale;
     self.destinationPlanet.scaleY = scale;
-//    NSLog(@"DESTINATION PLANET SCALE %f", scale);
 }
 
 - (void)resetScore {
     self.score = 0;
     self.asteroidsLabel.text = [NSString stringWithFormat:@"%d", self.score];
+}
+
+- (void)resetLife {
+    self.life = LIFE_MAX;
+    [self refreshLifebar];
 }
 
 - (void)stopShip {
@@ -839,11 +911,18 @@ int signf(float f) {
     [self displayEndGame];
 }
 
+- (void)regenLife {
+    // increment player life count
+    if (self.life < LIFE_MAX) {
+        self.life++;
+        [self refreshLifebar];
+    }
+}
+
 - (void)playerWasHit {
-    // decrement player lifes
+    // decrement player life count
     self.life--;
-    self.lifebarWidthConstraint.constant = self.maxLifebarWidthConstraint.constant * self.life / (CGFloat)MAX_LIFE;
-    [self.lifebarView layoutIfNeeded];
+    [self refreshLifebar];
     // show hit overlay for a certain duration
     if (self.hitTimer) {
         [self.hitTimer invalidate];
@@ -853,12 +932,34 @@ int signf(float f) {
     [self.view setNeedsDisplay];
     NSTimeInterval secondsShown = 1.0;
 //    self.hitTimer = [NSTimer scheduledTimerWithTimeInterval:secondsShown target:self selector:@selector(hideHitOverlay) userInfo:nil repeats:NO];
-    [UIView animateWithDuration:secondsShown animations:^{
-        self.hitOverlayView.alpha = 0;
-    } completion:^(BOOL finished) {
-//        self.hitOverlayView.hidden = TRUE;
-    }];
-    
+    if (self.life == 0) {
+        // display game over if life is 0
+        [UIView animateWithDuration:secondsShown animations:^{
+            self.hitOverlayView.alpha = 0;
+        } completion:^(BOOL finished) {
+            //        self.hitOverlayView.hidden = TRUE;
+            [self gameOver];
+        }];
+    } else {
+        // otherwise just give feedback that player was hit
+        [UIView animateWithDuration:secondsShown animations:^{
+            self.hitOverlayView.alpha = 0;
+        } completion:^(BOOL finished) {
+            //        self.hitOverlayView.hidden = TRUE;
+        }];
+    }
+}
+
+- (void)refreshLifebar {
+    self.lifebarWidthConstraint.constant = self.maxLifebarWidthConstraint.constant * self.life / (CGFloat)LIFE_MAX;
+    [self.lifebarView layoutIfNeeded];
+}
+
+- (void)gameOver {
+    //    [self.spawnAsteroidTimer invalidate];
+    self.shipSpeed = 0.;
+    self.shipIsStarted = NO;
+    [self displayGameOver];
 }
 
  - (void)hideHitOverlay {
@@ -1130,29 +1231,34 @@ int signf(float f) {
 }
 
 - (void)update3DWithTimeDelta:(float)timeDelta {
-    // Update planet
     if (self.gameHasStarted && self.gameIsPlaying && self.shipIsStarted) {
-        float deltaZ = - timeDelta * self.shipSpeed;
-        [self updatePlanetWithDeltaZ:deltaZ];
-    }
-    // Update ship speed
-    if (self.gameHasStarted && self.gameIsPlaying && self.shipIsStarted && self.shipSpeed < SHIP_SPEED_MAX) {
-        self.shipSpeed += SHIP_ACCELERATION * timeDelta;
-        self.speedLabel.text = [NSString stringWithFormat:@"%.1f", self.shipSpeed];
-    }
-    // Spawn asteroids
-    BOOL spawnTimeElapsed = CFAbsoluteTimeGetCurrent() - self.timeShipStarted > TIME_SPAWN_ASTEROIDS;
-    if (self.gameHasStarted && self.gameIsPlaying && !spawnTimeElapsed) {
-        static const float SPAWN_DISTANCE = 1 / ASTEROIDS_DENSITY;
-        float distanceDelta = self.shipSpeed * timeDelta; // distance travelled by the ship since last frame
-        self.distanceTraveled += distanceDelta;
-        self.spawnDistanceCounter += distanceDelta;
-        
-        while (self.spawnDistanceCounter > SPAWN_DISTANCE) {
-            [self spawnAsteroid];
-            self.spawnDistanceCounter -= SPAWN_DISTANCE;
+        float zDelta = -self.shipSpeed * timeDelta;
+        float distanceDelta = - zDelta;
+        // Update planet
+        [self updatePlanetWithZDelta:zDelta];
+        // Spawn asteroids
+        BOOL spawnTimeElapsed = CFAbsoluteTimeGetCurrent() - self.timeShipStarted > TIME_SPAWN_ASTEROIDS;
+        if (!spawnTimeElapsed) {
+            static const float SPAWN_DISTANCE = 1 / ASTEROIDS_DENSITY;
+            self.spawnDistanceCounter += distanceDelta;
+            while (self.spawnDistanceCounter > SPAWN_DISTANCE) {
+                [self spawnAsteroid];
+                self.spawnDistanceCounter -= SPAWN_DISTANCE;
+            }
         }
-	}
+        // Regen life
+        static const float LIFE_REGEN_TIME = 1 / LIFE_REGEN_RATE;
+        self.lifeRegenCounter += timeDelta;
+        while (self.lifeRegenCounter > LIFE_REGEN_TIME) {
+            [self regenLife];
+            self.lifeRegenCounter -= LIFE_REGEN_TIME;
+        }
+        // Update ship speed
+        if (self.shipSpeed < SHIP_SPEED_MAX) {
+            self.shipSpeed += SHIP_ACCELERATION * timeDelta;
+            self.speedLabel.text = [NSString stringWithFormat:@"%.1f", self.shipSpeed];
+        }
+    }
     
     @synchronized ([[NSLock alloc] init]) {
     
@@ -1182,7 +1288,7 @@ int signf(float f) {
         for (GameObject3D *gameObject in [self.gameObjects copy]) {
             // check if object has crossed the wall
             if ([self didCollideWall:gameObject]) {
-                // destroy asteroid mesh
+                // destroy mesh
                 [toDestroy addObject:gameObject];
                 if ([gameObject isKindOfClass:[Asteroid class]]) {
                     // ship was hit by asteroid == player hit
@@ -1197,6 +1303,11 @@ int signf(float f) {
                     sourceDirection.z -= 2 * self.shipSpeed;  // take ship translation into account
                     [system initSystemWithSourcePosition:sourcePosition sourceDirection:sourceDirection];
                     [self.particleManager addSystem:system];
+                    // play sound effect
+                    AudioServicesPlaySystemSound(self.soundExplosion);
+                } else if ([gameObject isKindOfClass:[Beam class]]) {
+                    // play sound effect
+                    AudioServicesPlaySystemSound(self.soundImpact);
                 }
                 if (DEBUG_LOG) {
                     NSLog(@"destroy object (collision with wall)");
@@ -1216,14 +1327,15 @@ int signf(float f) {
             
             int numContacts = contactManifold->getNumContacts();
             if (numContacts > 0) {
-                NSLog(@"class A: %@, class B: %@", [gameObjectA class], [gameObjectB class]);
-                if (!obA) {
-                    NSLog(@"obA is null");
-                } else if (obA == self.physPlayerObject) {
-                    NSLog(@"obA is player");
-                }
-                if (!gameObjectA) {
-                    NSLog(@"gameObjectA is null");
+                if (DEBUG_LOG) {
+                    if (!obA) {
+                        NSLog(@"obA is null");
+                    } else if (obA == self.physPlayerObject) {
+                        NSLog(@"obA is player");
+                    }
+                    if (!gameObjectA) {
+                        NSLog(@"gameObjectA is null");
+                    }
                 }
                 
                 // check Player - Asteroid collision
@@ -1237,6 +1349,8 @@ int signf(float f) {
                     if (DEBUG_LOG) {
                         NSLog(@"destroy asteroid (collision with player)");
                     }
+                    // play sound effect
+                    AudioServicesPlaySystemSound(self.soundExplosion);
                 } else if (obB == self.physPlayerObject &&
                            [gameObjectA isKindOfClass:[Asteroid class]]) {
                     // Player was hit by asteroid
@@ -1267,6 +1381,9 @@ int signf(float f) {
                                                                gameObjectA.translationSpeed / 2.5f); // get beam direction and speed
                     [system initSystemWithSourcePosition:sourcePosition sourceDirection:sourceDirection];
                     [self.particleManager addSystem:system];
+                    // play sound effects
+                    AudioServicesPlaySystemSound(self.soundImpact);
+                    AudioServicesPlaySystemSound(self.soundExplosion);
                 } else if ([gameObjectB isKindOfClass:[Beam class]] &&
                            [gameObjectA isKindOfClass:[Asteroid class]]) {
                     [self incrementScore];
@@ -1283,6 +1400,9 @@ int signf(float f) {
                                                                gameObjectB.translationSpeed / 2.5f); // get beam direction and speed
                     [system initSystemWithSourcePosition:sourcePosition sourceDirection:sourceDirection];
                     [self.particleManager addSystem:system];
+                    // play sound effect
+                    AudioServicesPlaySystemSound(self.soundImpact);
+                    AudioServicesPlaySystemSound(self.soundExplosion);
                 }
                 
             }

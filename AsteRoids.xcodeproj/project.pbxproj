@@ -270,6 +270,14 @@
 		82CDD1E619673E7200385BAD /* hud_middle.png in Resources */ = {isa = PBXBuildFile; fileRef = 82CDD1E219673E7200385BAD /* hud_middle.png */; };
 		82CDD1E719673E7200385BAD /* hud_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 82CDD1E319673E7200385BAD /* hud_right.png */; };
 		82CDD1E819673E7200385BAD /* speed_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 82CDD1E419673E7200385BAD /* speed_icon.png */; };
+		82E5DF7A196A0D83000E2270 /* shot.wav in Resources */ = {isa = PBXBuildFile; fileRef = 82E5DF71196A0D83000E2270 /* shot.wav */; };
+		82E5DF7D196A0EFF000E2270 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E5DF7C196A0EFF000E2270 /* AudioToolbox.framework */; };
+		82E5DF7F196A19E8000E2270 /* shot2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 82E5DF7E196A19E8000E2270 /* shot2.wav */; };
+		82E5DF82196A1DE5000E2270 /* impact2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 82E5DF80196A1DE5000E2270 /* impact2.wav */; };
+		82E5DF83196A1DE5000E2270 /* impact.wav in Resources */ = {isa = PBXBuildFile; fileRef = 82E5DF81196A1DE5000E2270 /* impact.wav */; };
+		82E5DF85196A2156000E2270 /* impact3.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 82E5DF84196A2156000E2270 /* impact3.aiff */; };
+		82E5DF87196A2320000E2270 /* impact4.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 82E5DF86196A2320000E2270 /* impact4.aiff */; };
+		82E5DF89196A23CC000E2270 /* explosion.wav in Resources */ = {isa = PBXBuildFile; fileRef = 82E5DF88196A23CC000E2270 /* explosion.wav */; };
 		82E68C7118A61B7800F77F10 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E68C7018A61B7800F77F10 /* Foundation.framework */; };
 		82E68C7318A61B7800F77F10 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E68C7218A61B7800F77F10 /* CoreGraphics.framework */; };
 		82E68C7518A61B7800F77F10 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E68C7418A61B7800F77F10 /* UIKit.framework */; };
@@ -784,6 +792,14 @@
 		82CDD1EB1967422B00385BAD /* Exo2.0-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Exo2.0-Light.otf"; sourceTree = "<group>"; };
 		82CDD1EC1967422B00385BAD /* Exo2.0-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Exo2.0-Medium.otf"; sourceTree = "<group>"; };
 		82CDD1ED1967422B00385BAD /* Exo2.0-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Exo2.0-Regular.otf"; sourceTree = "<group>"; };
+		82E5DF71196A0D83000E2270 /* shot.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = shot.wav; sourceTree = "<group>"; };
+		82E5DF7C196A0EFF000E2270 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		82E5DF7E196A19E8000E2270 /* shot2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = shot2.wav; sourceTree = "<group>"; };
+		82E5DF80196A1DE5000E2270 /* impact2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = impact2.wav; sourceTree = "<group>"; };
+		82E5DF81196A1DE5000E2270 /* impact.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = impact.wav; sourceTree = "<group>"; };
+		82E5DF84196A2156000E2270 /* impact3.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = impact3.aiff; sourceTree = "<group>"; };
+		82E5DF86196A2320000E2270 /* impact4.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = impact4.aiff; sourceTree = "<group>"; };
+		82E5DF88196A23CC000E2270 /* explosion.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = explosion.wav; sourceTree = "<group>"; };
 		82E68C6D18A61B7800F77F10 /* AsteRoids.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AsteRoids.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82E68C7018A61B7800F77F10 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		82E68C7218A61B7800F77F10 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -877,6 +893,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82E5DF7D196A0EFF000E2270 /* AudioToolbox.framework in Frameworks */,
 				82E68CA018A61C0E00F77F10 /* OpenGLES.framework in Frameworks */,
 				8277387019296E8800F25004 /* GLKit.framework in Frameworks */,
 				82E68CE118A6221E00F77F10 /* libQCAR.a in Frameworks */,
@@ -1619,6 +1636,21 @@
 			name = Fonts;
 			sourceTree = "<group>";
 		};
+		82E5DF69196A0D83000E2270 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				82E5DF7E196A19E8000E2270 /* shot2.wav */,
+				82E5DF71196A0D83000E2270 /* shot.wav */,
+				82E5DF80196A1DE5000E2270 /* impact2.wav */,
+				82E5DF84196A2156000E2270 /* impact3.aiff */,
+				82E5DF81196A1DE5000E2270 /* impact.wav */,
+				82E5DF86196A2320000E2270 /* impact4.aiff */,
+				82E5DF88196A23CC000E2270 /* explosion.wav */,
+			);
+			name = Sounds;
+			path = shot;
+			sourceTree = "<group>";
+		};
 		82E68C6418A61B7800F77F10 = {
 			isa = PBXGroup;
 			children = (
@@ -1644,6 +1676,7 @@
 		82E68C6F18A61B7800F77F10 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				82E5DF7C196A0EFF000E2270 /* AudioToolbox.framework */,
 				8277386F19296E8800F25004 /* GLKit.framework */,
 				82E68CEA18A6246D00F77F10 /* CoreMedia.framework */,
 				82E68CE818A6244300F77F10 /* SystemConfiguration.framework */,
@@ -1803,6 +1836,7 @@
 		82E68CFA18A63B8200F77F10 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				82E5DF69196A0D83000E2270 /* Sounds */,
 				82CDD1E91967421700385BAD /* Fonts */,
 				82BBD4DF1916CF2A0077B0B6 /* Shaders */,
 				823841C519161A0800581333 /* Images */,
@@ -1938,6 +1972,8 @@
 				82BBD4F51916F0AD0077B0B6 /* StarDome.obj in Resources */,
 				8248A57318A963F800BDE25E /* premake4.lua in Resources */,
 				829632511968E0B700AF4CB0 /* planet_earth_billboard.obj in Resources */,
+				82E5DF7A196A0D83000E2270 /* shot.wav in Resources */,
+				82E5DF87196A2320000E2270 /* impact4.aiff in Resources */,
 				822F0ECC1927CAE30084A59D /* Am13.jpg in Resources */,
 				8248A23D18A8EC2800BDE25E /* comet.obj in Resources */,
 				822F0EB51927CAE30084A59D /* asteroid8.obj in Resources */,
@@ -1950,7 +1986,9 @@
 				822F0EE21927F8190084A59D /* beam_glow_billboard.obj in Resources */,
 				822F0ED51927CAE30084A59D /* Am8.jpg in Resources */,
 				823841AE1915A8DB00581333 /* BlueRock.obj in Resources */,
+				82E5DF85196A2156000E2270 /* impact3.aiff in Resources */,
 				822F0ECD1927CAE30084A59D /* Am14.jpg in Resources */,
+				82E5DF82196A1DE5000E2270 /* impact2.wav in Resources */,
 				822F0EB11927CAE30084A59D /* asteroid4.obj in Resources */,
 				828E1330191ED58F002EB107 /* sphere.obj in Resources */,
 				82E68D7118A6591D00F77F10 /* dummy.obj in Resources */,
@@ -1961,6 +1999,7 @@
 				822F0E9C1927CAE30084A59D /* asteroid12.obj in Resources */,
 				822F0EE31927F8190084A59D /* glow.png in Resources */,
 				82713AAB1945303800D964EE /* frame_rotated.mtl in Resources */,
+				82E5DF89196A23CC000E2270 /* explosion.wav in Resources */,
 				822F0EA91927CAE30084A59D /* asteroid24.obj in Resources */,
 				8214CA6518B59FC80022D7B9 /* hudGame.xib in Resources */,
 				822F0ED21927CAE30084A59D /* Am5.jpg in Resources */,
@@ -1988,6 +2027,7 @@
 				82BBD4E11916CF680077B0B6 /* StarDome.fsh in Resources */,
 				822F0ED41927CAE30084A59D /* Am7.jpg in Resources */,
 				823841AD1915A8DB00581333 /* BlueRock.mtl in Resources */,
+				82E5DF7F196A19E8000E2270 /* shot2.wav in Resources */,
 				82E95DAC19314C5A0017BDC1 /* debris.png in Resources */,
 				822F0EA21927CAE30084A59D /* asteroid18.obj in Resources */,
 				82713AA819452E2E00D964EE /* Metal_Seamed.jpg in Resources */,
@@ -2049,6 +2089,7 @@
 				822F0EB31927CAE30084A59D /* asteroid6.obj in Resources */,
 				8248A20C18A7FE7F00BDE25E /* black pixel.jpg in Resources */,
 				822F0ECA1927CAE30084A59D /* Am11.jpg in Resources */,
+				82E5DF83196A1DE5000E2270 /* impact.wav in Resources */,
 				8248A20718A7E69C00BDE25E /* Cube opened backup normals.obj in Resources */,
 				8277042319172F54005C4F0C /* viewfinder red.png in Resources */,
 				822F0EA31927CAE30084A59D /* asteroid19.obj in Resources */,

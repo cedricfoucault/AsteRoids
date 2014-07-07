@@ -62,6 +62,9 @@ extern const float ACCELERATION_TIME;
 extern const float MAX_SPEED_TIME;
 extern const float TRAVEL_DISTANCE;
 
+extern const int LIFE_MAX;
+extern const float LIFE_REGEN_RATE; // life points / s
+
 extern const float CUTOFF_DISTANCE_MIN_Z;
 extern const float CUTOFF_DISTANCE_MIN_X;
 extern const float CUTOFF_DISTANCE_MIN_Y;
@@ -82,5 +85,12 @@ extern NSString * const UNLOADED_VIEWFINDER_FILENAME;
 
 extern NSString * const TRACKER_DATASET_FILENAME;
 extern char * const TRACKER_TARGET_NAME;
+
+extern NSString * const SOUND_SHOT_NAME;
+extern NSString * const SOUND_SHOT_EXTENSION;
+extern NSString * const SOUND_IMPACT_NAME;
+extern NSString * const SOUND_IMPACT_EXTENSION;
+extern NSString * const SOUND_EXPLOSION_NAME;
+extern NSString * const SOUND_EXPLOSION_EXTENSION;
 
 #endif
