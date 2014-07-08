@@ -754,10 +754,11 @@ int signf(float f) {
 }
 
 - (void)displayGameOver {
-    // update overlay to take the whole view
     self.gameoverOverlay.hidden = FALSE;
-    self.gameoverOverlayTopSpaceConstraint.constant = 0;
-    self.gameoverOverlayBottomSpaceConstraint.constant = 0;
+    [self.hudOverlayView removeConstraints:@[
+                                             self.gameoverTopAlignConstraint,
+                                             self.gameoverBottomAlignConstraint
+                                             ]];
     [self.hudOverlayView removeConstraints:@[
                                              self.asteroidsLabelLeftAlignConstraint,
                                              self.asteroidsLabelRightAlignConstraint,
@@ -775,8 +776,10 @@ int signf(float f) {
 - (void)displayEndGame {
     // update overlay to take the whole view
     self.endgameOverlay.hidden = FALSE;
-    self.endgameOverlayTopSpaceConstraint.constant = 0;
-    self.endgameOverlayBottomSpaceConstraint.constant = 0;
+    [self.hudOverlayView removeConstraints:@[
+                                             self.endgameTopAlignConstraint,
+                                             self.endgameBottomAlignConstraint
+                                             ]];
     [self.hudOverlayView removeConstraints:@[
          self.asteroidsLabelLeftAlignConstraint,
          self.asteroidsLabelRightAlignConstraint,
@@ -809,10 +812,12 @@ int signf(float f) {
         self.endgameOverlay.hidden = TRUE;
         self.endgameOverlay.alpha = 1;
         self.gameoverOverlay.alpha = 1;
-        self.gameoverOverlayTopSpaceConstraint.constant = -640;
-        self.endgameOverlayTopSpaceConstraint.constant = -640;
-        self.gameoverOverlayBottomSpaceConstraint.constant = 640;
-        self.endgameOverlayBottomSpaceConstraint.constant = 640;
+        [self.hudOverlayView addConstraints:@[
+                                              self.gameoverTopAlignConstraint,
+                                              self.gameoverBottomAlignConstraint,
+                                              self.endgameTopAlignConstraint,
+                                              self.endgameBottomAlignConstraint
+                                            ]];
     }];
 }
 
@@ -857,6 +862,7 @@ int signf(float f) {
                         self.shipIsStarted = YES;
                         self.shipSpeed = 0.1f;
                         self.timeShipStarted = CFAbsoluteTimeGetCurrent();
+                        [self stopShip];
                     }];
 }
 

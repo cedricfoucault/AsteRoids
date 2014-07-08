@@ -26,14 +26,16 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *startButtonCenterXConstraint;
 
 @property (strong, nonatomic) IBOutlet HUDOverlayView *hudOverlayView;
+@property (weak, nonatomic) IBOutlet UIView *cellYMinus1;
 @property (weak, nonatomic) IBOutlet UIView *ingameOverlay;
 @property (weak, nonatomic) IBOutlet UIView *hitOverlayView;
 @property (weak, nonatomic) IBOutlet UIView *gameoverOverlay;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *gameoverOverlayTopSpaceConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *gameoverOverlayBottomSpaceConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *gameoverTopAlignConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *gameoverBottomAlignConstraint;
 @property (weak, nonatomic) IBOutlet UIView *endgameOverlay;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *endgameOverlayTopSpaceConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *endgameOverlayBottomSpaceConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *endgameTopAlignConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *endgameBottomAlignConstraint;
+
 @property (weak, nonatomic) IBOutlet UILabel *speedLabel;
 @property (weak, nonatomic) IBOutlet UILabel *asteroidsLabel;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *asteroidsLabelRightAlignConstraint;
