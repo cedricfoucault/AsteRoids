@@ -93,4 +93,6 @@ extern NSString * const SOUND_IMPACT_EXTENSION;
 extern NSString * const SOUND_EXPLOSION_NAME;
 extern NSString * const SOUND_EXPLOSION_EXTENSION;
 
+extern NSString * const MARKER_IMAGE_URL_STRING;
+
 #endif

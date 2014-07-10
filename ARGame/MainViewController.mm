@@ -63,6 +63,7 @@
 @property (nonatomic) BOOL gameIsPlaying;
 @property (nonatomic) BOOL shipIsStarted;
 @property (nonatomic) BOOL gunIsLoaded;
+@property (nonatomic) BOOL firstShotDone;
 
 @property (strong, nonatomic) NSTimer *hitTimer;
 @property (nonatomic) int life;
@@ -126,6 +127,8 @@
         // init custom properties
         _gameHasStarted = NO;
         _gameIsPlaying = NO;
+        _shipIsStarted = NO;
+        _firstShotDone = NO;
         _life = LIFE_MAX;
         _score = 0;
         _gameObjects = [[NSMutableArray alloc] init];
@@ -281,6 +284,7 @@
                                              options:0
                                              metrics:nil
                                                views:views]];
+    
 //    subview = self.hitOverlayView;
 //    views = NSDictionaryOfVariableBindings(subview);
 //    [self.view addConstraints:
@@ -585,7 +589,7 @@ int signf(float f) {
     if (imageUnloadedGunViewfinder == nil) {
         imageUnloadedGunViewfinder = [UIImage imageNamed:UNLOADED_VIEWFINDER_FILENAME];
     }
-    if (self.shipIsStarted && self.gameIsPlaying && self.gunIsLoaded) {
+    if (self.shipIsStarted && self.gameIsPlaying) {
         // play sound effect
         AudioServicesPlaySystemSound(self.soundShot);
         // spawn beam
@@ -602,7 +606,8 @@ int signf(float f) {
         // init progress bar
         self.reloadProgressView.progress = 0;
         self.reloadProgressView.hidden = NO;
-    } else if (self.gameIsPlaying && self.gunIsLoaded) {
+    } else if (self.gameIsPlaying && self.gunIsLoaded && self.firstShotDone) {
+        // this is the first player shot
         // play sound effect
         AudioServicesPlaySystemSound(self.soundShot);
         // spawn beam
@@ -619,6 +624,26 @@ int signf(float f) {
         // init progress bar
         self.reloadProgressViewInstruction.progress = 0;
         self.reloadProgressViewInstruction.hidden = NO;
+    } else if (self.gameIsPlaying && self.gunIsLoaded && !self.firstShotDone) {
+        // this is the first player shot
+        // play sound effect
+        AudioServicesPlaySystemSound(self.soundShot);
+        // spawn beam
+        [self spawnBeam];
+        // consume one load and start reload timer
+        self.gunIsLoaded = NO;
+        [self.gunViewfinderInstruction setImage:imageUnloadedGunViewfinder];
+        [NSTimer scheduledTimerWithTimeInterval:RELOAD_DELAY target:self selector:@selector(reloadInstruction) userInfo:nil repeats:NO];
+        [NSTimer scheduledTimerWithTimeInterval:RELOAD_PROGRESS_TIMER_DELAY
+                                         target: self
+                                       selector: @selector(updateReloadProgressTimerInstruction:)
+                                       userInfo: nil
+                                        repeats: YES];
+        // init progress bar
+        self.reloadProgressViewInstruction.progress = 0;
+        self.reloadProgressViewInstruction.hidden = NO;
+        // first shot is done, can start playing actual game
+        self.firstShotDone = YES;
         [self displayStartButton];
     }
 }
@@ -717,9 +742,6 @@ int signf(float f) {
         self.score++;
         self.asteroidsLabel.text = [NSString stringWithFormat:@"%d", self.score];
     }
-//    if (self.score == 3) {
-//        [self displayEndGame];
-//    }
 }
 - (void)targetWasFound {
     if (!self.gameHasStarted) {
@@ -730,26 +752,38 @@ int signf(float f) {
 
 - (void)displayInstruction2 {
     self.gunIsLoaded = YES;
-    self.instruction1CenterXConstraint.constant = 640;
-    self.instruction2CenterXConstraint.constant = 0;
+//    self.instruction1CenterXConstraint.constant = 640;
+//    self.instruction2CenterXConstraint.constant = 0;
+    [self.hudInstructions removeConstraints:@[
+                                              self.instruction1CenterXConstraint,
+                                              self.instruction2CenterXConstraint
+                                              ]];
     [self.targetViewfinder removeFromSuperview];
     self.gunViewfinderInstruction.hidden = NO;
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-        [self.instruction1 layoutIfNeeded];
-        [self.instruction2 layoutIfNeeded];
+//        [self.instruction1 layoutIfNeeded];
+//        [self.instruction2 layoutIfNeeded];
+        [self.hudInstructions layoutIfNeeded];
     }];
 }
 
 - (void)displayStartButton {
     // update overlay to take the whole view
-    self.instruction2CenterXConstraint.constant = 640;
-    self.overlayBottomSpaceConstraint.constant = 0;
-    self.startButtonCenterYConstraint.constant = 0;
-    self.startButtonCenterXConstraint.constant = 0;
+//    self.instruction2CenterXConstraint.constant = 640;
+//    self.startButtonCenterYConstraint.constant = 0;
+//    self.startButtonCenterXConstraint.constant = 0;
+    NSLog(@"display start button called");
+    [self.hudInstructions removeConstraints:@[
+                                              self.overlayProportionalHeightConstraint,
+                                              self.instruction2CenterXConstraint2,
+                                              self.startButtonCenterXConstraint,
+                                              self.startButtonCenterYConstraint
+                                              ]];
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-        [self.overlay layoutIfNeeded];
-        [self.instruction2 layoutIfNeeded];
-        [self.startButton layoutIfNeeded];
+//        [self.overlay layoutIfNeeded];
+//        [self.instruction2 layoutIfNeeded];
+//        [self.startButton layoutIfNeeded];
+        [self.hudInstructions layoutIfNeeded];
     }];
 }
 
@@ -823,6 +857,8 @@ int signf(float f) {
 
 
 - (IBAction)markerButtonTapped {
+    NSURL *markerImageURL = [NSURL URLWithString:MARKER_IMAGE_URL_STRING];
+    [[UIApplication sharedApplication] openURL:markerImageURL];
 }
 
 - (IBAction)startButtonTapped {
@@ -862,7 +898,7 @@ int signf(float f) {
                         self.shipIsStarted = YES;
                         self.shipSpeed = 0.1f;
                         self.timeShipStarted = CFAbsoluteTimeGetCurrent();
-                        [self stopShip];
+//                        [self stopShip];
                     }];
 }
 
@@ -1441,6 +1477,10 @@ int signf(float f) {
         }
         Beam *beam = [[Beam alloc] initWithCollisionWorld:self.physCollisionWorld];
         [self.gameObjects addObject:beam];
+        NSLog(@"beam added to gameobjects");
+        if (beam == nil) {
+            NSLog(@"beam is nil");
+        }
     }
 }
 

@@ -15,7 +15,7 @@ const float FAR = 100.0f;
 
 const float WINDOW_SCALE = 1.0f;
 //const float WINDOW_ASPECT_RATIO = 29.7 / 21;
-const float WINDOW_ASPECT_RATIO = 1 / 0.772727;
+const float WINDOW_ASPECT_RATIO = 1 / 0.750151;
 const float WALL_SCALE = 10.0f;
 const float ASTEROID_SCALE = 0.4f;
 
@@ -27,8 +27,8 @@ const float ASTEROIDS_SPAWN_Z = -50.0f;
 const float ASTEROIDS_SPAWN_X_VARIANCE = 1.0f;
 const float ASTEROIDS_SPAWN_Y_VARIANCE = ASTEROIDS_SPAWN_X_VARIANCE / WINDOW_ASPECT_RATIO;
 
-const float ASTEROID_SPEED_MEAN = 0.1f; // distance unit / second
-const float ASTEROID_SPEED_VARIANCE = 0.05f;
+const float ASTEROID_SPEED_MEAN = 0.07f; // distance unit / second
+const float ASTEROID_SPEED_VARIANCE = 0.07f;
 //const float ASTEROID_SPEED_MEAN = 0.f; // distance unit / second
 //const float ASTEROID_SPEED_VARIANCE = 0.f;
 const float ASTEROID_ROTATION_SPEED_MEAN = 2.25f; // degrees / second
@@ -89,6 +89,7 @@ NSString * const BEAM_GLOW_BILLBOARD_FRAGMENT_SHADER_FILENAME = @"beam_glow_bill
 NSString * const LOADED_VIEWFINDER_FILENAME = @"viewfinder white.png";
 NSString * const UNLOADED_VIEWFINDER_FILENAME = @"viewfinder gray 50%.png";
 NSString * const TRACKER_DATASET_FILENAME = @"AsteRoids.xml";
+char * const TRACKER_TARGET_NAME = "asteroids_marker";
 
 NSString * const SOUND_SHOT_NAME = @"shot2";
 NSString * const SOUND_SHOT_EXTENSION = @"wav";
@@ -97,4 +98,5 @@ NSString * const SOUND_IMPACT_EXTENSION = @"aiff";
 NSString * const SOUND_EXPLOSION_NAME = @"explosion";
 NSString * const SOUND_EXPLOSION_EXTENSION = @"wav";
 
-char * const TRACKER_TARGET_NAME = "asteroidsBackground";
+NSString * const MARKER_IMAGE_URL_STRING = @"http://i.imgur.com/lQIpE6Q.jpg";
+

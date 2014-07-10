@@ -14,16 +14,18 @@
 @property (strong, nonatomic) IBOutlet UIView *hudInstructions;
 @property (weak, nonatomic) IBOutlet UIImageView *targetViewfinder;
 @property (weak, nonatomic) IBOutlet UIView *instruction1;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *instruction1CenterXConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *instruction1CenterXConstraint;
 @property (weak, nonatomic) IBOutlet UIView *instruction2;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *instruction2CenterXConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *instruction2CenterXConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *instruction2CenterXConstraint2;
 @property (weak, nonatomic) IBOutlet UIImageView *gunViewfinderInstruction;
 @property (weak, nonatomic) IBOutlet UIProgressView *reloadProgressViewInstruction;
 @property (weak, nonatomic) IBOutlet UIView *overlay;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *overlayBottomSpaceConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *overlayProportionalHeightConstraint;
+
 @property (weak, nonatomic) IBOutlet UIButton *startButton;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *startButtonCenterYConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *startButtonCenterXConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *startButtonCenterXConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *startButtonCenterYConstraint;
 
 @property (strong, nonatomic) IBOutlet HUDOverlayView *hudOverlayView;
 @property (weak, nonatomic) IBOutlet UIView *cellYMinus1;
