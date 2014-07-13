@@ -1,20 +1,22 @@
-/*==============================================================================
-Copyright (c) 2010-2013 Qualcomm Connected Experiences, Inc.
-All Rights Reserved.
-Proprietary - Qualcomm Connected Experiences, Inc.
+/*===============================================================================
+Copyright (c) 2010-2014 Qualcomm Connected Experiences, Inc. All Rights Reserved.
+
+Vuforia is a trademark of QUALCOMM Incorporated, registered in the United States 
+and other countries. Trademarks of QUALCOMM Incorporated are used with permission.
 
 @file 
     DataSet.h
 
 @brief
     Header file for DataSet class.
-==============================================================================*/
+===============================================================================*/
 #ifndef _QCAR_DATASET_H_
 #define _QCAR_DATASET_H_
 
 // Include files
 #include <QCAR/NonCopyable.h>
 #include <QCAR/System.h>
+#include <QCAR/QCAR.h>
 
 namespace QCAR
 {
@@ -40,6 +42,7 @@ class QCAR_API DataSet : private NonCopyable
 {
 public:
     
+    /// Deprecated enum, use QCAR::STORAGE_TYPE instead.
     /// Types of storage locations for datasets
     enum STORAGE_TYPE {
         STORAGE_APP,            ///< Storage private to the application
@@ -48,12 +51,25 @@ public:
         STORAGE_ABSOLUTE        ///< Helper type for specifying an absolute path
     };
 
+
     /// Checks if the dataset exists at the specified path and storage location
     /**
      *  Returns true if both the dataset XML and DAT file exist at the
      *  given storage location. The relative path to the dataset XML must be
      *  passed to this function for all storage locations other than
      *  STORAGE_ABSOLUTE.
+     */
+    static bool exists(const char* path, QCAR::STORAGE_TYPE storageType);
+
+    /// Checks if the dataset exists at the specified path and storage location
+    /**
+     *  Returns true if both the dataset XML and DAT file exist at the
+     *  given storage location. The relative path to the dataset XML must be
+     *  passed to this function for all storage locations other than
+     *  STORAGE_ABSOLUTE.
+     *  
+     *  This version is now deprecated, please use QCAR::STORAGE_TYPE based 
+     *  method instead.
      */
     static bool exists(const char* path, STORAGE_TYPE storageType);
 
@@ -65,8 +81,22 @@ public:
      *  this function for all storage locations other than STORAGE_ABSOLUTE.
      *  Note that loading a dataset may take significant time and therefore
      *  it is recommended to load datasets in the background.
+     *
+     *  This version is now deprecated, please use QCAR::STORAGE_TYPE based 
+     *  method instead.
      */
     virtual bool load(const char* path, STORAGE_TYPE storageType) = 0;
+
+    /// Loads the dataset at the specified path and storage location
+    /**
+     *  Returns true if the dataset was loaded successfully. After loading,
+     *  individual Trackables can be accessed using getNumTrackables() and
+     *  getTrackable(). The relative path to the dataset XML must be passed to
+     *  this function for all storage locations other than STORAGE_ABSOLUTE.
+     *  Note that loading a dataset may take significant time and therefore
+     *  it is recommended to load datasets in the background.
+     */
+    virtual bool load(const char* path, QCAR::STORAGE_TYPE storageType) = 0;
 
     /// Returns the overall number of 3D trackable objects in this data set.
     /**

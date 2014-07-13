@@ -1,14 +1,15 @@
-/*==============================================================================
-Copyright (c) 2010-2013 Qualcomm Connected Experiences, Inc.
-All Rights Reserved.
-Proprietary - Qualcomm Connected Experiences, Inc.
+/*===============================================================================
+Copyright (c) 2010-2014 Qualcomm Connected Experiences, Inc. All Rights Reserved.
+
+Vuforia is a trademark of QUALCOMM Incorporated, registered in the United States 
+and other countries. Trademarks of QUALCOMM Incorporated are used with permission.
 
 @file 
     QCAR.h
 
 @brief
     Header file for global QCAR methods.
-==============================================================================*/
+===============================================================================*/
 #ifndef _QCAR_QCAR_H_
 #define _QCAR_QCAR_H_
 
@@ -67,6 +68,14 @@ enum HINT {
      *  Default is: 1.
      */
     HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS = 0,
+};
+
+/// Types of storage locations for datasets
+enum STORAGE_TYPE {
+    STORAGE_APP,            ///< Storage private to the application
+    STORAGE_APPRESOURCE,    ///< Storage for assets bundled with the
+                            ///< application
+    STORAGE_ABSOLUTE        ///< Helper type for specifying an absolute path
 };
 
 

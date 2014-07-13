@@ -14,6 +14,8 @@
 //#define RANDOM_MINUS_1_TO_1() ((float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX - 0.5f) * 2
 
 extern const BOOL DEBUG_LOG;
+extern const BOOL USE_EXTENDED_TRACKING;
+
 extern const float NEAR;
 extern const float FAR;
 
@@ -49,18 +51,24 @@ extern const float BEAM_SPEED;
 extern const float SPAWN_DISTANCE;
 extern const float SKYDOME_DISTANCE;
 
-extern const float SHIP_ACCELERATION;
+//extern const float SHIP_ACCELERATION;
 extern const float SHIP_SPEED_MAX;
 
 extern const float TIME_SHIP_TRAVEL;
 extern const float TIME_SPAWN_ASTEROIDS;
+extern const float SHIP_SPEED_HALF_LIFE;
 
 extern const float DESTINATION_PLANET_RADIUS;
-extern const float EYE_PLANET_FOCAL;
-extern const float DESTINATION_PLANET_START_Z;
-extern const float ACCELERATION_TIME;
-extern const float MAX_SPEED_TIME;
-extern const float TRAVEL_DISTANCE;
+//extern const float EYE_PLANET_FOCAL;
+extern const float DESTINATION_PLANET_START_SCALE;
+extern const float DESTINATION_PLANET_END_SCALE;
+//extern const float ACCELERATION_TIME;
+//extern const float MAX_SPEED_TIME;
+
+//float shipSpeed(float time);
+//float shipDistanceTraveled(float time);
+//float eyePlanetFocal();
+//float destinationPlanetStartZ();
 
 extern const int LIFE_MAX;
 extern const float LIFE_REGEN_RATE; // life points / s
@@ -92,6 +100,14 @@ extern NSString * const SOUND_IMPACT_NAME;
 extern NSString * const SOUND_IMPACT_EXTENSION;
 extern NSString * const SOUND_EXPLOSION_NAME;
 extern NSString * const SOUND_EXPLOSION_EXTENSION;
+
+extern NSString * const FONT_FAMILY_NAME;
+extern NSString * const FONT_LIGHT_NAME;
+extern NSString * const FONT_REGULAR_NAME;
+extern NSString * const FONT_MEDIUM_NAME;
+extern NSString * const FONT_BOLD_NAME;
+extern const CGFloat FONT_SIZE;
+extern const CGFloat FONT_SIZE_SMALL;
 
 extern NSString * const MARKER_IMAGE_URL_STRING;
 

@@ -1,15 +1,15 @@
-/*==============================================================================
-            Copyright (c) 2010-2013 Qualcomm Connected Experiences, Inc.
-            All Rights Reserved.
-            Qualcomm Confidential and Proprietary
+/*===============================================================================
+Copyright (c) 2010-2014 Qualcomm Connected Experiences, Inc. All Rights Reserved.
+
+Vuforia is a trademark of QUALCOMM Incorporated, registered in the United States 
+and other countries. Trademarks of QUALCOMM Incorporated are used with permission.
 
 @file
     QCAR_iOS.h
 
 @brief
     Header file for global QCAR methods that are specific to the iOS version.
-
-==============================================================================*/
+===============================================================================*/
 #ifndef _QCAR_QCAR_IOS_H_
 #define _QCAR_QCAR_IOS_H_
 

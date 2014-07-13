@@ -23,6 +23,8 @@
 @property (weak, nonatomic) IBOutlet UIView *overlay;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *overlayProportionalHeightConstraint;
 
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *instruction3CenterYConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *instruction3CenterXConstraint;
 @property (weak, nonatomic) IBOutlet UIButton *startButton;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *startButtonCenterXConstraint;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *startButtonCenterYConstraint;
@@ -30,6 +32,7 @@
 @property (strong, nonatomic) IBOutlet HUDOverlayView *hudOverlayView;
 @property (weak, nonatomic) IBOutlet UIView *cellYMinus1;
 @property (weak, nonatomic) IBOutlet UIView *ingameOverlay;
+@property (weak, nonatomic) IBOutlet UIView *pausedOverlay;
 @property (weak, nonatomic) IBOutlet UIView *hitOverlayView;
 @property (weak, nonatomic) IBOutlet UIView *gameoverOverlay;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *gameoverTopAlignConstraint;

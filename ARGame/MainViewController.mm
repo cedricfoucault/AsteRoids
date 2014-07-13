@@ -23,13 +23,13 @@
 #import "HUDOverlayView.h"
 #import "Asteroid.h"
 #import "Beam.h"
-#import "Constants.h"
 #import "PoseMatrixMathHelper.h"
 #import <GLKit/GLKit.h>
 #import "GLSLProgram.h"
 #import "ParticleSystem.h"
 #import "CameraManager.h"
 #import "ParticleManager.h"
+#import "Constants.h"
 
 #include <AudioToolbox/AudioToolbox.h>
 
@@ -48,7 +48,6 @@
 @property (strong, nonatomic) NGLMesh *asteroid;
 @property (strong, nonatomic) NGLMesh *beam;
 @property (strong, nonatomic) NGLMesh *beamGlowBillboard;
-@property BOOL useExtendedTracking;
 
 @property (nonatomic) btBroadphaseInterface* physBroadphase;
 @property (nonatomic) btCollisionDispatcher*	physDispatcher;
@@ -76,6 +75,7 @@
 //@property (strong, nonatomic) ParticleSystem *particleSystem;
 
 @property (nonatomic) CFAbsoluteTime timeShipStarted;
+@property (nonatomic) CFAbsoluteTime timeTraveled;
 @property (nonatomic) CFAbsoluteTime lastFrameTime;
 
 @property (nonatomic) float shipSpeed;
@@ -99,7 +99,6 @@
     if (self) {
         // Init AR session
         _arSession = [[QCARAppSession alloc] initWithDelegate:self];
-        _useExtendedTracking = YES;
         
         // We use the iOS notification to pause/resume the AR when the application goes (or comeback from) background
         [[NSNotificationCenter defaultCenter]
@@ -136,6 +135,7 @@
         _particleManager = [ParticleManager sharedManager];
         
         _shipSpeed = 0.0;
+        _timeTraveled = 0.0f;
         
         // load sounds
         [self loadSounds];
@@ -426,7 +426,9 @@
 //        asteroid.motionPropertiesInitialized = TRUE;
 //        [self.gameObjects addObject:asteroid];
 //    }
-    [self addInitialAsteroids];
+//    [self addInitialAsteroids];
+//    [self hideGameObjects];
+    [self addTutorialAsteroid];
     
 	// Starts the debug monitor.
 //	[[NGLDebug debugMonitor] startWithView:(NGLView *)self.view];
@@ -450,6 +452,32 @@
         asteroid.rotationSpeed = ASTEROID_ROTATION_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_ROTATION_SPEED_VARIANCE;
         asteroid.motionPropertiesInitialized = TRUE;
         [self.gameObjects addObject:asteroid];
+    }
+}
+
+- (void)addTutorialAsteroid {
+    Asteroid *asteroid;
+    asteroid = [[Asteroid alloc] initWithCollisionWorld:self.physCollisionWorld];
+    // position
+    asteroid.mesh.x =  3.0f * WINDOW_SCALE / 4.0f;
+    asteroid.mesh.y = - 3.0f * WINDOW_SCALE / (4.0f * WINDOW_ASPECT_RATIO);
+    asteroid.mesh.z = -2.5f;
+    // rotation
+    asteroid.rotationAxis = nglVec3Normalize(nglVec3Make(RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1()));
+    asteroid.rotationSpeed = ASTEROID_ROTATION_SPEED_MEAN;
+    asteroid.motionPropertiesInitialized = TRUE;
+    [self.gameObjects addObject:asteroid];
+}
+
+- (void)hideGameObjects {
+    for (GameObject3D *gameObject in self.gameObjects) {
+        gameObject.mesh.visible = NO;
+    }
+}
+
+- (void)showGameObjects {
+    for (GameObject3D *gameObject in self.gameObjects) {
+        gameObject.mesh.visible = YES;
     }
 }
 
@@ -477,7 +505,7 @@ static const float sqrt_2 = sqrtf(2);
     if (self.arSession.cameraIsStarted) {
         CFAbsoluteTime thisFrameTime = CFAbsoluteTimeGetCurrent();
         CFTimeInterval timeDelta = self.lastFrameTime? (thisFrameTime - self.lastFrameTime) : 0.0;
-        if (self.shipIsStarted && thisFrameTime - self.timeShipStarted > TIME_SHIP_TRAVEL) {
+        if (self.shipIsStarted && self.timeTraveled > TIME_SHIP_TRAVEL) {
             // stop ship when time of travel is elapsed
             [self stopShip];
         }
@@ -490,6 +518,13 @@ static const float sqrt_2 = sqrtf(2);
         
         // draw video background
         QCAR::Renderer::getInstance().drawVideoBackground();
+        
+        // automatically pause / resume if tracking is lost / recovered
+        if (state.getNumTrackableResults() == 0 && self.gameIsPlaying) {
+            [self pause];
+        } else if (state.getNumTrackableResults() > 0 && !self.gameIsPlaying) {
+            [self resume];
+        }
         
         // Update tracking state
         float scale = 1.0f;
@@ -545,7 +580,7 @@ static const float sqrt_2 = sqrtf(2);
         // render
         glEnable (GL_BLEND);
         glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        if (self.gameHasStarted) {
+        if (self.gameHasStarted && self.gameIsPlaying) {
             // Render
             // enable z-buffer testing
             glEnable(GL_DEPTH_TEST);
@@ -606,7 +641,7 @@ int signf(float f) {
         // init progress bar
         self.reloadProgressView.progress = 0;
         self.reloadProgressView.hidden = NO;
-    } else if (self.gameIsPlaying && self.gunIsLoaded && self.firstShotDone) {
+    } else if (self.gameIsPlaying && self.gunIsLoaded) {
         // this is the first player shot
         // play sound effect
         AudioServicesPlaySystemSound(self.soundShot);
@@ -624,27 +659,6 @@ int signf(float f) {
         // init progress bar
         self.reloadProgressViewInstruction.progress = 0;
         self.reloadProgressViewInstruction.hidden = NO;
-    } else if (self.gameIsPlaying && self.gunIsLoaded && !self.firstShotDone) {
-        // this is the first player shot
-        // play sound effect
-        AudioServicesPlaySystemSound(self.soundShot);
-        // spawn beam
-        [self spawnBeam];
-        // consume one load and start reload timer
-        self.gunIsLoaded = NO;
-        [self.gunViewfinderInstruction setImage:imageUnloadedGunViewfinder];
-        [NSTimer scheduledTimerWithTimeInterval:RELOAD_DELAY target:self selector:@selector(reloadInstruction) userInfo:nil repeats:NO];
-        [NSTimer scheduledTimerWithTimeInterval:RELOAD_PROGRESS_TIMER_DELAY
-                                         target: self
-                                       selector: @selector(updateReloadProgressTimerInstruction:)
-                                       userInfo: nil
-                                        repeats: YES];
-        // init progress bar
-        self.reloadProgressViewInstruction.progress = 0;
-        self.reloadProgressViewInstruction.hidden = NO;
-        // first shot is done, can start playing actual game
-        self.firstShotDone = YES;
-        [self displayStartButton];
     }
 }
 
@@ -741,6 +755,9 @@ int signf(float f) {
     if (self.shipIsStarted) {
         self.score++;
         self.asteroidsLabel.text = [NSString stringWithFormat:@"%d", self.score];
+    } else if (!self.firstShotDone) {
+        self.firstShotDone = YES;
+        [self displayInstruction3];
     }
 }
 - (void)targetWasFound {
@@ -767,15 +784,16 @@ int signf(float f) {
     }];
 }
 
-- (void)displayStartButton {
+- (void)displayInstruction3 {
     // update overlay to take the whole view
 //    self.instruction2CenterXConstraint.constant = 640;
 //    self.startButtonCenterYConstraint.constant = 0;
 //    self.startButtonCenterXConstraint.constant = 0;
-    NSLog(@"display start button called");
     [self.hudInstructions removeConstraints:@[
                                               self.overlayProportionalHeightConstraint,
                                               self.instruction2CenterXConstraint2,
+                                              self.instruction3CenterXConstraint,
+                                              self.instruction3CenterYConstraint,
                                               self.startButtonCenterXConstraint,
                                               self.startButtonCenterYConstraint
                                               ]];
@@ -891,6 +909,7 @@ int signf(float f) {
 
 - (void)startShip {
     [self resetScore];
+    [self addInitialAsteroids];
     [UIView transitionFromView:self.hudInstructions
                         toView:self.hudOverlayView
                       duration:SHOWHIDE_ANIMATION_DURATION options:UIViewAnimationOptionShowHideTransitionViews|UIViewAnimationOptionTransitionCrossDissolve
@@ -909,6 +928,7 @@ int signf(float f) {
     self.shipIsStarted = YES;
     self.shipSpeed = 0.1f;
     self.timeShipStarted = CFAbsoluteTimeGetCurrent();
+    self.timeTraveled = 0.0f;
     // reset scene
     for (GameObject3D *gameObject in [self.gameObjects copy]) {
         [self.gameObjects removeObject:gameObject];
@@ -921,17 +941,21 @@ int signf(float f) {
 }
 
 - (void)resetPlanet {
-    self.destinationPlanetZ = DESTINATION_PLANET_START_Z;
+    self.destinationPlanetZ = destinationPlanetStartZ();
     [self refreshPlanetMeshScale];
 }
 
-- (void)updatePlanetWithZDelta:(float)zDelta {
-    self.destinationPlanetZ += zDelta;
+//- (void)updatePlanetWithZDelta:(float)zDelta {
+//    self.destinationPlanetZ += zDelta;
+//    [self refreshPlanetMeshScale];
+//}
+- (void)updatePlanetWithTimeElapsed:(float)timeElapsed {
+    self.destinationPlanetZ = destinationPlanetStartZ() - shipDistanceTraveled(timeElapsed);
     [self refreshPlanetMeshScale];
 }
 
 - (void)refreshPlanetMeshScale {
-    float scale = DESTINATION_PLANET_RADIUS * EYE_PLANET_FOCAL / self.destinationPlanetZ;
+    float scale = DESTINATION_PLANET_RADIUS * eyePlanetFocal() / self.destinationPlanetZ;
     self.destinationPlanet.scaleX = scale;
     self.destinationPlanet.scaleY = scale;
 }
@@ -1205,7 +1229,7 @@ int signf(float f) {
     
     // we set the off target tracking mode to the current state
     if (success) {
-        if (![self setExtendedTrackingForDataSet:theDataSet start:self.useExtendedTracking]) {
+        if (![self setExtendedTrackingForDataSet:theDataSet start:USE_EXTENDED_TRACKING]) {
             NSLog(@"ERROR: Failed to set extended tracking.");
             success = NO;
         } else {
@@ -1265,19 +1289,28 @@ int signf(float f) {
 }
 
 - (void)pause {
+    if (DEBUG_LOG) {
+        NSLog(@"PAUSE");
+    }
     self.gameIsPlaying = NO;
+    self.pausedOverlay.hidden = NO;
 }
 
 - (void)resume {
+    if (DEBUG_LOG) {
+        NSLog(@"RESUME");
+    }
     self.gameIsPlaying = YES;
+    self.pausedOverlay.hidden = YES;
 }
 
 - (void)update3DWithTimeDelta:(float)timeDelta {
     if (self.gameHasStarted && self.gameIsPlaying && self.shipIsStarted) {
-        float zDelta = -self.shipSpeed * timeDelta;
+        self.timeTraveled += timeDelta;
+        float zDelta = - self.shipSpeed * timeDelta;
         float distanceDelta = - zDelta;
         // Update planet
-        [self updatePlanetWithZDelta:zDelta];
+        [self updatePlanetWithTimeElapsed:self.timeTraveled];
         // Spawn asteroids
         BOOL spawnTimeElapsed = CFAbsoluteTimeGetCurrent() - self.timeShipStarted > TIME_SPAWN_ASTEROIDS;
         if (!spawnTimeElapsed) {
@@ -1297,7 +1330,7 @@ int signf(float f) {
         }
         // Update ship speed
         if (self.shipSpeed < SHIP_SPEED_MAX) {
-            self.shipSpeed += SHIP_ACCELERATION * timeDelta;
+            self.shipSpeed = shipSpeed(self.timeTraveled);
             self.speedLabel.text = [NSString stringWithFormat:@"%.1f", self.shipSpeed];
         }
     }
@@ -1477,7 +1510,6 @@ int signf(float f) {
         }
         Beam *beam = [[Beam alloc] initWithCollisionWorld:self.physCollisionWorld];
         [self.gameObjects addObject:beam];
-        NSLog(@"beam added to gameobjects");
         if (beam == nil) {
             NSLog(@"beam is nil");
         }
@@ -1528,6 +1560,35 @@ int signf(float f) {
 
 - (BOOL)prefersStatusBarHidden {
     return  YES;
+}
+
+float shipSpeed(float time) {
+    static float SHIP_SPEED_TAU = 0.0f;
+    if (SHIP_SPEED_TAU == 0.0f) {
+        SHIP_SPEED_TAU = SHIP_SPEED_HALF_LIFE / logf(2.0f);
+    }
+    return SHIP_SPEED_MAX * (1 - expf(- time / SHIP_SPEED_TAU));
+}
+
+float shipDistanceTraveled(float time) {
+    static float SHIP_SPEED_TAU = 0.0f;
+    if (SHIP_SPEED_TAU == 0.0f) {
+        SHIP_SPEED_TAU = SHIP_SPEED_HALF_LIFE / logf(2.0f);
+    }
+    return SHIP_SPEED_MAX * (time + SHIP_SPEED_TAU * expf(- time / SHIP_SPEED_TAU));
+}
+
+float travelDistance() {
+    return shipDistanceTraveled(TIME_SHIP_TRAVEL);
+}
+
+float eyePlanetFocal() {
+    return travelDistance() * DESTINATION_PLANET_END_SCALE * DESTINATION_PLANET_START_SCALE /
+    (DESTINATION_PLANET_RADIUS * (DESTINATION_PLANET_END_SCALE - DESTINATION_PLANET_START_SCALE));
+}
+
+float destinationPlanetStartZ() {
+    return eyePlanetFocal() * DESTINATION_PLANET_RADIUS / DESTINATION_PLANET_START_SCALE;
 }
 
 @end
