@@ -100,6 +100,10 @@ extern NSString * const SOUND_IMPACT_NAME;
 extern NSString * const SOUND_IMPACT_EXTENSION;
 extern NSString * const SOUND_EXPLOSION_NAME;
 extern NSString * const SOUND_EXPLOSION_EXTENSION;
+extern NSString * const SOUND_BOOM_NAME;
+extern NSString * const SOUND_BOOM_EXTENSION;
+extern NSString * const SOUND_MUSIC_NAME;
+extern NSString * const SOUND_MUSIC_EXTENSION;
 
 extern NSString * const FONT_FAMILY_NAME;
 extern NSString * const FONT_LIGHT_NAME;

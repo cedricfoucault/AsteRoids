@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		820EB25E192A315300658B4C /* particle4u.png in Resources */ = {isa = PBXBuildFile; fileRef = 820EB25D192A315300658B4C /* particle4u.png */; };
 		8214CA6518B59FC80022D7B9 /* hudGame.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8214CA6418B59FC80022D7B9 /* hudGame.xib */; };
 		8214CA6818B5A2590022D7B9 /* HUDOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8214CA6718B5A2590022D7B9 /* HUDOverlayView.m */; };
 		8214CA6B18B5BFBD0022D7B9 /* Asteroid.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8214CA6A18B5BFBD0022D7B9 /* Asteroid.mm */; };
@@ -56,32 +55,15 @@
 		822F0ED41927CAE30084A59D /* Am7.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E941927CAE30084A59D /* Am7.jpg */; };
 		822F0ED51927CAE30084A59D /* Am8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E951927CAE30084A59D /* Am8.jpg */; };
 		822F0ED61927CAE30084A59D /* Am9.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E961927CAE30084A59D /* Am9.jpg */; };
-		822F0EDE1927F8190084A59D /* beam.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0ED81927F8190084A59D /* beam.obj */; };
 		822F0EDF1927F8190084A59D /* beam_core.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 822F0ED91927F8190084A59D /* beam_core.mtl */; };
 		822F0EE01927F8190084A59D /* beam_core.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0EDA1927F8190084A59D /* beam_core.obj */; };
 		822F0EE11927F8190084A59D /* beam_glow_billboard.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 822F0EDB1927F8190084A59D /* beam_glow_billboard.mtl */; };
 		822F0EE21927F8190084A59D /* beam_glow_billboard.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0EDC1927F8190084A59D /* beam_glow_billboard.obj */; };
-		822F0EE31927F8190084A59D /* glow.png in Resources */ = {isa = PBXBuildFile; fileRef = 822F0EDD1927F8190084A59D /* glow.png */; };
 		822F0EFC19282E7E0084A59D /* particleFragmentShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 822F0EFA19282E7E0084A59D /* particleFragmentShader.fsh */; };
 		822F0EFD19282E7E0084A59D /* particleVertexShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 822F0EFB19282E7E0084A59D /* particleVertexShader.vsh */; };
-		8238419A19159E4800581333 /* yellow rock.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 8238419919159E4800581333 /* yellow rock.mtl */; };
-		8238419E19159EEE00581333 /* sandstone8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8238419D19159EEE00581333 /* sandstone8.jpg */; };
 		823841A91915A51600581333 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 823841A81915A51600581333 /* Constants.m */; };
-		823841AD1915A8DB00581333 /* BlueRock.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 823841AA1915A8DB00581333 /* BlueRock.mtl */; };
-		823841AE1915A8DB00581333 /* BlueRock.obj in Resources */ = {isa = PBXBuildFile; fileRef = 823841AB1915A8DB00581333 /* BlueRock.obj */; };
-		823841AF1915A8DB00581333 /* RockTexture2.JPG in Resources */ = {isa = PBXBuildFile; fileRef = 823841AC1915A8DB00581333 /* RockTexture2.JPG */; };
-		823841C719161A3100581333 /* target viewfinder.png in Resources */ = {isa = PBXBuildFile; fileRef = 823841C619161A3100581333 /* target viewfinder.png */; };
 		8247C6BC1918842C00E162B2 /* viewfinder gray 50%.png in Resources */ = {isa = PBXBuildFile; fileRef = 8247C6BB1918842C00E162B2 /* viewfinder gray 50%.png */; };
-		8248A20718A7E69C00BDE25E /* Cube opened backup normals.obj in Resources */ = {isa = PBXBuildFile; fileRef = 8248A20418A7E69C00BDE25E /* Cube opened backup normals.obj */; };
-		8248A20818A7E69C00BDE25E /* Cube opened.obj in Resources */ = {isa = PBXBuildFile; fileRef = 8248A20518A7E69C00BDE25E /* Cube opened.obj */; };
-		8248A20918A7E69C00BDE25E /* Cube.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 8248A20618A7E69C00BDE25E /* Cube.mtl */; };
-		8248A20C18A7FE7F00BDE25E /* black pixel.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8248A20B18A7FE7F00BDE25E /* black pixel.jpg */; };
-		8248A20F18A7FFA500BDE25E /* Plane.obj in Resources */ = {isa = PBXBuildFile; fileRef = 8248A20E18A7FFA500BDE25E /* Plane.obj */; };
 		8248A21618A806B400BDE25E /* Wall with hole.obj in Resources */ = {isa = PBXBuildFile; fileRef = 8248A21318A806B400BDE25E /* Wall with hole.obj */; };
-		8248A23B18A8EC2800BDE25E /* Stone_Pavers_Flagstone_Gray.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8248A23818A8EC2800BDE25E /* Stone_Pavers_Flagstone_Gray.jpg */; };
-		8248A23C18A8EC2800BDE25E /* comet.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 8248A23918A8EC2800BDE25E /* comet.mtl */; };
-		8248A23D18A8EC2800BDE25E /* comet.obj in Resources */ = {isa = PBXBuildFile; fileRef = 8248A23A18A8EC2800BDE25E /* comet.obj */; };
-		8248A24A18A8EC8700BDE25E /* yellow rock.obj in Resources */ = {isa = PBXBuildFile; fileRef = 8248A24718A8EC8700BDE25E /* yellow rock.obj */; };
 		8248A4E918A963F800BDE25E /* btAxisSweep3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8248A38D18A963F600BDE25E /* btAxisSweep3.cpp */; };
 		8248A4EA18A963F800BDE25E /* btBroadphaseProxy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8248A39018A963F600BDE25E /* btBroadphaseProxy.cpp */; };
 		8248A4EB18A963F800BDE25E /* btCollisionAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8248A39218A963F600BDE25E /* btCollisionAlgorithm.cpp */; };
@@ -216,44 +198,30 @@
 		8248A57118A963F800BDE25E /* btVector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8248A4E518A963F800BDE25E /* btVector3.cpp */; };
 		8248A57218A963F800BDE25E /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8248A4E718A963F800BDE25E /* CMakeLists.txt */; };
 		8248A57318A963F800BDE25E /* premake4.lua in Resources */ = {isa = PBXBuildFile; fileRef = 8248A4E818A963F800BDE25E /* premake4.lua */; };
-		8252317318B5DB6500F475CE /* gunsight.png in Resources */ = {isa = PBXBuildFile; fileRef = 8252317218B5DB6500F475CE /* gunsight.png */; };
-		8252317518B5EC5000F475CE /* redTexture.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8252317418B5EC5000F475CE /* redTexture.jpg */; };
-		8259FF84196E26BA003AE54C /* hud_left_1136w.png in Resources */ = {isa = PBXBuildFile; fileRef = 8259FF81196E26BA003AE54C /* hud_left_1136w.png */; };
-		8259FF85196E26BA003AE54C /* hud_middle_1136w.png in Resources */ = {isa = PBXBuildFile; fileRef = 8259FF82196E26BA003AE54C /* hud_middle_1136w.png */; };
-		8259FF86196E26BA003AE54C /* hud_right_1136w.png in Resources */ = {isa = PBXBuildFile; fileRef = 8259FF83196E26BA003AE54C /* hud_right_1136w.png */; };
-		8259FF8A196E276D003AE54C /* hud_left_960w.png in Resources */ = {isa = PBXBuildFile; fileRef = 8259FF87196E276D003AE54C /* hud_left_960w.png */; };
-		8259FF8B196E276D003AE54C /* hud_middle_960w.png in Resources */ = {isa = PBXBuildFile; fileRef = 8259FF88196E276D003AE54C /* hud_middle_960w.png */; };
-		8259FF8C196E276D003AE54C /* hud_right_960w.png in Resources */ = {isa = PBXBuildFile; fileRef = 8259FF89196E276D003AE54C /* hud_right_960w.png */; };
 		8259FF90196E2A41003AE54C /* hud_left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8259FF8D196E2A41003AE54C /* hud_left@2x.png */; };
 		8259FF91196E2A41003AE54C /* hud_middle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8259FF8E196E2A41003AE54C /* hud_middle@2x.png */; };
-		8259FF92196E2A41003AE54C /* hud_right_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8259FF8F196E2A41003AE54C /* hud_right_@2x.png */; };
+		8259FF92196E2A41003AE54C /* hud_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8259FF8F196E2A41003AE54C /* hud_right@2x.png */; };
 		8259FF96196E342C003AE54C /* AsteRoids.dat in Resources */ = {isa = PBXBuildFile; fileRef = 8259FF94196E342C003AE54C /* AsteRoids.dat */; };
 		8259FF97196E342C003AE54C /* AsteRoids.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8259FF95196E342C003AE54C /* AsteRoids.xml */; };
-		82713AA619452E2E00D964EE /* frame.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 82713AA219452E2E00D964EE /* frame.mtl */; };
-		82713AA719452E2E00D964EE /* frame.obj in Resources */ = {isa = PBXBuildFile; fileRef = 82713AA319452E2E00D964EE /* frame.obj */; };
 		82713AA819452E2E00D964EE /* Metal_Seamed.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 82713AA419452E2E00D964EE /* Metal_Seamed.jpg */; };
 		82713AAB1945303800D964EE /* frame_rotated.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 82713AA91945303800D964EE /* frame_rotated.mtl */; };
 		82713AAE1945319900D964EE /* frame_rotated.obj in Resources */ = {isa = PBXBuildFile; fileRef = 82713AAD1945319900D964EE /* frame_rotated.obj */; };
-		82751D12194E072C0012DA04 /* PIA17257.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 82751D11194E072C0012DA04 /* PIA17257.jpg */; };
-		82751D14194E08340012DA04 /* PIA15801.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 82751D13194E08340012DA04 /* PIA15801.jpg */; };
-		82751D16194E084E0012DA04 /* PIA16887.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 82751D15194E084E0012DA04 /* PIA16887.jpg */; };
-		82751D1A194E14AB0012DA04 /* StarDome2_excerpt.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 82751D19194E14AB0012DA04 /* StarDome2_excerpt.jpg */; };
 		827528F21972BD1B0036EF6F /* libVuforia.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 827528F11972BD1B0036EF6F /* libVuforia.a */; };
 		827529261972D3800036EF6F /* UILabel+CustomFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 827529251972D3800036EF6F /* UILabel+CustomFont.m */; };
 		827529291972DE290036EF6F /* UIButton+CustomFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 827529281972DE290036EF6F /* UIButton+CustomFont.m */; };
 		8275292C1972E9540036EF6F /* UILabelSmall.m in Sources */ = {isa = PBXBuildFile; fileRef = 8275292B1972E9540036EF6F /* UILabelSmall.m */; };
 		8275292F1972E9A20036EF6F /* UILabelBold.m in Sources */ = {isa = PBXBuildFile; fileRef = 8275292E1972E9A20036EF6F /* UILabelBold.m */; };
-		8277042319172F54005C4F0C /* viewfinder red.png in Resources */ = {isa = PBXBuildFile; fileRef = 8277042119172F54005C4F0C /* viewfinder red.png */; };
+		827529371973461E0036EF6F /* boom.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 827529361973461E0036EF6F /* boom.aiff */; };
+		8275293919738F1D0036EF6F /* music2Min.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8275293819738F1D0036EF6F /* music2Min.mp3 */; };
+		8275293C197397590036EF6F /* viewfinder_thick_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 8275293A197397590036EF6F /* viewfinder_thick_gray.png */; };
+		8275293D197397590036EF6F /* viewfinder_thick_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 8275293B197397590036EF6F /* viewfinder_thick_white.png */; };
 		8277042419172F54005C4F0C /* viewfinder white.png in Resources */ = {isa = PBXBuildFile; fileRef = 8277042219172F54005C4F0C /* viewfinder white.png */; };
 		8277386A19296AA100F25004 /* GLSLProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = 8277386919296AA100F25004 /* GLSLProgram.m */; };
 		8277386C19296AFD00F25004 /* particle.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 8277386B19296AFD00F25004 /* particle.fsh */; };
 		8277386E19296B0600F25004 /* particle.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 8277386D19296B0600F25004 /* particle.vsh */; };
 		8277387019296E8800F25004 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8277386F19296E8800F25004 /* GLKit.framework */; };
-		827738761929834D00F25004 /* asteroid.png in Resources */ = {isa = PBXBuildFile; fileRef = 827738751929834D00F25004 /* asteroid.png */; };
 		827DDF761971E6700001C406 /* point_iphone_alpha_cropped.png in Resources */ = {isa = PBXBuildFile; fileRef = 827DDF751971E6700001C406 /* point_iphone_alpha_cropped.png */; };
 		828E1327191E9FBF002EB107 /* Beam.mm in Sources */ = {isa = PBXBuildFile; fileRef = 828E1326191E9FBF002EB107 /* Beam.mm */; };
-		828E132F191ED58F002EB107 /* sphere.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 828E132B191ED58F002EB107 /* sphere.mtl */; };
-		828E1330191ED58F002EB107 /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = 828E132C191ED58F002EB107 /* sphere.obj */; };
 		828E1333191EF310002EB107 /* PoseMatrixMathHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 828E1332191EF310002EB107 /* PoseMatrixMathHelper.mm */; };
 		828E133619201A4B002EB107 /* GameObject3D.mm in Sources */ = {isa = PBXBuildFile; fileRef = 828E133519201A4B002EB107 /* GameObject3D.mm */; };
 		829291BB195491C100DFA1F1 /* PIA16887_2400px.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 829291BA195491C100DFA1F1 /* PIA16887_2400px.jpg */; };
@@ -267,28 +235,16 @@
 		829632551968E1E000AF4CB0 /* billboard.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 829632541968E1E000AF4CB0 /* billboard.fsh */; };
 		829632571968E80C00AF4CB0 /* planet_earth_billboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 829632561968E80C00AF4CB0 /* planet_earth_billboard.png */; };
 		829632591968F36000AF4CB0 /* hit_overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 829632581968F36000AF4CB0 /* hit_overlay.png */; };
-		82BBD4E11916CF680077B0B6 /* StarDome.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4E01916CF680077B0B6 /* StarDome.fsh */; };
-		82BBD4F01916F0AD0077B0B6 /* spacedome.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4E91916F0AD0077B0B6 /* spacedome.jpg */; };
 		82BBD4F41916F0AD0077B0B6 /* StarDome.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4ED1916F0AD0077B0B6 /* StarDome.mtl */; };
 		82BBD4F51916F0AD0077B0B6 /* StarDome.obj in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4EE1916F0AD0077B0B6 /* StarDome.obj */; };
-		82BBD4F61916F0AD0077B0B6 /* StarDome2_cropped.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4EF1916F0AD0077B0B6 /* StarDome2_cropped.jpg */; };
-		82BBD4F81916F4920077B0B6 /* StarDome2_cropped2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4F71916F4920077B0B6 /* StarDome2_cropped2.jpg */; };
-		82BBD50C19170C810077B0B6 /* WLM_square.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD50B19170C810077B0B6 /* WLM_square.jpg */; };
 		82BBD50E191718660077B0B6 /* hudInstructions.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD50D191718660077B0B6 /* hudInstructions.xib */; };
 		82BBD511191724FB0077B0B6 /* PassthroughView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BBD510191724FB0077B0B6 /* PassthroughView.m */; };
 		82C7F4F11921C3F8000F4029 /* beam_core.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 82C7F4F01921C3F8000F4029 /* beam_core.fsh */; };
 		82C7F4F31921C469000F4029 /* beam_glow_billboard.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 82C7F4F21921C469000F4029 /* beam_glow_billboard.fsh */; };
 		82CDD1E019673E6A00385BAD /* asteroid_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 82CDD1DF19673E6A00385BAD /* asteroid_icon.png */; };
-		82CDD1E519673E7200385BAD /* hud_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 82CDD1E119673E7200385BAD /* hud_left.png */; };
-		82CDD1E619673E7200385BAD /* hud_middle.png in Resources */ = {isa = PBXBuildFile; fileRef = 82CDD1E219673E7200385BAD /* hud_middle.png */; };
-		82CDD1E719673E7200385BAD /* hud_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 82CDD1E319673E7200385BAD /* hud_right.png */; };
 		82CDD1E819673E7200385BAD /* speed_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 82CDD1E419673E7200385BAD /* speed_icon.png */; };
-		82E5DF7A196A0D83000E2270 /* shot.wav in Resources */ = {isa = PBXBuildFile; fileRef = 82E5DF71196A0D83000E2270 /* shot.wav */; };
 		82E5DF7D196A0EFF000E2270 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E5DF7C196A0EFF000E2270 /* AudioToolbox.framework */; };
 		82E5DF7F196A19E8000E2270 /* shot2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 82E5DF7E196A19E8000E2270 /* shot2.wav */; };
-		82E5DF82196A1DE5000E2270 /* impact2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 82E5DF80196A1DE5000E2270 /* impact2.wav */; };
-		82E5DF83196A1DE5000E2270 /* impact.wav in Resources */ = {isa = PBXBuildFile; fileRef = 82E5DF81196A1DE5000E2270 /* impact.wav */; };
-		82E5DF85196A2156000E2270 /* impact3.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 82E5DF84196A2156000E2270 /* impact3.aiff */; };
 		82E5DF87196A2320000E2270 /* impact4.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 82E5DF86196A2320000E2270 /* impact4.aiff */; };
 		82E5DF89196A23CC000E2270 /* explosion.wav in Resources */ = {isa = PBXBuildFile; fileRef = 82E5DF88196A23CC000E2270 /* explosion.wav */; };
 		82E68C7118A61B7800F77F10 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E68C7018A61B7800F77F10 /* Foundation.framework */; };
@@ -331,7 +287,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		820EB25D192A315300658B4C /* particle4u.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = particle4u.png; sourceTree = "<group>"; };
 		8214CA6418B59FC80022D7B9 /* hudGame.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = hudGame.xib; sourceTree = "<group>"; };
 		8214CA6618B5A2590022D7B9 /* HUDOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDOverlayView.h; sourceTree = "<group>"; };
 		8214CA6718B5A2590022D7B9 /* HUDOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDOverlayView.m; sourceTree = "<group>"; };
@@ -382,33 +337,16 @@
 		822F0E941927CAE30084A59D /* Am7.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Am7.jpg; sourceTree = "<group>"; };
 		822F0E951927CAE30084A59D /* Am8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Am8.jpg; sourceTree = "<group>"; };
 		822F0E961927CAE30084A59D /* Am9.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Am9.jpg; sourceTree = "<group>"; };
-		822F0ED81927F8190084A59D /* beam.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = beam.obj; sourceTree = "<group>"; };
 		822F0ED91927F8190084A59D /* beam_core.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = beam_core.mtl; sourceTree = "<group>"; };
 		822F0EDA1927F8190084A59D /* beam_core.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = beam_core.obj; sourceTree = "<group>"; };
 		822F0EDB1927F8190084A59D /* beam_glow_billboard.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = beam_glow_billboard.mtl; sourceTree = "<group>"; };
 		822F0EDC1927F8190084A59D /* beam_glow_billboard.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = beam_glow_billboard.obj; sourceTree = "<group>"; };
-		822F0EDD1927F8190084A59D /* glow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glow.png; sourceTree = "<group>"; };
 		822F0EFA19282E7E0084A59D /* particleFragmentShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = particleFragmentShader.fsh; sourceTree = "<group>"; };
 		822F0EFB19282E7E0084A59D /* particleVertexShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = particleVertexShader.vsh; sourceTree = "<group>"; };
-		8238419919159E4800581333 /* yellow rock.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "yellow rock.mtl"; sourceTree = "<group>"; };
-		8238419D19159EEE00581333 /* sandstone8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = sandstone8.jpg; path = "Resources/3D/Yellow Rock/sandstone8.jpg"; sourceTree = SOURCE_ROOT; };
 		823841A71915A4D600581333 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		823841A81915A51600581333 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
-		823841AA1915A8DB00581333 /* BlueRock.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BlueRock.mtl; sourceTree = "<group>"; };
-		823841AB1915A8DB00581333 /* BlueRock.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BlueRock.obj; sourceTree = "<group>"; };
-		823841AC1915A8DB00581333 /* RockTexture2.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = RockTexture2.JPG; sourceTree = "<group>"; };
-		823841C619161A3100581333 /* target viewfinder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "target viewfinder.png"; sourceTree = "<group>"; };
 		8247C6BB1918842C00E162B2 /* viewfinder gray 50%.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viewfinder gray 50%.png"; sourceTree = "<group>"; };
-		8248A20418A7E69C00BDE25E /* Cube opened backup normals.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Cube opened backup normals.obj"; sourceTree = "<group>"; };
-		8248A20518A7E69C00BDE25E /* Cube opened.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Cube opened.obj"; sourceTree = "<group>"; };
-		8248A20618A7E69C00BDE25E /* Cube.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cube.mtl; sourceTree = "<group>"; };
-		8248A20B18A7FE7F00BDE25E /* black pixel.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "black pixel.jpg"; sourceTree = "<group>"; };
-		8248A20E18A7FFA500BDE25E /* Plane.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Plane.obj; sourceTree = "<group>"; };
 		8248A21318A806B400BDE25E /* Wall with hole.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Wall with hole.obj"; sourceTree = "<group>"; };
-		8248A23818A8EC2800BDE25E /* Stone_Pavers_Flagstone_Gray.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Stone_Pavers_Flagstone_Gray.jpg; sourceTree = "<group>"; };
-		8248A23918A8EC2800BDE25E /* comet.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = comet.mtl; sourceTree = "<group>"; };
-		8248A23A18A8EC2800BDE25E /* comet.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = comet.obj; sourceTree = "<group>"; };
-		8248A24718A8EC8700BDE25E /* yellow rock.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "yellow rock.obj"; sourceTree = "<group>"; };
 		8248A38D18A963F600BDE25E /* btAxisSweep3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = btAxisSweep3.cpp; sourceTree = "<group>"; };
 		8248A38E18A963F600BDE25E /* btAxisSweep3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = btAxisSweep3.h; sourceTree = "<group>"; };
 		8248A38F18A963F600BDE25E /* btBroadphaseInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = btBroadphaseInterface.h; sourceTree = "<group>"; };
@@ -743,28 +681,14 @@
 		8248A57418A967C100BDE25E /* Bullet-C-Api.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bullet-C-Api.h"; sourceTree = "<group>"; };
 		8248A57518A967D500BDE25E /* btBulletDynamicsCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = btBulletDynamicsCommon.h; sourceTree = "<group>"; };
 		8248A57618A967EB00BDE25E /* btBulletCollisionCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = btBulletCollisionCommon.h; sourceTree = "<group>"; };
-		8252317218B5DB6500F475CE /* gunsight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gunsight.png; sourceTree = "<group>"; };
-		8252317418B5EC5000F475CE /* redTexture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = redTexture.jpg; sourceTree = "<group>"; };
-		8259FF81196E26BA003AE54C /* hud_left_1136w.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_left_1136w.png; sourceTree = "<group>"; };
-		8259FF82196E26BA003AE54C /* hud_middle_1136w.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_middle_1136w.png; sourceTree = "<group>"; };
-		8259FF83196E26BA003AE54C /* hud_right_1136w.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_right_1136w.png; sourceTree = "<group>"; };
-		8259FF87196E276D003AE54C /* hud_left_960w.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_left_960w.png; sourceTree = "<group>"; };
-		8259FF88196E276D003AE54C /* hud_middle_960w.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_middle_960w.png; sourceTree = "<group>"; };
-		8259FF89196E276D003AE54C /* hud_right_960w.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_right_960w.png; sourceTree = "<group>"; };
 		8259FF8D196E2A41003AE54C /* hud_left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hud_left@2x.png"; sourceTree = "<group>"; };
 		8259FF8E196E2A41003AE54C /* hud_middle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hud_middle@2x.png"; sourceTree = "<group>"; };
-		8259FF8F196E2A41003AE54C /* hud_right_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hud_right_@2x.png"; sourceTree = "<group>"; };
+		8259FF8F196E2A41003AE54C /* hud_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hud_right@2x.png"; sourceTree = "<group>"; };
 		8259FF94196E342C003AE54C /* AsteRoids.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = AsteRoids.dat; sourceTree = "<group>"; };
 		8259FF95196E342C003AE54C /* AsteRoids.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = AsteRoids.xml; sourceTree = "<group>"; };
-		82713AA219452E2E00D964EE /* frame.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = frame.mtl; sourceTree = "<group>"; };
-		82713AA319452E2E00D964EE /* frame.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = frame.obj; sourceTree = "<group>"; };
 		82713AA419452E2E00D964EE /* Metal_Seamed.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Metal_Seamed.jpg; sourceTree = "<group>"; };
 		82713AA91945303800D964EE /* frame_rotated.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = frame_rotated.mtl; sourceTree = "<group>"; };
 		82713AAD1945319900D964EE /* frame_rotated.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = frame_rotated.obj; sourceTree = "<group>"; };
-		82751D11194E072C0012DA04 /* PIA17257.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PIA17257.jpg; sourceTree = "<group>"; };
-		82751D13194E08340012DA04 /* PIA15801.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PIA15801.jpg; sourceTree = "<group>"; };
-		82751D15194E084E0012DA04 /* PIA16887.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PIA16887.jpg; sourceTree = "<group>"; };
-		82751D19194E14AB0012DA04 /* StarDome2_excerpt.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = StarDome2_excerpt.jpg; sourceTree = "<group>"; };
 		827528F11972BD1B0036EF6F /* libVuforia.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libVuforia.a; sourceTree = "<group>"; };
 		827528F51972BD480036EF6F /* Area.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Area.h; sourceTree = "<group>"; };
 		827528F61972BD480036EF6F /* CameraCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraCalibration.h; sourceTree = "<group>"; };
@@ -821,19 +745,19 @@
 		8275292B1972E9540036EF6F /* UILabelSmall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UILabelSmall.m; sourceTree = "<group>"; };
 		8275292D1972E9A20036EF6F /* UILabelBold.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UILabelBold.h; sourceTree = "<group>"; };
 		8275292E1972E9A20036EF6F /* UILabelBold.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UILabelBold.m; sourceTree = "<group>"; };
-		8277042119172F54005C4F0C /* viewfinder red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viewfinder red.png"; sourceTree = "<group>"; };
+		827529361973461E0036EF6F /* boom.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = boom.aiff; sourceTree = "<group>"; };
+		8275293819738F1D0036EF6F /* music2Min.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = music2Min.mp3; sourceTree = "<group>"; };
+		8275293A197397590036EF6F /* viewfinder_thick_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = viewfinder_thick_gray.png; sourceTree = "<group>"; };
+		8275293B197397590036EF6F /* viewfinder_thick_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = viewfinder_thick_white.png; sourceTree = "<group>"; };
 		8277042219172F54005C4F0C /* viewfinder white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viewfinder white.png"; sourceTree = "<group>"; };
 		8277386819296AA100F25004 /* GLSLProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLSLProgram.h; sourceTree = "<group>"; };
 		8277386919296AA100F25004 /* GLSLProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLSLProgram.m; sourceTree = "<group>"; };
 		8277386B19296AFD00F25004 /* particle.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = particle.fsh; sourceTree = "<group>"; };
 		8277386D19296B0600F25004 /* particle.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = particle.vsh; sourceTree = "<group>"; };
 		8277386F19296E8800F25004 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
-		827738751929834D00F25004 /* asteroid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = asteroid.png; path = ../../../../Downloads/asteroid.png; sourceTree = "<group>"; };
 		827DDF751971E6700001C406 /* point_iphone_alpha_cropped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = point_iphone_alpha_cropped.png; sourceTree = "<group>"; };
 		828E1325191E9FBF002EB107 /* Beam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Beam.h; sourceTree = "<group>"; };
 		828E1326191E9FBF002EB107 /* Beam.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Beam.mm; sourceTree = "<group>"; };
-		828E132B191ED58F002EB107 /* sphere.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.mtl; sourceTree = "<group>"; };
-		828E132C191ED58F002EB107 /* sphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.obj; sourceTree = "<group>"; };
 		828E1331191EF310002EB107 /* PoseMatrixMathHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PoseMatrixMathHelper.h; sourceTree = "<group>"; };
 		828E1332191EF310002EB107 /* PoseMatrixMathHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PoseMatrixMathHelper.mm; sourceTree = "<group>"; };
 		828E133419201A4B002EB107 /* GameObject3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObject3D.h; sourceTree = "<group>"; };
@@ -845,33 +769,21 @@
 		829632541968E1E000AF4CB0 /* billboard.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = billboard.fsh; sourceTree = "<group>"; };
 		829632561968E80C00AF4CB0 /* planet_earth_billboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = planet_earth_billboard.png; sourceTree = "<group>"; };
 		829632581968F36000AF4CB0 /* hit_overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hit_overlay.png; sourceTree = "<group>"; };
-		82BBD4E01916CF680077B0B6 /* StarDome.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = StarDome.fsh; sourceTree = "<group>"; };
-		82BBD4E91916F0AD0077B0B6 /* spacedome.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = spacedome.jpg; sourceTree = "<group>"; };
 		82BBD4ED1916F0AD0077B0B6 /* StarDome.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StarDome.mtl; sourceTree = "<group>"; };
 		82BBD4EE1916F0AD0077B0B6 /* StarDome.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StarDome.obj; sourceTree = "<group>"; };
-		82BBD4EF1916F0AD0077B0B6 /* StarDome2_cropped.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = StarDome2_cropped.jpg; sourceTree = "<group>"; };
-		82BBD4F71916F4920077B0B6 /* StarDome2_cropped2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = StarDome2_cropped2.jpg; sourceTree = "<group>"; };
-		82BBD50B19170C810077B0B6 /* WLM_square.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = WLM_square.jpg; sourceTree = "<group>"; };
 		82BBD50D191718660077B0B6 /* hudInstructions.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = hudInstructions.xib; sourceTree = "<group>"; };
 		82BBD50F191724FB0077B0B6 /* PassthroughView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PassthroughView.h; sourceTree = "<group>"; };
 		82BBD510191724FB0077B0B6 /* PassthroughView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PassthroughView.m; sourceTree = "<group>"; };
 		82C7F4F01921C3F8000F4029 /* beam_core.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = beam_core.fsh; sourceTree = "<group>"; };
 		82C7F4F21921C469000F4029 /* beam_glow_billboard.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = beam_glow_billboard.fsh; sourceTree = "<group>"; };
 		82CDD1DF19673E6A00385BAD /* asteroid_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asteroid_icon.png; sourceTree = "<group>"; };
-		82CDD1E119673E7200385BAD /* hud_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_left.png; sourceTree = "<group>"; };
-		82CDD1E219673E7200385BAD /* hud_middle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_middle.png; sourceTree = "<group>"; };
-		82CDD1E319673E7200385BAD /* hud_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_right.png; sourceTree = "<group>"; };
 		82CDD1E419673E7200385BAD /* speed_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = speed_icon.png; sourceTree = "<group>"; };
 		82CDD1EA1967422B00385BAD /* Exo2.0-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Exo2.0-Bold.otf"; sourceTree = "<group>"; };
 		82CDD1EB1967422B00385BAD /* Exo2.0-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Exo2.0-Light.otf"; sourceTree = "<group>"; };
 		82CDD1EC1967422B00385BAD /* Exo2.0-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Exo2.0-Medium.otf"; sourceTree = "<group>"; };
 		82CDD1ED1967422B00385BAD /* Exo2.0-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Exo2.0-Regular.otf"; sourceTree = "<group>"; };
-		82E5DF71196A0D83000E2270 /* shot.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = shot.wav; sourceTree = "<group>"; };
 		82E5DF7C196A0EFF000E2270 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		82E5DF7E196A19E8000E2270 /* shot2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = shot2.wav; sourceTree = "<group>"; };
-		82E5DF80196A1DE5000E2270 /* impact2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = impact2.wav; sourceTree = "<group>"; };
-		82E5DF81196A1DE5000E2270 /* impact.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = impact.wav; sourceTree = "<group>"; };
-		82E5DF84196A2156000E2270 /* impact3.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = impact3.aiff; sourceTree = "<group>"; };
 		82E5DF86196A2320000E2270 /* impact4.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = impact4.aiff; sourceTree = "<group>"; };
 		82E5DF88196A23CC000E2270 /* explosion.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = explosion.wav; sourceTree = "<group>"; };
 		82E68C6D18A61B7800F77F10 /* AsteRoids.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AsteRoids.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -917,6 +829,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82E68CE518A623E500F77F10 /* AVFoundation.framework in Frameworks */,
 				82E5DF7D196A0EFF000E2270 /* AudioToolbox.framework in Frameworks */,
 				827528F21972BD1B0036EF6F /* libVuforia.a in Frameworks */,
 				82E68CA018A61C0E00F77F10 /* OpenGLES.framework in Frameworks */,
@@ -924,7 +837,6 @@
 				82E68CA418A61C5B00F77F10 /* NinevehGL.framework in Frameworks */,
 				82E68C7518A61B7800F77F10 /* UIKit.framework in Frameworks */,
 				82E68CA218A61C1700F77F10 /* QuartzCore.framework in Frameworks */,
-				82E68CE518A623E500F77F10 /* AVFoundation.framework in Frameworks */,
 				82E68CEB18A6246D00F77F10 /* CoreMedia.framework in Frameworks */,
 				82E68C7318A61B7800F77F10 /* CoreGraphics.framework in Frameworks */,
 				82E68CE318A623C900F77F10 /* CoreVideo.framework in Frameworks */,
@@ -1018,25 +930,13 @@
 		822F0ED71927F8190084A59D /* Beam */ = {
 			isa = PBXGroup;
 			children = (
-				822F0ED81927F8190084A59D /* beam.obj */,
 				822F0ED91927F8190084A59D /* beam_core.mtl */,
 				822F0EDA1927F8190084A59D /* beam_core.obj */,
 				822F0EDB1927F8190084A59D /* beam_glow_billboard.mtl */,
 				822F0EDC1927F8190084A59D /* beam_glow_billboard.obj */,
-				822F0EDD1927F8190084A59D /* glow.png */,
 				8296323D1968604A00AF4CB0 /* beam.png */,
 			);
 			path = Beam;
-			sourceTree = "<group>";
-		};
-		8238419F1915A2F500581333 /* Blue Rock */ = {
-			isa = PBXGroup;
-			children = (
-				823841AA1915A8DB00581333 /* BlueRock.mtl */,
-				823841AB1915A8DB00581333 /* BlueRock.obj */,
-				823841AC1915A8DB00581333 /* RockTexture2.JPG */,
-			);
-			path = "Blue Rock";
 			sourceTree = "<group>";
 		};
 		823841C519161A0800581333 /* Images */ = {
@@ -1045,56 +945,24 @@
 				829632581968F36000AF4CB0 /* hit_overlay.png */,
 				827DDF751971E6700001C406 /* point_iphone_alpha_cropped.png */,
 				8247C6BB1918842C00E162B2 /* viewfinder gray 50%.png */,
-				8277042119172F54005C4F0C /* viewfinder red.png */,
 				8277042219172F54005C4F0C /* viewfinder white.png */,
-				823841C619161A3100581333 /* target viewfinder.png */,
 				82CDD1DF19673E6A00385BAD /* asteroid_icon.png */,
-				8259FF87196E276D003AE54C /* hud_left_960w.png */,
+				8275293A197397590036EF6F /* viewfinder_thick_gray.png */,
+				8275293B197397590036EF6F /* viewfinder_thick_white.png */,
 				8259FF8D196E2A41003AE54C /* hud_left@2x.png */,
 				8259FF8E196E2A41003AE54C /* hud_middle@2x.png */,
-				8259FF8F196E2A41003AE54C /* hud_right_@2x.png */,
-				8259FF88196E276D003AE54C /* hud_middle_960w.png */,
-				8259FF89196E276D003AE54C /* hud_right_960w.png */,
-				8259FF81196E26BA003AE54C /* hud_left_1136w.png */,
-				8259FF82196E26BA003AE54C /* hud_middle_1136w.png */,
-				8259FF83196E26BA003AE54C /* hud_right_1136w.png */,
-				82CDD1E119673E7200385BAD /* hud_left.png */,
-				82CDD1E219673E7200385BAD /* hud_middle.png */,
-				82CDD1E319673E7200385BAD /* hud_right.png */,
+				8259FF8F196E2A41003AE54C /* hud_right@2x.png */,
 				82CDD1E419673E7200385BAD /* speed_icon.png */,
 			);
 			name = Images;
-			sourceTree = "<group>";
-		};
-		8248A20318A7E69C00BDE25E /* Cube opened */ = {
-			isa = PBXGroup;
-			children = (
-				8248A20418A7E69C00BDE25E /* Cube opened backup normals.obj */,
-				8248A20518A7E69C00BDE25E /* Cube opened.obj */,
-				8248A20618A7E69C00BDE25E /* Cube.mtl */,
-			);
-			path = "Cube opened";
 			sourceTree = "<group>";
 		};
 		8248A20A18A7FE7500BDE25E /* Textures */ = {
 			isa = PBXGroup;
 			children = (
 				82E95DAB19314C5A0017BDC1 /* debris.png */,
-				820EB25D192A315300658B4C /* particle4u.png */,
-				827738751929834D00F25004 /* asteroid.png */,
-				8248A20B18A7FE7F00BDE25E /* black pixel.jpg */,
-				8252317418B5EC5000F475CE /* redTexture.jpg */,
-				8252317218B5DB6500F475CE /* gunsight.png */,
 			);
 			name = Textures;
-			sourceTree = "<group>";
-		};
-		8248A20D18A7FFA500BDE25E /* Plane */ = {
-			isa = PBXGroup;
-			children = (
-				8248A20E18A7FFA500BDE25E /* Plane.obj */,
-			);
-			path = Plane;
 			sourceTree = "<group>";
 		};
 		8248A21018A806B400BDE25E /* Wall with hole */ = {
@@ -1103,42 +971,6 @@
 				8248A21318A806B400BDE25E /* Wall with hole.obj */,
 			);
 			path = "Wall with hole";
-			sourceTree = "<group>";
-		};
-		8248A23618A8EC2800BDE25E /* Comet */ = {
-			isa = PBXGroup;
-			children = (
-				8248A23718A8EC2800BDE25E /* comet */,
-				8248A23918A8EC2800BDE25E /* comet.mtl */,
-				8248A23A18A8EC2800BDE25E /* comet.obj */,
-			);
-			path = Comet;
-			sourceTree = "<group>";
-		};
-		8248A23718A8EC2800BDE25E /* comet */ = {
-			isa = PBXGroup;
-			children = (
-				8248A23818A8EC2800BDE25E /* Stone_Pavers_Flagstone_Gray.jpg */,
-			);
-			path = comet;
-			sourceTree = "<group>";
-		};
-		8248A24318A8EC8700BDE25E /* Yellow Rock */ = {
-			isa = PBXGroup;
-			children = (
-				8248A24418A8EC8700BDE25E /* yellow rock */,
-				8248A24718A8EC8700BDE25E /* yellow rock.obj */,
-				8238419919159E4800581333 /* yellow rock.mtl */,
-			);
-			path = "Yellow Rock";
-			sourceTree = "<group>";
-		};
-		8248A24418A8EC8700BDE25E /* yellow rock */ = {
-			isa = PBXGroup;
-			children = (
-				8238419D19159EEE00581333 /* sandstone8.jpg */,
-			);
-			path = "yellow rock";
 			sourceTree = "<group>";
 		};
 		8248A24B18A961F200BDE25E /* Bullet */ = {
@@ -1609,8 +1441,6 @@
 			children = (
 				82713AA91945303800D964EE /* frame_rotated.mtl */,
 				82713AAD1945319900D964EE /* frame_rotated.obj */,
-				82713AA219452E2E00D964EE /* frame.mtl */,
-				82713AA319452E2E00D964EE /* frame.obj */,
 				82713AA419452E2E00D964EE /* Metal_Seamed.jpg */,
 			);
 			path = frame;
@@ -1678,15 +1508,6 @@
 			path = QCAR;
 			sourceTree = "<group>";
 		};
-		828E1328191ED58F002EB107 /* sphere */ = {
-			isa = PBXGroup;
-			children = (
-				828E132B191ED58F002EB107 /* sphere.mtl */,
-				828E132C191ED58F002EB107 /* sphere.obj */,
-			);
-			path = sphere;
-			sourceTree = "<group>";
-		};
 		829632491968E0B700AF4CB0 /* PlanetEarthBillboard */ = {
 			isa = PBXGroup;
 			children = (
@@ -1700,7 +1521,6 @@
 		82BBD4DF1916CF2A0077B0B6 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
-				82BBD4E01916CF680077B0B6 /* StarDome.fsh */,
 				82C7F4F01921C3F8000F4029 /* beam_core.fsh */,
 				82C7F4F21921C469000F4029 /* beam_glow_billboard.fsh */,
 				8277386D19296B0600F25004 /* particle.vsh */,
@@ -1715,17 +1535,9 @@
 		82BBD4E81916F0AD0077B0B6 /* StarDome */ = {
 			isa = PBXGroup;
 			children = (
-				82BBD50B19170C810077B0B6 /* WLM_square.jpg */,
-				82751D15194E084E0012DA04 /* PIA16887.jpg */,
 				829291BA195491C100DFA1F1 /* PIA16887_2400px.jpg */,
-				82751D19194E14AB0012DA04 /* StarDome2_excerpt.jpg */,
-				82BBD4F71916F4920077B0B6 /* StarDome2_cropped2.jpg */,
-				82BBD4E91916F0AD0077B0B6 /* spacedome.jpg */,
-				82751D13194E08340012DA04 /* PIA15801.jpg */,
 				82BBD4ED1916F0AD0077B0B6 /* StarDome.mtl */,
 				82BBD4EE1916F0AD0077B0B6 /* StarDome.obj */,
-				82751D11194E072C0012DA04 /* PIA17257.jpg */,
-				82BBD4EF1916F0AD0077B0B6 /* StarDome2_cropped.jpg */,
 			);
 			path = StarDome;
 			sourceTree = "<group>";
@@ -1744,11 +1556,9 @@
 		82E5DF69196A0D83000E2270 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				8275293819738F1D0036EF6F /* music2Min.mp3 */,
+				827529361973461E0036EF6F /* boom.aiff */,
 				82E5DF7E196A19E8000E2270 /* shot2.wav */,
-				82E5DF71196A0D83000E2270 /* shot.wav */,
-				82E5DF80196A1DE5000E2270 /* impact2.wav */,
-				82E5DF84196A2156000E2270 /* impact3.aiff */,
-				82E5DF81196A1DE5000E2270 /* impact.wav */,
 				82E5DF86196A2320000E2270 /* impact4.aiff */,
 				82E5DF88196A23CC000E2270 /* explosion.wav */,
 			);
@@ -1905,14 +1715,8 @@
 				82713AA019452E2E00D964EE /* frame */,
 				822F0ED71927F8190084A59D /* Beam */,
 				822F0E531927CAE30084A59D /* low-poly asteroids */,
-				828E1328191ED58F002EB107 /* sphere */,
 				82BBD4E81916F0AD0077B0B6 /* StarDome */,
-				8238419F1915A2F500581333 /* Blue Rock */,
-				8248A24318A8EC8700BDE25E /* Yellow Rock */,
-				8248A23618A8EC2800BDE25E /* Comet */,
 				8248A21018A806B400BDE25E /* Wall with hole */,
-				8248A20D18A7FFA500BDE25E /* Plane */,
-				8248A20318A7E69C00BDE25E /* Cube opened */,
 				82E68D6F18A6590300F77F10 /* dummy */,
 			);
 			path = 3D;
@@ -2009,34 +1813,24 @@
 				82BBD4F51916F0AD0077B0B6 /* StarDome.obj in Resources */,
 				8248A57318A963F800BDE25E /* premake4.lua in Resources */,
 				829632511968E0B700AF4CB0 /* planet_earth_billboard.obj in Resources */,
-				8259FF92196E2A41003AE54C /* hud_right_@2x.png in Resources */,
-				82E5DF7A196A0D83000E2270 /* shot.wav in Resources */,
+				8259FF92196E2A41003AE54C /* hud_right@2x.png in Resources */,
 				82E5DF87196A2320000E2270 /* impact4.aiff in Resources */,
 				822F0ECC1927CAE30084A59D /* Am13.jpg in Resources */,
-				8248A23D18A8EC2800BDE25E /* comet.obj in Resources */,
 				822F0EB51927CAE30084A59D /* asteroid8.obj in Resources */,
 				822F0EA41927CAE30084A59D /* asteroid2.obj in Resources */,
 				822F0E9F1927CAE30084A59D /* asteroid15.obj in Resources */,
 				8277386C19296AFD00F25004 /* particle.fsh in Resources */,
-				82713AA619452E2E00D964EE /* frame.mtl in Resources */,
+				8275293919738F1D0036EF6F /* music2Min.mp3 in Resources */,
 				822F0ED31927CAE30084A59D /* Am6.jpg in Resources */,
 				822F0E9B1927CAE30084A59D /* asteroid11.obj in Resources */,
 				822F0EE21927F8190084A59D /* beam_glow_billboard.obj in Resources */,
 				822F0ED51927CAE30084A59D /* Am8.jpg in Resources */,
-				823841AE1915A8DB00581333 /* BlueRock.obj in Resources */,
-				82E5DF85196A2156000E2270 /* impact3.aiff in Resources */,
 				822F0ECD1927CAE30084A59D /* Am14.jpg in Resources */,
-				82E5DF82196A1DE5000E2270 /* impact2.wav in Resources */,
 				822F0EB11927CAE30084A59D /* asteroid4.obj in Resources */,
-				828E1330191ED58F002EB107 /* sphere.obj in Resources */,
-				8259FF86196E26BA003AE54C /* hud_right_1136w.png in Resources */,
 				82E68D7118A6591D00F77F10 /* dummy.obj in Resources */,
 				822F0ECF1927CAE30084A59D /* Am2.jpg in Resources */,
 				822F0EA01927CAE30084A59D /* asteroid16.obj in Resources */,
-				8252317318B5DB6500F475CE /* gunsight.png in Resources */,
-				82751D16194E084E0012DA04 /* PIA16887.jpg in Resources */,
 				822F0E9C1927CAE30084A59D /* asteroid12.obj in Resources */,
-				822F0EE31927F8190084A59D /* glow.png in Resources */,
 				82713AAB1945303800D964EE /* frame_rotated.mtl in Resources */,
 				82E5DF89196A23CC000E2270 /* explosion.wav in Resources */,
 				822F0EA91927CAE30084A59D /* asteroid24.obj in Resources */,
@@ -2044,103 +1838,69 @@
 				822F0ED21927CAE30084A59D /* Am5.jpg in Resources */,
 				822F0EB21927CAE30084A59D /* asteroid5.obj in Resources */,
 				822F0EAF1927CAE30084A59D /* asteroid3.obj in Resources */,
-				8248A24A18A8EC8700BDE25E /* yellow rock.obj in Resources */,
-				8248A23C18A8EC2800BDE25E /* comet.mtl in Resources */,
 				822F0EB41927CAE30084A59D /* asteroid7.obj in Resources */,
-				82BBD4F01916F0AD0077B0B6 /* spacedome.jpg in Resources */,
 				829632591968F36000AF4CB0 /* hit_overlay.png in Resources */,
 				8259FF90196E2A41003AE54C /* hud_left@2x.png in Resources */,
-				8248A23B18A8EC2800BDE25E /* Stone_Pavers_Flagstone_Gray.jpg in Resources */,
 				822F0ED01927CAE30084A59D /* Am3.jpg in Resources */,
-				82751D14194E08340012DA04 /* PIA15801.jpg in Resources */,
 				822F0E9A1927CAE30084A59D /* asteroid10.obj in Resources */,
 				8259FF96196E342C003AE54C /* AsteRoids.dat in Resources */,
-				8248A20F18A7FFA500BDE25E /* Plane.obj in Resources */,
-				822F0EDE1927F8190084A59D /* beam.obj in Resources */,
-				82CDD1E719673E7200385BAD /* hud_right.png in Resources */,
 				822F0ED11927CAE30084A59D /* Am4.jpg in Resources */,
 				822F0EB61927CAE30084A59D /* asteroid9.obj in Resources */,
 				8248A21618A806B400BDE25E /* Wall with hole.obj in Resources */,
 				822F0ECE1927CAE30084A59D /* Am15.jpg in Resources */,
 				8277042419172F54005C4F0C /* viewfinder white.png in Resources */,
-				8248A20818A7E69C00BDE25E /* Cube opened.obj in Resources */,
 				822F0EE11927F8190084A59D /* beam_glow_billboard.mtl in Resources */,
-				82BBD4E11916CF680077B0B6 /* StarDome.fsh in Resources */,
+				827529371973461E0036EF6F /* boom.aiff in Resources */,
 				822F0ED41927CAE30084A59D /* Am7.jpg in Resources */,
-				8259FF8A196E276D003AE54C /* hud_left_960w.png in Resources */,
-				823841AD1915A8DB00581333 /* BlueRock.mtl in Resources */,
-				8259FF8B196E276D003AE54C /* hud_middle_960w.png in Resources */,
 				82E5DF7F196A19E8000E2270 /* shot2.wav in Resources */,
 				82E95DAC19314C5A0017BDC1 /* debris.png in Resources */,
 				822F0EA21927CAE30084A59D /* asteroid18.obj in Resources */,
 				82713AA819452E2E00D964EE /* Metal_Seamed.jpg in Resources */,
 				822F0EAA1927CAE30084A59D /* asteroid25.obj in Resources */,
-				8259FF84196E26BA003AE54C /* hud_left_1136w.png in Resources */,
-				823841AF1915A8DB00581333 /* RockTexture2.JPG in Resources */,
 				82CDD1E019673E6A00385BAD /* asteroid_icon.png in Resources */,
-				82BBD50C19170C810077B0B6 /* WLM_square.jpg in Resources */,
 				827DDF761971E6700001C406 /* point_iphone_alpha_cropped.png in Resources */,
 				822F0EAE1927CAE30084A59D /* asteroid29.obj in Resources */,
 				822F0EDF1927F8190084A59D /* beam_core.mtl in Resources */,
 				82C7F4F11921C3F8000F4029 /* beam_core.fsh in Resources */,
 				8248A57218A963F800BDE25E /* CMakeLists.txt in Resources */,
 				82BBD50E191718660077B0B6 /* hudInstructions.xib in Resources */,
-				8248A20918A7E69C00BDE25E /* Cube.mtl in Resources */,
-				82CDD1E519673E7200385BAD /* hud_left.png in Resources */,
 				822F0E991927CAE30084A59D /* asteroid1.obj in Resources */,
 				82E68C7B18A61B7800F77F10 /* InfoPlist.strings in Resources */,
 				822F0EAC1927CAE30084A59D /* asteroid27.obj in Resources */,
 				822F0ED61927CAE30084A59D /* Am9.jpg in Resources */,
-				8252317518B5EC5000F475CE /* redTexture.jpg in Resources */,
 				822F0EC81927CAE30084A59D /* Am1.jpg in Resources */,
 				822F0EA81927CAE30084A59D /* asteroid23.obj in Resources */,
-				82751D1A194E14AB0012DA04 /* StarDome2_excerpt.jpg in Resources */,
-				8238419A19159E4800581333 /* yellow rock.mtl in Resources */,
+				8275293D197397590036EF6F /* viewfinder_thick_white.png in Resources */,
 				822F0EFC19282E7E0084A59D /* particleFragmentShader.fsh in Resources */,
 				82C7F4F31921C469000F4029 /* beam_glow_billboard.fsh in Resources */,
 				82E68C8318A61B7800F77F10 /* Images.xcassets in Resources */,
 				829632501968E0B700AF4CB0 /* planet_earth_billboard.mtl in Resources */,
-				8259FF8C196E276D003AE54C /* hud_right_960w.png in Resources */,
 				822F0EAD1927CAE30084A59D /* asteroid28.obj in Resources */,
 				822F0ECB1927CAE30084A59D /* Am12.jpg in Resources */,
 				82BBD4F41916F0AD0077B0B6 /* StarDome.mtl in Resources */,
 				822F0EFD19282E7E0084A59D /* particleVertexShader.vsh in Resources */,
-				82BBD4F81916F4920077B0B6 /* StarDome2_cropped2.jpg in Resources */,
 				829632551968E1E000AF4CB0 /* billboard.fsh in Resources */,
 				8277386E19296B0600F25004 /* particle.vsh in Resources */,
-				827738761929834D00F25004 /* asteroid.png in Resources */,
 				822F0EA71927CAE30084A59D /* asteroid22.obj in Resources */,
-				828E132F191ED58F002EB107 /* sphere.mtl in Resources */,
-				82CDD1E619673E7200385BAD /* hud_middle.png in Resources */,
 				822F0EB01927CAE30084A59D /* asteroid30.obj in Resources */,
-				82BBD4F61916F0AD0077B0B6 /* StarDome2_cropped.jpg in Resources */,
 				8247C6BC1918842C00E162B2 /* viewfinder gray 50%.png in Resources */,
 				822F0EAB1927CAE30084A59D /* asteroid26.obj in Resources */,
 				822F0EC91927CAE30084A59D /* Am10.jpg in Resources */,
 				822F0E9D1927CAE30084A59D /* asteroid13.obj in Resources */,
-				8238419E19159EEE00581333 /* sandstone8.jpg in Resources */,
 				822F0EA11927CAE30084A59D /* asteroid17.obj in Resources */,
 				8259FF97196E342C003AE54C /* AsteRoids.xml in Resources */,
 				8296323E1968604A00AF4CB0 /* beam.png in Resources */,
 				822F0EA61927CAE30084A59D /* asteroid21.obj in Resources */,
-				8259FF85196E26BA003AE54C /* hud_middle_1136w.png in Resources */,
 				82CDD1E819673E7200385BAD /* speed_icon.png in Resources */,
 				8259FF91196E2A41003AE54C /* hud_middle@2x.png in Resources */,
 				822F0EE01927F8190084A59D /* beam_core.obj in Resources */,
 				822F0E9E1927CAE30084A59D /* asteroid14.obj in Resources */,
 				82713AAE1945319900D964EE /* frame_rotated.obj in Resources */,
-				82751D12194E072C0012DA04 /* PIA17257.jpg in Resources */,
 				829291BB195491C100DFA1F1 /* PIA16887_2400px.jpg in Resources */,
 				822F0EB31927CAE30084A59D /* asteroid6.obj in Resources */,
-				8248A20C18A7FE7F00BDE25E /* black pixel.jpg in Resources */,
 				822F0ECA1927CAE30084A59D /* Am11.jpg in Resources */,
-				82E5DF83196A1DE5000E2270 /* impact.wav in Resources */,
-				8248A20718A7E69C00BDE25E /* Cube opened backup normals.obj in Resources */,
-				8277042319172F54005C4F0C /* viewfinder red.png in Resources */,
+				8275293C197397590036EF6F /* viewfinder_thick_gray.png in Resources */,
 				822F0EA31927CAE30084A59D /* asteroid19.obj in Resources */,
-				820EB25E192A315300658B4C /* particle4u.png in Resources */,
-				823841C719161A3100581333 /* target viewfinder.png in Resources */,
-				82713AA719452E2E00D964EE /* frame.obj in Resources */,
 				822F0EA51927CAE30084A59D /* asteroid20.obj in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

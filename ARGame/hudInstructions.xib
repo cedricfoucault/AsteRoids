@@ -55,7 +55,7 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="point_iphone_alpha_cropped.png" translatesAutoresizingMaskIntoConstraints="NO" id="5Xv-T4-oQd">
                     <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                 </imageView>
-                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="viewfinder white.png" translatesAutoresizingMaskIntoConstraints="NO" id="IzV-dV-r3G">
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="viewfinder_thick_white.png" translatesAutoresizingMaskIntoConstraints="NO" id="IzV-dV-r3G">
                     <rect key="frame" x="272" y="147" width="24" height="25"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="IzV-dV-r3G" secondAttribute="height" multiplier="1:1" id="gsj-ak-gWa"/>
@@ -227,6 +227,6 @@ Tap anywhere</string>
     </objects>
     <resources>
         <image name="point_iphone_alpha_cropped.png" width="525" height="350"/>
-        <image name="viewfinder white.png" width="336" height="335"/>
+        <image name="viewfinder_thick_white.png" width="344" height="343"/>
     </resources>
 </document>

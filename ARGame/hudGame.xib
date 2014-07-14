@@ -159,7 +159,7 @@
                                 <constraint firstAttribute="width" constant="142" id="SfM-86-KH0"/>
                             </constraints>
                         </view>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="viewfinder white.png" translatesAutoresizingMaskIntoConstraints="NO" id="wb0-DD-MqC">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="viewfinder_thick_white.png" translatesAutoresizingMaskIntoConstraints="NO" id="wb0-DD-MqC">
                             <rect key="frame" x="272" y="148" width="24" height="25"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="wb0-DD-MqC" secondAttribute="height" multiplier="1:1" id="eVW-IS-lSM"/>
@@ -401,6 +401,9 @@
                                     <state key="highlighted">
                                         <color key="titleColor" red="0.090196078430000007" green="0.59215686270000001" blue="0.61960784310000006" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
+                                    <connections>
+                                        <action selector="markerButtonTapped" destination="-1" eventType="touchUpInside" id="T1b-nj-AYh"/>
+                                    </connections>
                                 </button>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" was lost." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2oY-Yz-yGJ">
                                     <rect key="frame" x="45" y="6" width="62" height="17"/>
@@ -569,11 +572,11 @@
     <resources>
         <image name="asteroid_icon.png" width="52" height="51"/>
         <image name="hit_overlay.png" width="1136" height="640"/>
-        <image name="hud_left.png" width="255" height="121"/>
-        <image name="hud_middle.png" width="726" height="66"/>
-        <image name="hud_right.png" width="256" height="121"/>
+        <image name="hud_left.png" width="216" height="59"/>
+        <image name="hud_middle.png" width="683" height="33"/>
+        <image name="hud_right.png" width="216" height="59"/>
         <image name="point_iphone_alpha_cropped.png" width="525" height="350"/>
         <image name="speed_icon.png" width="58" height="51"/>
-        <image name="viewfinder white.png" width="336" height="335"/>
+        <image name="viewfinder_thick_white.png" width="344" height="343"/>
     </resources>
 </document>

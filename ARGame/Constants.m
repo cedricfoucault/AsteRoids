@@ -82,7 +82,6 @@ const float LIFE_REGEN_RATE = 0.2; // life points / s
 
 
 NSString * const FRAME_MESH_FILENAME = @"frame_rotated.obj";
-//NSString * const ASTEROID_MESH_FILENAME = @"BlueRock.obj";
 NSString * const BEAM_CORE_MESH_FILENAME = @"beam_core.obj";
 NSString * const BEAM_CORE_FRAGMENT_SHADER_FILENAME = @"beam_core.fsh";
 NSString * const BEAM_GLOW_BILLBOARD_MESH_FILENAME = @"beam_glow_billboard.obj";
@@ -90,8 +89,8 @@ NSString * const SKYDOME_MESH_FILENAME = @"StarDome.obj";
 NSString * const DESTINATION_PLANET_MESH_FILENAME = @"planet_earth_billboard.obj";
 NSString * const BILLBOARD_FRAGMENT_SHADER_FILENAME = @"billboard.fsh";
 NSString * const BEAM_GLOW_BILLBOARD_FRAGMENT_SHADER_FILENAME = @"beam_glow_billboard.fsh";
-NSString * const LOADED_VIEWFINDER_FILENAME = @"viewfinder white.png";
-NSString * const UNLOADED_VIEWFINDER_FILENAME = @"viewfinder gray 50%.png";
+NSString * const LOADED_VIEWFINDER_FILENAME = @"viewfinder_thick_white.png";
+NSString * const UNLOADED_VIEWFINDER_FILENAME = @"viewfinder_thick_gray.png";
 NSString * const TRACKER_DATASET_FILENAME = @"AsteRoids.xml";
 char * const TRACKER_TARGET_NAME = "asteroids_marker";
 
@@ -101,6 +100,10 @@ NSString * const SOUND_IMPACT_NAME = @"impact4";
 NSString * const SOUND_IMPACT_EXTENSION = @"aiff";
 NSString * const SOUND_EXPLOSION_NAME = @"explosion";
 NSString * const SOUND_EXPLOSION_EXTENSION = @"wav";
+NSString * const SOUND_BOOM_NAME = @"boom";
+NSString * const SOUND_BOOM_EXTENSION = @"aiff";
+NSString * const SOUND_MUSIC_NAME = @"music2Min";
+NSString * const SOUND_MUSIC_EXTENSION = @"mp3";
 
 NSString * const FONT_FAMILY_NAME = @"Exo 2.0";
 NSString * const FONT_LIGHT_NAME = @"Exo2.0-Light";

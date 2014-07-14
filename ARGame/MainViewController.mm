@@ -32,6 +32,7 @@
 #import "Constants.h"
 
 #include <AudioToolbox/AudioToolbox.h>
+#include <AVFoundation/AVFoundation.h>
 
 #define ANIMATION_DURATION 2.5
 #define SHOWHIDE_ANIMATION_DURATION 0.67
@@ -88,6 +89,9 @@
 @property (nonatomic) SystemSoundID soundShot;
 @property (nonatomic) SystemSoundID soundImpact;
 @property (nonatomic) SystemSoundID soundExplosion;
+@property (nonatomic) SystemSoundID soundHit;
+
+@property (nonatomic) AVAudioPlayer *playerMusic;
 
 @end
 
@@ -176,7 +180,7 @@
     // Get the main bundle for the app
     NSBundle *mainBundle = [NSBundle mainBundle];
     
-    // Create sound IDs for every sounds
+    // Create sound IDs for every sound effects
     NSString *path  = [mainBundle pathForResource:SOUND_SHOT_NAME ofType:SOUND_SHOT_EXTENSION];
     CFURLRef fileURLRef = (__bridge CFURLRef) [NSURL fileURLWithPath:path];
     AudioServicesCreateSystemSoundID(fileURLRef, &_soundShot);
@@ -188,6 +192,17 @@
     path  = [mainBundle pathForResource:SOUND_EXPLOSION_NAME ofType:SOUND_EXPLOSION_EXTENSION];
     fileURLRef = (__bridge CFURLRef) [NSURL fileURLWithPath:path];
     AudioServicesCreateSystemSoundID(fileURLRef, &_soundExplosion);
+    
+    path  = [mainBundle pathForResource:SOUND_BOOM_NAME ofType:SOUND_BOOM_EXTENSION];
+    fileURLRef = (__bridge CFURLRef) [NSURL fileURLWithPath:path];
+    AudioServicesCreateSystemSoundID(fileURLRef, &_soundHit);
+    
+    // Create AVAudioPlayer for background music
+    path = [[NSBundle mainBundle] pathForResource: @"music2Min" ofType: @"mp3"];
+    NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:path];
+    self.playerMusic = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
+    [self.playerMusic prepareToPlay];
+    [self.playerMusic setVolume:0.66];
 }
 
 - (void)dealloc {
@@ -908,8 +923,13 @@ int signf(float f) {
 }
 
 - (void)startShip {
+    // reset counts
     [self resetScore];
+    // set scene
     [self addInitialAsteroids];
+    // music
+    [self.playerMusic play];
+    // transition views
     [UIView transitionFromView:self.hudInstructions
                         toView:self.hudOverlayView
                       duration:SHOWHIDE_ANIMATION_DURATION options:UIViewAnimationOptionShowHideTransitionViews|UIViewAnimationOptionTransitionCrossDissolve
@@ -938,6 +958,9 @@ int signf(float f) {
     [self resetPlanet];
     // display in-game view
     [self displayIngame];
+    // music
+    self.playerMusic.currentTime = 0.0;
+    [self.playerMusic play];
 }
 
 - (void)resetPlanet {
@@ -975,6 +998,11 @@ int signf(float f) {
     self.shipSpeed = 0.;
     self.shipIsStarted = NO;
     [self displayEndGame];
+    // music
+    if (self.playerMusic.playing) {
+        [self.playerMusic stop];
+        [self.playerMusic prepareToPlay];
+    }
 }
 
 - (void)regenLife {
@@ -1014,6 +1042,8 @@ int signf(float f) {
             //        self.hitOverlayView.hidden = TRUE;
         }];
     }
+    // play sound effect
+    AudioServicesPlaySystemSound(self.soundHit);
 }
 
 - (void)refreshLifebar {
@@ -1026,6 +1056,11 @@ int signf(float f) {
     self.shipSpeed = 0.;
     self.shipIsStarted = NO;
     [self displayGameOver];
+    // music
+    if (self.playerMusic.playing) {
+        [self.playerMusic stop];
+        [self.playerMusic prepareToPlay];
+    }
 }
 
  - (void)hideHitOverlay {
@@ -1294,6 +1329,9 @@ int signf(float f) {
     }
     self.gameIsPlaying = NO;
     self.pausedOverlay.hidden = NO;
+    if (self.playerMusic.playing) {
+        [self.playerMusic pause];
+    }
 }
 
 - (void)resume {
@@ -1302,6 +1340,9 @@ int signf(float f) {
     }
     self.gameIsPlaying = YES;
     self.pausedOverlay.hidden = YES;
+    if (self.shipIsStarted && !self.playerMusic.playing) {
+        [self.playerMusic play];
+    }
 }
 
 - (void)update3DWithTimeDelta:(float)timeDelta {
@@ -1312,7 +1353,7 @@ int signf(float f) {
         // Update planet
         [self updatePlanetWithTimeElapsed:self.timeTraveled];
         // Spawn asteroids
-        BOOL spawnTimeElapsed = CFAbsoluteTimeGetCurrent() - self.timeShipStarted > TIME_SPAWN_ASTEROIDS;
+        BOOL spawnTimeElapsed = self.timeTraveled > TIME_SPAWN_ASTEROIDS;
         if (!spawnTimeElapsed) {
             static const float SPAWN_DISTANCE = 1 / ASTEROIDS_DENSITY;
             self.spawnDistanceCounter += distanceDelta;
