@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -18,12 +19,14 @@
                 <outlet property="instruction2CenterXConstraint2" destination="hfS-Lv-Hgv" id="FQo-ne-KrB"/>
                 <outlet property="instruction3CenterXConstraint" destination="Dab-F8-93f" id="vbn-M6-FEG"/>
                 <outlet property="instruction3CenterYConstraint" destination="wPj-gt-cjm" id="Nsx-hd-2uK"/>
+                <outlet property="labelMoveDevice" destination="Eso-qH-jVN" id="g12-fJ-ciQ"/>
                 <outlet property="overlay" destination="CHV-Tl-0wd" id="muQ-eO-ERZ"/>
                 <outlet property="overlayProportionalHeightConstraint" destination="kcf-01-NmX" id="FkG-YR-cgq"/>
                 <outlet property="reloadProgressViewInstruction" destination="kQJ-Gh-snk" id="Exs-Gz-4QA"/>
                 <outlet property="startButton" destination="WDf-Pa-c5j" id="eSD-e4-Qhr"/>
                 <outlet property="startButtonCenterXConstraint" destination="FRx-fm-LTx" id="Tmz-Ex-omY"/>
                 <outlet property="startButtonCenterYConstraint" destination="uQ2-CY-fYy" id="5fm-HV-wzY"/>
+                <outlet property="tapMiddleInstruction" destination="OIZ-py-Ngo" id="iPE-8b-MYp"/>
                 <outlet property="targetViewfinder" destination="5Xv-T4-oQd" id="quG-b7-CuU"/>
             </connections>
         </placeholder>
@@ -56,7 +59,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                 </imageView>
                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="viewfinder_thick_white.png" translatesAutoresizingMaskIntoConstraints="NO" id="IzV-dV-r3G">
-                    <rect key="frame" x="272" y="147" width="24" height="25"/>
+                    <rect key="frame" x="272" y="147" width="25" height="25"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="IzV-dV-r3G" secondAttribute="height" multiplier="1:1" id="gsj-ak-gWa"/>
                     </constraints>
@@ -66,11 +69,29 @@
                     <color key="progressTintColor" red="0.0" green="0.94509803920000002" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="trackTintColor" white="1" alpha="0.69999999999999996" colorSpace="calibratedWhite"/>
                 </progressView>
+                <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OIZ-py-Ngo" userLabel="TapMiddleOverlay">
+                    <rect key="frame" x="133" y="104" width="303" height="23"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="You don't have to tap in the middle" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jhK-Jr-2C6">
+                            <rect key="frame" x="38" y="3" width="226" height="17"/>
+                            <fontDescription key="fontDescription" name="Exo2.0-Light" family="Exo 2.0" pointSize="26"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                        </label>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="jhK-Jr-2C6" secondAttribute="width" multiplier="1.34" id="9Tn-AQ-GdJ"/>
+                        <constraint firstAttribute="height" secondItem="jhK-Jr-2C6" secondAttribute="height" multiplier="1.34" id="tDG-Jv-g5X"/>
+                        <constraint firstAttribute="centerY" secondItem="jhK-Jr-2C6" secondAttribute="centerY" id="vLA-eP-1MV"/>
+                        <constraint firstAttribute="centerX" secondItem="jhK-Jr-2C6" secondAttribute="centerX" id="zpw-BA-ZGC"/>
+                    </constraints>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CHV-Tl-0wd" userLabel="InstructionsOverlay">
                     <rect key="frame" x="0.0" y="0.0" width="568" height="71"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hhi-0n-tXs" userLabel="Instruction1">
-                            <rect key="frame" x="208" y="21" width="152" height="29"/>
+                            <rect key="frame" x="197" y="21" width="174" height="29"/>
                             <subviews>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Point" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ttH-eW-wSa" customClass="UILabelBold">
                                     <rect key="frame" x="0.0" y="6" width="34" height="17"/>
@@ -85,9 +106,9 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nd5-D7-KGK">
-                                    <rect key="frame" x="107" y="0.0" width="45" height="29"/>
+                                    <rect key="frame" x="107" y="0.0" width="67" height="29"/>
                                     <fontDescription key="fontDescription" name="Exo2.0-Light" family="Exo 2.0" pointSize="26"/>
-                                    <state key="normal" title="marker">
+                                    <state key="normal" title="this image">
                                         <color key="titleColor" red="0.0" green="0.94117647059999998" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
                                     <state key="highlighted">
@@ -132,7 +153,7 @@ Tap anywhere</string>
                                 </label>
                             </subviews>
                             <constraints>
-                                <constraint firstItem="gXF-fk-5j5" firstAttribute="width" secondItem="Eso-qH-jVN" secondAttribute="width" id="0Gp-sL-kde"/>
+                                <constraint firstItem="gXF-fk-5j5" firstAttribute="width" relation="greaterThanOrEqual" secondItem="Eso-qH-jVN" secondAttribute="width" id="0Gp-sL-kde"/>
                                 <constraint firstAttribute="centerY" secondItem="Eso-qH-jVN" secondAttribute="centerY" id="ASu-k0-qO9"/>
                                 <constraint firstAttribute="height" secondItem="Eso-qH-jVN" secondAttribute="height" id="NTi-WH-QzE"/>
                                 <constraint firstItem="gXF-fk-5j5" firstAttribute="leading" secondItem="Eso-qH-jVN" secondAttribute="trailing" id="Xlt-8A-8SH"/>
@@ -179,11 +200,13 @@ Tap anywhere</string>
                 <constraint firstItem="5Xv-T4-oQd" firstAttribute="width" secondItem="X7N-y6-fUG" secondAttribute="width" id="9ul-S6-lU0"/>
                 <constraint firstAttribute="bottom" secondItem="X7N-y6-fUG" secondAttribute="bottom" id="Ao8-IV-H5G"/>
                 <constraint firstItem="Buk-fa-NwS" firstAttribute="centerY" secondItem="hD4-oQ-n3l" secondAttribute="top" priority="999" id="BYg-le-FVu"/>
+                <constraint firstItem="OIZ-py-Ngo" firstAttribute="centerX" secondItem="IzV-dV-r3G" secondAttribute="centerX" id="D5V-Ca-0Zm"/>
                 <constraint firstAttribute="centerX" secondItem="WDf-Pa-c5j" secondAttribute="centerX" priority="999" id="DKW-Js-EPL"/>
                 <constraint firstItem="Buk-fa-NwS" firstAttribute="centerX" secondItem="Y7O-By-uh7" secondAttribute="centerX" id="Dab-F8-93f"/>
                 <constraint firstItem="X7N-y6-fUG" firstAttribute="height" secondItem="CHV-Tl-0wd" secondAttribute="height" priority="999" id="FKm-W6-1b5"/>
                 <constraint firstItem="Y7O-By-uh7" firstAttribute="centerX" secondItem="WDf-Pa-c5j" secondAttribute="centerX" id="FRx-fm-LTx"/>
                 <constraint firstItem="ceA-OC-huB" firstAttribute="top" secondItem="WDf-Pa-c5j" secondAttribute="centerY" priority="999" id="Hvr-RF-AH1"/>
+                <constraint firstItem="IzV-dV-r3G" firstAttribute="top" secondItem="OIZ-py-Ngo" secondAttribute="bottom" constant="25" id="MfH-iU-s6v"/>
                 <constraint firstAttribute="bottom" secondItem="ceA-OC-huB" secondAttribute="bottom" id="MxL-f6-eQI"/>
                 <constraint firstAttribute="trailing" secondItem="X7N-y6-fUG" secondAttribute="trailing" id="NER-kS-2CA"/>
                 <constraint firstItem="X7N-y6-fUG" firstAttribute="width" secondItem="Y7O-By-uh7" secondAttribute="width" id="PAB-k8-PWB"/>

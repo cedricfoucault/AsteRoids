@@ -37,6 +37,7 @@ extern const float ASTEROIDS_DENSITY; // number of asteroids / distance unit
 extern const float ASTEROIDS_SPAWN_Z;
 extern const float ASTEROIDS_SPAWN_X_VARIANCE;
 extern const float ASTEROIDS_SPAWN_Y_VARIANCE;
+extern const float PROBA_GO_THROUGH_WINDOW;
 
 extern const float ASTEROID_SPEED_MEAN; // distance unit / second
 extern const float ASTEROID_SPEED_VARIANCE;
@@ -102,8 +103,16 @@ extern NSString * const SOUND_EXPLOSION_NAME;
 extern NSString * const SOUND_EXPLOSION_EXTENSION;
 extern NSString * const SOUND_BOOM_NAME;
 extern NSString * const SOUND_BOOM_EXTENSION;
+extern NSString * const SOUND_GAMEOVER_NAME;
+extern NSString * const SOUND_GAMEOVER_EXTENSION;
+extern NSString * const SOUND_ENDGAME_NAME;
+extern NSString * const SOUND_ENDGAME_EXTENSION;
 extern NSString * const SOUND_MUSIC_NAME;
 extern NSString * const SOUND_MUSIC_EXTENSION;
+extern const float SOUND_MUSIC_VOLUME;
+extern NSString * const SOUND_MENU_NAME;
+extern NSString * const SOUND_MENU_EXTENSION;
+extern const float SOUND_MENU_VOLUME;
 
 extern NSString * const FONT_FAMILY_NAME;
 extern NSString * const FONT_LIGHT_NAME;

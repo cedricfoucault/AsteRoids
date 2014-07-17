@@ -78,19 +78,36 @@ static const int NUMBER_OF_TEXTURES = 15;
 //}
 
 - (void)initMotionProperties {
-    // init random x,y position; z at given spawn distance
-    self.mesh.x = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_X_VARIANCE;
-    self.mesh.y = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_Y_VARIANCE;
-    self.mesh.z = ASTEROIDS_SPAWN_Z;
-//    NSLog(@"spawn: %f, %f", self.mesh.x, self.mesh.y);
-    // init random translation and rotation
-    self.translationDirection = nglVec3Normalize(nglVec3Make(RANDOM_MINUS_1_TO_1(),
-                                                             RANDOM_MINUS_1_TO_1(),
-                                                             RANDOM_MINUS_1_TO_1()));
-    self.translationSpeed = ASTEROID_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_SPEED_VARIANCE;
-    self.rotationAxis = nglVec3Normalize(nglVec3Make(RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1()));
-    self.rotationSpeed = ASTEROID_ROTATION_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_ROTATION_SPEED_VARIANCE;
-    //
+    float r = randfUniform();
+    if (r < PROBA_GO_THROUGH_WINDOW) { // occasionally spawn asteroid so that it passes through the window (more impressive)
+        NGLbounds bounds = self.aabb;
+        NGLvec3 size = nglVec3Subtract(bounds.max, bounds.min);
+        float sizeMax = sqrtf(size.x * size.x + size.y * size.y + size.z * size.z);
+        r = RANDOM_MINUS_1_TO_1();
+        float xAtZ0 = r / 2 * (WINDOW_SCALE - sizeMax);
+        r = RANDOM_MINUS_1_TO_1();
+        float yAtZ0 = r / 2 * (WINDOW_SCALE / WINDOW_ASPECT_RATIO - sizeMax);
+        self.mesh.x = xAtZ0;
+        self.mesh.y = yAtZ0;
+        self.mesh.z = ASTEROIDS_SPAWN_Z;
+        self.translationSpeed = 0;
+        // init random rotation
+        self.rotationAxis = nglVec3Normalize(nglVec3Make(RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1()));
+        self.rotationSpeed = ASTEROID_ROTATION_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_ROTATION_SPEED_VARIANCE;
+    } else {  // otherwise do random asteroid
+        // init random x,y position; z at given spawn distance
+        self.mesh.x = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_X_VARIANCE;
+        self.mesh.y = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_Y_VARIANCE;
+        self.mesh.z = ASTEROIDS_SPAWN_Z;
+        //    NSLog(@"spawn: %f, %f", self.mesh.x, self.mesh.y);
+        // init random translation and rotation
+        self.translationDirection = nglVec3Normalize(nglVec3Make(RANDOM_MINUS_1_TO_1(),
+                                                                 RANDOM_MINUS_1_TO_1(),
+                                                                 RANDOM_MINUS_1_TO_1()));
+        self.translationSpeed = ASTEROID_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_SPEED_VARIANCE;
+        self.rotationAxis = nglVec3Normalize(nglVec3Make(RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1()));
+        self.rotationSpeed = ASTEROID_ROTATION_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_ROTATION_SPEED_VARIANCE;
+    }
     self.motionPropertiesInitialized = TRUE;
 }
 

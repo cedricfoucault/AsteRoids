@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HUDOverlayView.h"
+@class UILabelBold;
 
 @interface MainViewController : UIViewController
 
@@ -16,10 +17,12 @@
 @property (weak, nonatomic) IBOutlet UIView *instruction1;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *instruction1CenterXConstraint;
 @property (weak, nonatomic) IBOutlet UIView *instruction2;
+@property (weak, nonatomic) IBOutlet UILabelBold *labelMoveDevice;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *instruction2CenterXConstraint;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *instruction2CenterXConstraint2;
 @property (weak, nonatomic) IBOutlet UIImageView *gunViewfinderInstruction;
 @property (weak, nonatomic) IBOutlet UIProgressView *reloadProgressViewInstruction;
+@property (weak, nonatomic) IBOutlet UIView *tapMiddleInstruction;
 @property (weak, nonatomic) IBOutlet UIView *overlay;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *overlayProportionalHeightConstraint;
 
@@ -52,6 +55,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *lifebarWidthConstraint;
 @property (weak, nonatomic) IBOutlet UIImageView *gunViewfinder;
 @property (weak, nonatomic) IBOutlet UIProgressView *reloadProgressView;
+@property (weak, nonatomic) IBOutlet UIView *tapMiddleIngame;
 
 - (IBAction)markerButtonTapped;
 - (IBAction)startButtonTapped;

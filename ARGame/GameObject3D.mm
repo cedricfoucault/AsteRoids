@@ -151,7 +151,8 @@
     //        boxCollisionShape->setMargin(0.004f);
     self.collisionObject->setCollisionShape(boxCollisionShape);
     // set reference from collision to this object
-    self.collisionObject->setUserPointer((__bridge void *)self);
+    __weak GameObject3D *weakSelf = self;
+    self.collisionObject->setUserPointer((__bridge void *)weakSelf);
     self.collisionObject->getWorldTransform().setFromOpenGLMatrix(*self.mesh.matrix);
 }
 

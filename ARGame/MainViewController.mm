@@ -30,6 +30,7 @@
 #import "CameraManager.h"
 #import "ParticleManager.h"
 #import "Constants.h"
+#import "UILabelBold.h"
 
 #include <AudioToolbox/AudioToolbox.h>
 #include <AVFoundation/AVFoundation.h>
@@ -64,6 +65,7 @@
 @property (nonatomic) BOOL shipIsStarted;
 @property (nonatomic) BOOL gunIsLoaded;
 @property (nonatomic) BOOL firstShotDone;
+@property (nonatomic) BOOL tutorialDone;
 
 @property (strong, nonatomic) NSTimer *hitTimer;
 @property (nonatomic) int life;
@@ -90,8 +92,13 @@
 @property (nonatomic) SystemSoundID soundImpact;
 @property (nonatomic) SystemSoundID soundExplosion;
 @property (nonatomic) SystemSoundID soundHit;
+@property (nonatomic) SystemSoundID soundGameOver;
+@property (nonatomic) SystemSoundID soundEndGame;
 
 @property (nonatomic) AVAudioPlayer *playerMusic;
+@property (nonatomic) AVAudioPlayer *playerMenu;
+
+@property (nonatomic) int consecutiveMiddleTaps;
 
 @end
 
@@ -130,6 +137,7 @@
         // init custom properties
         _gameHasStarted = NO;
         _gameIsPlaying = NO;
+        _tutorialDone = NO;
         _shipIsStarted = NO;
         _firstShotDone = NO;
         _life = LIFE_MAX;
@@ -173,6 +181,8 @@
     btScalar playerRadius = 0.35;
     btSphereShape *playerSphere = new btSphereShape(playerRadius);
     _physPlayerObject->setCollisionShape(playerSphere);
+    __weak MainViewController *weakSelf = self;
+    _physPlayerObject->setUserPointer((__bridge void *)weakSelf);
     _physCollisionWorld->addCollisionObject(_physPlayerObject);
 }
 
@@ -197,12 +207,27 @@
     fileURLRef = (__bridge CFURLRef) [NSURL fileURLWithPath:path];
     AudioServicesCreateSystemSoundID(fileURLRef, &_soundHit);
     
-    // Create AVAudioPlayer for background music
-    path = [[NSBundle mainBundle] pathForResource: @"music2Min" ofType: @"mp3"];
+    path  = [mainBundle pathForResource:SOUND_GAMEOVER_NAME ofType:SOUND_GAMEOVER_EXTENSION];
+    fileURLRef = (__bridge CFURLRef) [NSURL fileURLWithPath:path];
+    AudioServicesCreateSystemSoundID(fileURLRef, &_soundGameOver);
+    
+    path  = [mainBundle pathForResource:SOUND_ENDGAME_NAME ofType:SOUND_ENDGAME_EXTENSION];
+    fileURLRef = (__bridge CFURLRef) [NSURL fileURLWithPath:path];
+    AudioServicesCreateSystemSoundID(fileURLRef, &_soundEndGame);
+    
+    // Create AVAudioPlayer for background musics
+    path = [[NSBundle mainBundle] pathForResource:SOUND_MUSIC_NAME ofType:SOUND_MUSIC_EXTENSION];
     NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:path];
     self.playerMusic = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
     [self.playerMusic prepareToPlay];
-    [self.playerMusic setVolume:0.66];
+    [self.playerMusic setVolume:SOUND_MUSIC_VOLUME];
+    
+    path = [[NSBundle mainBundle] pathForResource:SOUND_MENU_NAME ofType:SOUND_MENU_EXTENSION];
+    fileURL = [[NSURL alloc] initFileURLWithPath:path];
+    self.playerMenu = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
+    [self.playerMenu prepareToPlay];
+    [self.playerMenu setVolume:SOUND_MENU_VOLUME];
+    self.playerMenu.numberOfLoops = -1;
 }
 
 - (void)dealloc {
@@ -252,10 +277,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Init touch gesture recognizers
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)];
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     tapRecognizer.delegate = self;
     [self.view addGestureRecognizer:tapRecognizer];
-    
     // Init overlays
     [[NSBundle mainBundle] loadNibNamed:@"hudInstructions" owner:self options:nil];
     [self.view addSubview:self.hudInstructions];
@@ -263,12 +287,6 @@
     [[NSBundle mainBundle] loadNibNamed:@"hudGame" owner:self options:nil];
     [self.view addSubview:self.hudOverlayView];
     self.hudOverlayView.hidden = YES;
-    // Hit
-//    self.hitOverlayView = [[UIView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width * 2, self.view.bounds.size.height)];
-//    self.hitOverlayView.backgroundColor = [UIColor redColor];
-//    self.hitOverlayView.alpha = 0.85;
-//    self.hitOverlayView.hidden = YES;
-//    [self.view addSubview:self.hitOverlayView];
     // Set layout constraints
     [self.hudInstructions setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.hudOverlayView setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -313,6 +331,11 @@
 //                                             options:0
 //                                             metrics:nil
 //                                               views:views]];
+    // Update text
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        self.labelMoveDevice.text = [self.labelMoveDevice.text stringByReplacingOccurrencesOfString:@"iPhone"
+                                                                                         withString:@"iPad"];
+    }
     
     // Set OpenGL parameters
     nglGlobalColorFormat(NGLColorFormatRGBA);
@@ -453,18 +476,34 @@
     Asteroid *asteroid;
     for (float z = -4.0f; z > ASTEROIDS_SPAWN_Z; z -= 1 / ASTEROIDS_DENSITY) {
         asteroid = [[Asteroid alloc] initWithCollisionWorld:self.physCollisionWorld];
-        // position
-        asteroid.mesh.x = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_X_VARIANCE;
-        asteroid.mesh.y = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_Y_VARIANCE;
         asteroid.mesh.z = z;
-        // translation
-        asteroid.translationDirection = nglVec3Normalize(nglVec3Make(RANDOM_MINUS_1_TO_1(),
-                                                                 RANDOM_MINUS_1_TO_1(),
-                                                                 RANDOM_MINUS_1_TO_1()));
-        asteroid.translationSpeed = ASTEROID_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_SPEED_VARIANCE;
-        // rotation
-        asteroid.rotationAxis = nglVec3Normalize(nglVec3Make(RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1()));
-        asteroid.rotationSpeed = ASTEROID_ROTATION_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_ROTATION_SPEED_VARIANCE;
+        float r = ((float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX);
+        if (r < PROBA_GO_THROUGH_WINDOW) { // occasionally spawn asteroid so that it passes through the window
+            float sizeMax = sqrtf(3 * ASTEROID_SCALE * ASTEROID_SCALE);
+            float r;
+            r = RANDOM_MINUS_1_TO_1();
+            float xAtZ0 = r / 2 * (WINDOW_SCALE - sizeMax);
+            r = RANDOM_MINUS_1_TO_1();
+            float yAtZ0 = r / 2 * (WINDOW_SCALE / WINDOW_ASPECT_RATIO - sizeMax);
+            asteroid.mesh.x = xAtZ0;
+            asteroid.mesh.y = yAtZ0;
+            asteroid.translationSpeed = 0;
+            // rotation
+            asteroid.rotationAxis = nglVec3Normalize(nglVec3Make(RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1()));
+            asteroid.rotationSpeed = ASTEROID_ROTATION_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_ROTATION_SPEED_VARIANCE;
+        } else {
+            // position
+            asteroid.mesh.x = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_X_VARIANCE;
+            asteroid.mesh.y = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_Y_VARIANCE;
+            // translation
+            asteroid.translationDirection = nglVec3Normalize(nglVec3Make(RANDOM_MINUS_1_TO_1(),
+                                                                     RANDOM_MINUS_1_TO_1(),
+                                                                     RANDOM_MINUS_1_TO_1()));
+            asteroid.translationSpeed = ASTEROID_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_SPEED_VARIANCE;
+            // rotation
+            asteroid.rotationAxis = nglVec3Normalize(nglVec3Make(RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1()));
+            asteroid.rotationSpeed = ASTEROID_ROTATION_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_ROTATION_SPEED_VARIANCE;
+        }
         asteroid.motionPropertiesInitialized = TRUE;
         [self.gameObjects addObject:asteroid];
     }
@@ -495,23 +534,6 @@
         gameObject.mesh.visible = YES;
     }
 }
-
-
-
-//- (void)meshLoadingDidFinish:(NGLParsing)parsing {
-//    if (parsing.mesh == self.beamGlowBillboard) {
-//        for (int i = 0; i < N_PARTICLES_MAX; i++) {
-//            NGLMesh *particle = [self.beamGlowBillboard copyInstance];
-//            particle.visible = YES;
-//            [particle scaleToX:0.1 toY:0.1 toZ:1.0];
-//            particle.x = ((float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX - 0.5) * WINDOW_SCALE;
-//            particle.y = ((float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX - 0.5) * WINDOW_SCALE / WINDOW_ASPECT_RATIO;
-//            particle.z = 0;
-//            [self.camera addMesh:particle];
-//            [self.particles addObject:particle];
-//        }
-//    }
-//}
 
 static const float sqrt_2 = sqrtf(2);
 
@@ -631,7 +653,7 @@ int signf(float f) {
     return (f < 0.) ? -1 : (f > 0.) ? +1 : 0;
 }
 
-- (void)handleTap {
+- (void)handleTap:(UITapGestureRecognizer *)sender {
     if (DEBUG_LOG) {
         NSLog(@"tap");
     }
@@ -639,7 +661,7 @@ int signf(float f) {
     if (imageUnloadedGunViewfinder == nil) {
         imageUnloadedGunViewfinder = [UIImage imageNamed:UNLOADED_VIEWFINDER_FILENAME];
     }
-    if (self.shipIsStarted && self.gameIsPlaying) {
+    if (self.shipIsStarted && self.gameIsPlaying && self.gunIsLoaded) { // user is in game
         // play sound effect
         AudioServicesPlaySystemSound(self.soundShot);
         // spawn beam
@@ -656,7 +678,35 @@ int signf(float f) {
         // init progress bar
         self.reloadProgressView.progress = 0;
         self.reloadProgressView.hidden = NO;
-    } else if (self.gameIsPlaying && self.gunIsLoaded) {
+        
+        // get touch location and show feedback if user keeps tapping in the middle
+        CGPoint touchLocation = [sender locationInView:self.view];
+        if ([self isInMiddle:touchLocation]) {
+            self.consecutiveMiddleTaps++;
+        } else {
+            self.consecutiveMiddleTaps = 0;
+        }
+        if (self.consecutiveMiddleTaps >= 3) {
+            // show middle tap feedback
+            self.tapMiddleIngame.hidden = false;
+            self.tapMiddleIngame.alpha = 0;
+            [UIView animateWithDuration:SHOWHIDE_ANIMATION_DURATION
+                             animations:^(){
+                self.tapMiddleIngame.alpha = 1;
+            }
+                             completion:^(BOOL finished1){
+                [UIView animateWithDuration:SHOWHIDE_ANIMATION_DURATION delay:2.0 options:0
+                                 animations:^() {
+                                     self.tapMiddleIngame.alpha = 0;
+                                 }
+                                 completion:^(BOOL finished2) {
+//                                     self.tapMiddleIngame.hidden = true;
+                                 }];
+            }];
+            // reset consecutiveMiddleTaps counter
+            self.consecutiveMiddleTaps = 0;
+        }
+    } else if (self.gameIsPlaying && self.gunIsLoaded) { // user is in instructions
         // this is the first player shot
         // play sound effect
         AudioServicesPlaySystemSound(self.soundShot);
@@ -674,10 +724,45 @@ int signf(float f) {
         // init progress bar
         self.reloadProgressViewInstruction.progress = 0;
         self.reloadProgressViewInstruction.hidden = NO;
+        
+        // get touch location and show feedback if user keeps tapping in the middle
+        CGPoint touchLocation = [sender locationInView:self.view];
+        if ([self isInMiddle:touchLocation]) {
+            self.consecutiveMiddleTaps++;
+        } else {
+            self.consecutiveMiddleTaps = 0;
+        }
+        if (self.consecutiveMiddleTaps >= 3) {
+            // show middle tap feedback
+            self.tapMiddleInstruction.hidden = false;
+            self.tapMiddleInstruction.alpha = 0;
+            [UIView animateWithDuration:SHOWHIDE_ANIMATION_DURATION
+                             animations:^(){
+                                 self.tapMiddleInstruction.alpha = 1;
+                             }
+                             completion:^(BOOL finished1){
+                                 [UIView animateWithDuration:SHOWHIDE_ANIMATION_DURATION delay:2.0 options:0
+                                                  animations:^() {
+                                                      self.tapMiddleInstruction.alpha = 0;
+                                                  }
+                                                  completion:^(BOOL finished2) {
+//                                                      self.tapMiddleInstruction.hidden = true;
+                                                  }];
+                             }];
+            // reset consecutiveMiddleTaps counter
+            self.consecutiveMiddleTaps = 0;
+        }
     }
 }
 
--(void)updateReloadProgressTimer: (NSTimer*) timer {
+- (BOOL)isInMiddle:(CGPoint)touchLocation {
+    CGPoint middle = CGPointMake(self.view.frame.size.height / 2, self.view.frame.size.width / 2);
+    // see if touch point is within 5% middle rectangle
+    return fabsf(middle.x - touchLocation.x) / self.view.frame.size.height < 0.088 &&
+            fabsf(middle.y - touchLocation.y) / self.view.frame.size.width < 0.088;
+}
+
+-(void)updateReloadProgressTimer:(NSTimer*)timer {
     self.reloadProgressView.progress += RELOAD_PROGRESS_TIMER_DELAY / RELOAD_DELAY;
     if (self.reloadProgressView.progress >= 0.99f) {
         // Invalidate timer progress bar is done
@@ -685,7 +770,7 @@ int signf(float f) {
     }
 }
 
--(void)updateReloadProgressTimerInstruction: (NSTimer*) timer {
+-(void)updateReloadProgressTimerInstruction:(NSTimer*)timer {
     self.reloadProgressViewInstruction.progress += RELOAD_PROGRESS_TIMER_DELAY / RELOAD_DELAY;
     if (self.reloadProgressViewInstruction.progress >= 0.99f) {
         // Invalidate timer progress bar is done
@@ -818,6 +903,9 @@ int signf(float f) {
 //        [self.startButton layoutIfNeeded];
         [self.hudInstructions layoutIfNeeded];
     }];
+    // music
+    self.playerMenu.currentTime = 0.0;
+    [self.playerMenu playAtTime:(self.playerMenu.deviceCurrentTime + ANIMATION_DURATION)];
 }
 
 - (void)displayGameOver {
@@ -923,12 +1011,12 @@ int signf(float f) {
 }
 
 - (void)startShip {
+    // tutorial is done
+    self.tutorialDone = YES;
     // reset counts
     [self resetScore];
     // set scene
     [self addInitialAsteroids];
-    // music
-    [self.playerMusic play];
     // transition views
     [UIView transitionFromView:self.hudInstructions
                         toView:self.hudOverlayView
@@ -939,6 +1027,13 @@ int signf(float f) {
                         self.timeShipStarted = CFAbsoluteTimeGetCurrent();
 //                        [self stopShip];
                     }];
+    // music
+    if (self.playerMenu.playing) {
+        [self.playerMenu stop];
+        [self.playerMenu prepareToPlay];
+    }
+    self.playerMusic.currentTime = 0.0;
+    [self.playerMusic play];
 }
 
 - (void)restartShip {
@@ -959,6 +1054,10 @@ int signf(float f) {
     // display in-game view
     [self displayIngame];
     // music
+    if (self.playerMenu.playing) {
+        [self.playerMenu stop];
+        [self.playerMenu prepareToPlay];
+    }
     self.playerMusic.currentTime = 0.0;
     [self.playerMusic play];
 }
@@ -1003,6 +1102,18 @@ int signf(float f) {
         [self.playerMusic stop];
         [self.playerMusic prepareToPlay];
     }
+    // play sound effect
+    AudioServicesPlaySystemSound(self.soundEndGame);
+    // get duration of sound effect
+    NSString *path = [[NSBundle mainBundle] pathForResource:SOUND_ENDGAME_NAME ofType:SOUND_ENDGAME_EXTENSION];
+    NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:path];
+    AVURLAsset *fxAsset = [AVURLAsset URLAssetWithURL:fileURL options:nil];
+    CMTime fxDuration = fxAsset.duration;
+    float fxDurationSeconds = CMTimeGetSeconds(fxDuration);
+    float soundDelay = fxDurationSeconds > ANIMATION_DURATION ? fxDurationSeconds : ANIMATION_DURATION;
+    // play menu music once sound effect is done
+    self.playerMenu.currentTime = 0.0;
+    [self.playerMenu playAtTime:(self.playerMenu.deviceCurrentTime + ANIMATION_DURATION)];
 }
 
 - (void)regenLife {
@@ -1061,6 +1172,17 @@ int signf(float f) {
         [self.playerMusic stop];
         [self.playerMusic prepareToPlay];
     }
+    // play sound effect
+    AudioServicesPlaySystemSound(self.soundGameOver);
+    // get duration of sound effect
+    NSString *path = [[NSBundle mainBundle] pathForResource:SOUND_GAMEOVER_NAME ofType:SOUND_GAMEOVER_EXTENSION];
+    NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:path];
+    AVURLAsset *fxAsset = [AVURLAsset URLAssetWithURL:fileURL options:nil];
+    CMTime fxDuration = fxAsset.duration;
+    float fxDurationSeconds = CMTimeGetSeconds(fxDuration);
+    // play menu music once sound effect is done
+    self.playerMenu.currentTime = 0.0;
+    [self.playerMenu playAtTime:(self.playerMenu.deviceCurrentTime + fxDurationSeconds)];
 }
 
  - (void)hideHitOverlay {
@@ -1239,7 +1361,7 @@ int signf(float f) {
 }
 
 // activate the dataset for tracking
-- (BOOL)activateDataSetTracking:(QCAR::DataSet *)theDataSet {
+- (BOOL) activateDataSetTracking:(QCAR::DataSet *)theDataSet {
     BOOL success = NO;
     
     // Get the image tracker:
@@ -1332,6 +1454,9 @@ int signf(float f) {
     if (self.playerMusic.playing) {
         [self.playerMusic pause];
     }
+    if (self.playerMenu.playing) {
+        [self.playerMenu pause];
+    }
 }
 
 - (void)resume {
@@ -1342,6 +1467,8 @@ int signf(float f) {
     self.pausedOverlay.hidden = YES;
     if (self.shipIsStarted && !self.playerMusic.playing) {
         [self.playerMusic play];
+    } else if (self.firstShotDone && !self.playerMenu.playing) {
+        [self.playerMenu play];
     }
 }
 
@@ -1577,8 +1704,12 @@ int signf(float f) {
     BOOL wasInFrontOfWall = gameObject.lastFrameZ - size.z / 2 > 0;
 //    BOOL isInFrontOfWall = gameObject.z - gameObject.meshBoxSizeZ / 2 > 0;
     BOOL isInFrontOfWall = gameObject.z - size.z / 2 > 0;
-    return ((wasBehindWall && !isBehindWall) || (wasInFrontOfWall && !isInFrontOfWall)) &&
-           ![self isInWindowBounds:gameObject];
+    BOOL isInWindowBounds = [self isInWindowBounds:gameObject];
+    BOOL result = (wasBehindWall && !isBehindWall && !isInWindowBounds) ||
+                    (wasInFrontOfWall && !isInFrontOfWall && !isInWindowBounds);
+    return result;
+//    return ((wasBehindWall && !isBehindWall) || (wasInFrontOfWall && !isInFrontOfWall)) &&
+//           ![self isInWindowBounds:gameObject];
 }
 
 - (BOOL)isInWindowBounds:(GameObject3D *)gameObject {
@@ -1586,9 +1717,9 @@ int signf(float f) {
     NGLvec3 size = nglVec3Subtract(bounds.max, bounds.min);
     // check 2D (x,y) coordinates if they are within the virtual "window"'s bounds
 //    return fabsf(gameObject.x) + gameObject.meshBoxSizeX / 2 < [self windowSizeX] &&
-    return fabsf(gameObject.x) + size.x / 2 < [self windowHalfExtentX] &&
+    return fabsf(gameObject.x) + size.x / 2 <= [self windowHalfExtentX] &&
 //    fabsf(gameObject.y) + gameObject.meshBoxSizeY / 2 < [self windowSizeY];
-           fabsf(gameObject.y) + size.y / 2 < [self windowHalfExtentY];
+           fabsf(gameObject.y) + size.y / 2 <= [self windowHalfExtentY];
 }
 
 - (float)windowHalfExtentX {
