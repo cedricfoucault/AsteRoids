@@ -10,11 +10,13 @@
 #define ARGame_Constants_h
 
 #define DEG_TO_RAD(X) (X*M_PI/180.0)
-#define RANDOM_MINUS_1_TO_1() ((random() / (float)0x3fffffff )-1.0f)
-//#define RANDOM_MINUS_1_TO_1() ((float)arc4random_uniform(RAND_MAX) / (float)RAND_MAX - 0.5f) * 2
+//#define RANDOM_MINUS_1_TO_1() ((random() / (float)0x3fffffff )-1.0f)
+#define ARC4RANDOM_MAX      0x100000000
+#define RANDOM_MINUS_1_TO_1() (2 * ((float)arc4random() / (float)ARC4RANDOM_MAX) - 1.0f)
 
 extern const BOOL DEBUG_LOG;
 extern const BOOL USE_EXTENDED_TRACKING;
+extern const BOOL APP_PREVIEW;
 
 extern const float NEAR;
 extern const float FAR;
@@ -81,6 +83,7 @@ extern const float CUTOFF_DISTANCE_MAX_Z;
 extern const float CUTOFF_DISTANCE_MAX_X;
 extern const float CUTOFF_DISTANCE_MAX_Y;
 
+extern NSString * const WALL_MESH_FILENAME;
 extern NSString * const FRAME_MESH_FILENAME;
 //extern NSString * const ASTEROID_MESH_FILENAME;
 extern NSString * const BEAM_CORE_MESH_FILENAME;

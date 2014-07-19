@@ -10,6 +10,11 @@
 		8214CA6518B59FC80022D7B9 /* hudGame.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8214CA6418B59FC80022D7B9 /* hudGame.xib */; };
 		8214CA6818B5A2590022D7B9 /* HUDOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8214CA6718B5A2590022D7B9 /* HUDOverlayView.m */; };
 		8214CA6B18B5BFBD0022D7B9 /* Asteroid.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8214CA6A18B5BFBD0022D7B9 /* Asteroid.mm */; };
+		822B650E197B0ABD00DEED15 /* grunge_frame.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 822B650C197B0ABD00DEED15 /* grunge_frame.mtl */; };
+		822B650F197B0ABD00DEED15 /* grunge_frame.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822B650D197B0ABD00DEED15 /* grunge_frame.obj */; };
+		822B6511197B0C2500DEED15 /* solid_steel.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 822B6510197B0C2500DEED15 /* solid_steel.jpg */; };
+		822B6517197B115A00DEED15 /* wall_with_hole_marker_dimension.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822B6516197B115A00DEED15 /* wall_with_hole_marker_dimension.obj */; };
+		822B6519197B137D00DEED15 /* planet_earth_billboard_1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 822B6518197B137C00DEED15 /* planet_earth_billboard_1024.png */; };
 		822F0E991927CAE30084A59D /* asteroid1.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E571927CAE30084A59D /* asteroid1.obj */; };
 		822F0E9A1927CAE30084A59D /* asteroid10.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E581927CAE30084A59D /* asteroid10.obj */; };
 		822F0E9B1927CAE30084A59D /* asteroid11.obj in Resources */ = {isa = PBXBuildFile; fileRef = 822F0E591927CAE30084A59D /* asteroid11.obj */; };
@@ -187,9 +192,6 @@
 		8259FF92196E2A41003AE54C /* hud_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8259FF8F196E2A41003AE54C /* hud_right@2x.png */; };
 		8259FF96196E342C003AE54C /* AsteRoids.dat in Resources */ = {isa = PBXBuildFile; fileRef = 8259FF94196E342C003AE54C /* AsteRoids.dat */; };
 		8259FF97196E342C003AE54C /* AsteRoids.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8259FF95196E342C003AE54C /* AsteRoids.xml */; };
-		82713AA819452E2E00D964EE /* Metal_Seamed.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 82713AA419452E2E00D964EE /* Metal_Seamed.jpg */; };
-		82713AAB1945303800D964EE /* frame_rotated.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 82713AA91945303800D964EE /* frame_rotated.mtl */; };
-		82713AAE1945319900D964EE /* frame_rotated.obj in Resources */ = {isa = PBXBuildFile; fileRef = 82713AAD1945319900D964EE /* frame_rotated.obj */; };
 		827528F21972BD1B0036EF6F /* libVuforia.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 827528F11972BD1B0036EF6F /* libVuforia.a */; };
 		827529261972D3800036EF6F /* UILabel+CustomFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 827529251972D3800036EF6F /* UILabel+CustomFont.m */; };
 		827529291972DE290036EF6F /* UIButton+CustomFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 827529281972DE290036EF6F /* UIButton+CustomFont.m */; };
@@ -216,7 +218,6 @@
 		829632501968E0B700AF4CB0 /* planet_earth_billboard.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 8296324B1968E0B700AF4CB0 /* planet_earth_billboard.mtl */; };
 		829632511968E0B700AF4CB0 /* planet_earth_billboard.obj in Resources */ = {isa = PBXBuildFile; fileRef = 8296324C1968E0B700AF4CB0 /* planet_earth_billboard.obj */; };
 		829632551968E1E000AF4CB0 /* billboard.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 829632541968E1E000AF4CB0 /* billboard.fsh */; };
-		829632571968E80C00AF4CB0 /* planet_earth_billboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 829632561968E80C00AF4CB0 /* planet_earth_billboard.png */; };
 		829632591968F36000AF4CB0 /* hit_overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 829632581968F36000AF4CB0 /* hit_overlay.png */; };
 		82BBD4F41916F0AD0077B0B6 /* StarDome.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4ED1916F0AD0077B0B6 /* StarDome.mtl */; };
 		82BBD4F51916F0AD0077B0B6 /* StarDome.obj in Resources */ = {isa = PBXBuildFile; fileRef = 82BBD4EE1916F0AD0077B0B6 /* StarDome.obj */; };
@@ -293,6 +294,11 @@
 		8214CA6718B5A2590022D7B9 /* HUDOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDOverlayView.m; sourceTree = "<group>"; };
 		8214CA6918B5BFBD0022D7B9 /* Asteroid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Asteroid.h; sourceTree = "<group>"; };
 		8214CA6A18B5BFBD0022D7B9 /* Asteroid.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Asteroid.mm; sourceTree = "<group>"; };
+		822B650C197B0ABD00DEED15 /* grunge_frame.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grunge_frame.mtl; sourceTree = "<group>"; };
+		822B650D197B0ABD00DEED15 /* grunge_frame.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grunge_frame.obj; sourceTree = "<group>"; };
+		822B6510197B0C2500DEED15 /* solid_steel.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = solid_steel.jpg; sourceTree = "<group>"; };
+		822B6516197B115A00DEED15 /* wall_with_hole_marker_dimension.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = wall_with_hole_marker_dimension.obj; sourceTree = "<group>"; };
+		822B6518197B137C00DEED15 /* planet_earth_billboard_1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = planet_earth_billboard_1024.png; sourceTree = "<group>"; };
 		822F0E571927CAE30084A59D /* asteroid1.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid1.obj; sourceTree = "<group>"; };
 		822F0E581927CAE30084A59D /* asteroid10.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid10.obj; sourceTree = "<group>"; };
 		822F0E591927CAE30084A59D /* asteroid11.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = asteroid11.obj; sourceTree = "<group>"; };
@@ -671,9 +677,6 @@
 		8259FF8F196E2A41003AE54C /* hud_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hud_right@2x.png"; sourceTree = "<group>"; };
 		8259FF94196E342C003AE54C /* AsteRoids.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = AsteRoids.dat; sourceTree = "<group>"; };
 		8259FF95196E342C003AE54C /* AsteRoids.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = AsteRoids.xml; sourceTree = "<group>"; };
-		82713AA419452E2E00D964EE /* Metal_Seamed.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Metal_Seamed.jpg; sourceTree = "<group>"; };
-		82713AA91945303800D964EE /* frame_rotated.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = frame_rotated.mtl; sourceTree = "<group>"; };
-		82713AAD1945319900D964EE /* frame_rotated.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = frame_rotated.obj; sourceTree = "<group>"; };
 		827528F11972BD1B0036EF6F /* libVuforia.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libVuforia.a; sourceTree = "<group>"; };
 		827528F51972BD480036EF6F /* Area.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Area.h; sourceTree = "<group>"; };
 		827528F61972BD480036EF6F /* CameraCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraCalibration.h; sourceTree = "<group>"; };
@@ -751,7 +754,6 @@
 		8296324B1968E0B700AF4CB0 /* planet_earth_billboard.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = planet_earth_billboard.mtl; sourceTree = "<group>"; };
 		8296324C1968E0B700AF4CB0 /* planet_earth_billboard.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = planet_earth_billboard.obj; sourceTree = "<group>"; };
 		829632541968E1E000AF4CB0 /* billboard.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = billboard.fsh; sourceTree = "<group>"; };
-		829632561968E80C00AF4CB0 /* planet_earth_billboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = planet_earth_billboard.png; sourceTree = "<group>"; };
 		829632581968F36000AF4CB0 /* hit_overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hit_overlay.png; sourceTree = "<group>"; };
 		82BBD4ED1916F0AD0077B0B6 /* StarDome.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StarDome.mtl; sourceTree = "<group>"; };
 		82BBD4EE1916F0AD0077B0B6 /* StarDome.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StarDome.obj; sourceTree = "<group>"; };
@@ -946,6 +948,7 @@
 		8248A21018A806B400BDE25E /* Wall with hole */ = {
 			isa = PBXGroup;
 			children = (
+				822B6516197B115A00DEED15 /* wall_with_hole_marker_dimension.obj */,
 				8248A21318A806B400BDE25E /* Wall with hole.obj */,
 			);
 			path = "Wall with hole";
@@ -1417,9 +1420,9 @@
 		82713AA019452E2E00D964EE /* frame */ = {
 			isa = PBXGroup;
 			children = (
-				82713AA91945303800D964EE /* frame_rotated.mtl */,
-				82713AAD1945319900D964EE /* frame_rotated.obj */,
-				82713AA419452E2E00D964EE /* Metal_Seamed.jpg */,
+				822B6510197B0C2500DEED15 /* solid_steel.jpg */,
+				822B650C197B0ABD00DEED15 /* grunge_frame.mtl */,
+				822B650D197B0ABD00DEED15 /* grunge_frame.obj */,
 			);
 			path = frame;
 			sourceTree = "<group>";
@@ -1489,7 +1492,7 @@
 		829632491968E0B700AF4CB0 /* PlanetEarthBillboard */ = {
 			isa = PBXGroup;
 			children = (
-				829632561968E80C00AF4CB0 /* planet_earth_billboard.png */,
+				822B6518197B137C00DEED15 /* planet_earth_billboard_1024.png */,
 				8296324B1968E0B700AF4CB0 /* planet_earth_billboard.mtl */,
 				8296324C1968E0B700AF4CB0 /* planet_earth_billboard.obj */,
 			);
@@ -1814,7 +1817,6 @@
 				82963244196877B700AF4CB0 /* Exo2.0-Bold.otf in Resources */,
 				82963245196877B700AF4CB0 /* Exo2.0-Light.otf in Resources */,
 				82963246196877B700AF4CB0 /* Exo2.0-Medium.otf in Resources */,
-				829632571968E80C00AF4CB0 /* planet_earth_billboard.png in Resources */,
 				82963247196877B700AF4CB0 /* Exo2.0-Regular.otf in Resources */,
 				82BBD4F51916F0AD0077B0B6 /* StarDome.obj in Resources */,
 				8248A57318A963F800BDE25E /* premake4.lua in Resources */,
@@ -1826,6 +1828,7 @@
 				822F0EA41927CAE30084A59D /* asteroid2.obj in Resources */,
 				822F0E9F1927CAE30084A59D /* asteroid15.obj in Resources */,
 				8277386C19296AFD00F25004 /* particle.fsh in Resources */,
+				822B6517197B115A00DEED15 /* wall_with_hole_marker_dimension.obj in Resources */,
 				82CA419419742434003CE690 /* gameover.wav in Resources */,
 				82D9A50219776284009DAC9F /* Am11.jpg in Resources */,
 				8275293919738F1D0036EF6F /* music2Min.mp3 in Resources */,
@@ -1837,9 +1840,9 @@
 				82CA41921974241A003CE690 /* menu.mp3 in Resources */,
 				822F0EA01927CAE30084A59D /* asteroid16.obj in Resources */,
 				822F0E9C1927CAE30084A59D /* asteroid12.obj in Resources */,
-				82713AAB1945303800D964EE /* frame_rotated.mtl in Resources */,
 				82D9A50C19776284009DAC9F /* Am7.jpg in Resources */,
 				82E5DF89196A23CC000E2270 /* explosion.wav in Resources */,
+				822B6519197B137D00DEED15 /* planet_earth_billboard_1024.png in Resources */,
 				822F0EA91927CAE30084A59D /* asteroid24.obj in Resources */,
 				8214CA6518B59FC80022D7B9 /* hudGame.xib in Resources */,
 				822F0EB21927CAE30084A59D /* asteroid5.obj in Resources */,
@@ -1857,10 +1860,11 @@
 				827529371973461E0036EF6F /* boom.aiff in Resources */,
 				82E5DF7F196A19E8000E2270 /* shot2.wav in Resources */,
 				82E95DAC19314C5A0017BDC1 /* debris.png in Resources */,
+				822B650E197B0ABD00DEED15 /* grunge_frame.mtl in Resources */,
 				822F0EA21927CAE30084A59D /* asteroid18.obj in Resources */,
-				82713AA819452E2E00D964EE /* Metal_Seamed.jpg in Resources */,
 				822F0EAA1927CAE30084A59D /* asteroid25.obj in Resources */,
 				82CDD1E019673E6A00385BAD /* asteroid_icon.png in Resources */,
+				822B6511197B0C2500DEED15 /* solid_steel.jpg in Resources */,
 				82D9A50619776284009DAC9F /* Am15.jpg in Resources */,
 				827DDF761971E6700001C406 /* point_iphone_alpha_cropped.png in Resources */,
 				82D9A50719776284009DAC9F /* Am2.jpg in Resources */,
@@ -1877,6 +1881,7 @@
 				82D9A50E19776284009DAC9F /* Am9.jpg in Resources */,
 				8275293D197397590036EF6F /* viewfinder_thick_white.png in Resources */,
 				822F0EFC19282E7E0084A59D /* particleFragmentShader.fsh in Resources */,
+				822B650F197B0ABD00DEED15 /* grunge_frame.obj in Resources */,
 				82D9A50019776284009DAC9F /* Am1.jpg in Resources */,
 				82C7F4F31921C469000F4029 /* beam_glow_billboard.fsh in Resources */,
 				82E68C8318A61B7800F77F10 /* Images.xcassets in Resources */,
@@ -1902,7 +1907,6 @@
 				822F0EE01927F8190084A59D /* beam_core.obj in Resources */,
 				822F0E9E1927CAE30084A59D /* asteroid14.obj in Resources */,
 				82D9A50419776284009DAC9F /* Am13.jpg in Resources */,
-				82713AAE1945319900D964EE /* frame_rotated.obj in Resources */,
 				829291BB195491C100DFA1F1 /* PIA16887_2400px.jpg in Resources */,
 				822F0EB31927CAE30084A59D /* asteroid6.obj in Resources */,
 				8275293C197397590036EF6F /* viewfinder_thick_gray.png in Resources */,

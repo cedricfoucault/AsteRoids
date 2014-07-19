@@ -11,6 +11,8 @@
 
 const BOOL DEBUG_LOG = NO;
 const BOOL USE_EXTENDED_TRACKING = NO;
+//const BOOL APP_PREVIEW = YES;
+const BOOL APP_PREVIEW = NO;
 
 const float NEAR = 0.01f;
 const float FAR = 100.0f;
@@ -38,10 +40,10 @@ const float ASTEROID_ROTATION_SPEED_MEAN = 2.25f; // degrees / second
 const float ASTEROID_ROTATION_SPEED_VARIANCE = 2.25f;
 
 const float SPAWN_DELAY = 1.0f;
-const float RELOAD_DELAY = 0.7f;
+const float RELOAD_DELAY = 0.4f;
 const float RELOAD_PROGRESS_TIMER_DELAY = 0.02f;
 
-const float BEAM_SPEED = 20.0f;
+const float BEAM_SPEED = 34.0f;
 const float SPAWN_DISTANCE = - ASTEROIDS_SPAWN_Z;
 //const float SKYDOME_DISTANCE = SPAWN_DISTANCE + 0.1;
 const float SKYDOME_DISTANCE = 3.0f;
@@ -71,7 +73,7 @@ const float DESTINATION_PLANET_START_SCALE = 0.05;
 //const float MAX_SPEED_TIME = TIME_SHIP_TRAVEL - ACCELERATION_TIME; // time going at max speed
 //const float TRAVEL_DISTANCE = 0.5 * SHIP_ACCELERATION * ACCELERATION_TIME * ACCELERATION_TIME + SHIP_SPEED_MAX * MAX_SPEED_TIME;
 
-const float SHIP_SPEED_HALF_LIFE = TIME_SHIP_TRAVEL / 4.0f;
+const float SHIP_SPEED_HALF_LIFE = TIME_SHIP_TRAVEL / 5.0f;
 
 //const float EYE_PLANET_FOCAL = TRAVEL_DISTANCE * DESTINATION_PLANET_END_SCALE * DESTINATION_PLANET_START_SCALE /
 //    (DESTINATION_PLANET_RADIUS * (DESTINATION_PLANET_END_SCALE - DESTINATION_PLANET_START_SCALE));
@@ -82,7 +84,8 @@ const int LIFE_MAX = 10; // max amount of life
 const float LIFE_REGEN_RATE = 0.2; // life points / s
 
 
-NSString * const FRAME_MESH_FILENAME = @"frame_rotated.obj";
+NSString * const WALL_MESH_FILENAME = @"wall_with_hole_marker_dimension.obj";
+NSString * const FRAME_MESH_FILENAME = @"grunge_frame.obj";
 NSString * const BEAM_CORE_MESH_FILENAME = @"beam_core.obj";
 NSString * const BEAM_CORE_FRAGMENT_SHADER_FILENAME = @"beam_core.fsh";
 NSString * const BEAM_GLOW_BILLBOARD_MESH_FILENAME = @"beam_glow_billboard.obj";

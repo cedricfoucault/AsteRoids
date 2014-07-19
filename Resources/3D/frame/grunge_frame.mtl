@@ -1,12 +1,12 @@
-# Blender MTL File: 'None'
+# Blender MTL File: 'grunge_frame.blend'
 # Material Count: 1
 
 newmtl Metal_Seamed
-Ns 96.078431
+Ns 90.196078
 Ka 0.000000 0.000000 0.000000
-Kd 0.640000 0.640000 0.640000
+Kd 0.409600 0.409600 0.409600
 Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
-illum 2
-map_Kd Metal_Seamed.jpg
+illum 0
+map_Kd solid_steel.jpg

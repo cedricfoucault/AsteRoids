@@ -106,7 +106,7 @@
 
 - (id)init {
     self = [super init];
-
+    
     if (self) {
         // Init AR session
         _arSession = [[QCARAppSession alloc] initWithDelegate:self];
@@ -286,11 +286,25 @@
     // HUD
     [[NSBundle mainBundle] loadNibNamed:@"hudGame" owner:self options:nil];
     [self.view addSubview:self.hudOverlayView];
-    self.hudOverlayView.hidden = YES;
+    if (APP_PREVIEW) {
+        self.hudInstructions.hidden = YES;
+        float r = arc4random_uniform(45);
+        float speed = r / 10.0f;
+        float scale = (arc4random_uniform(400 - 50) + 50) / 1000.0f;
+        int asteroids = arc4random_uniform(r);
+        int life = arc4random_uniform(LIFE_MAX - 3) + 3;
+        self.speedLabel.text = [NSString stringWithFormat:@"%.1f", speed];
+        self.asteroidsLabel.text = [NSString stringWithFormat:@"%d", asteroids];
+        self.lifebarWidthConstraint.constant = self.maxLifebarWidthConstraint.constant * life / (CGFloat)LIFE_MAX;
+        self.destinationPlanet.scaleX = scale;
+        self.destinationPlanet.scaleY = scale;
+        [self.lifebarView layoutIfNeeded];
+    } else {
+        self.hudOverlayView.hidden = YES;
+    }
     // Set layout constraints
     [self.hudInstructions setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.hudOverlayView setTranslatesAutoresizingMaskIntoConstraints:NO];
-//    [self.hitOverlayView setTranslatesAutoresizingMaskIntoConstraints:NO];
     UIView *subview = self.hudInstructions;
     NSDictionary *views = NSDictionaryOfVariableBindings(subview);
     [self.view addConstraints:
@@ -317,20 +331,6 @@
                                              options:0
                                              metrics:nil
                                                views:views]];
-    
-//    subview = self.hitOverlayView;
-//    views = NSDictionaryOfVariableBindings(subview);
-//    [self.view addConstraints:
-//     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[subview]|"
-//                                             options:0
-//                                             metrics:nil
-//                                               views:views]];
-//    
-//    [self.view addConstraints:
-//     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[subview]|"
-//                                             options:0
-//                                             metrics:nil
-//                                               views:views]];
     // Update text
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         self.labelMoveDevice.text = [self.labelMoveDevice.text stringByReplacingOccurrencesOfString:@"iPhone"
@@ -404,11 +404,16 @@
     
     
     // Setting the invisible "occlusion" wall
+//    settings = [NSDictionary dictionaryWithObjectsAndKeys:
+//                kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
+//                [NSString stringWithFormat:@"%f", WALL_SCALE], kNGLMeshKeyNormalize,
+//                nil];
+//    self.wall = [[NGLMesh alloc] initWithFile:@"Wall with hole.obj" settings:settings delegate:self];
     settings = [NSDictionary dictionaryWithObjectsAndKeys:
-                kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
-                [NSString stringWithFormat:@"%f", WALL_SCALE], kNGLMeshKeyNormalize,
+//                kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
+//                [NSString stringWithFormat:@"%f", WALL_SCALE], kNGLMeshKeyNormalize,
                 nil];
-    self.wall = [[NGLMesh alloc] initWithFile:@"Wall with hole.obj" settings:settings delegate:self];
+    self.wall = [[NGLMesh alloc] initWithFile:WALL_MESH_FILENAME settings:settings delegate:self];
     NGLMaterial *transparentMaterial = [[NGLMaterial alloc] init];
     transparentMaterial.alpha = 0.05;
     self.wall.material = transparentMaterial;
@@ -419,6 +424,8 @@
 //                kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
                 nil];
     self.frame = [[NGLMesh alloc] initWithFile:FRAME_MESH_FILENAME settings:settings delegate:nil];
+    self.frame.shaders = [NGLShaders shadersWithFilesVertex:nil andFragment:BILLBOARD_FRAGMENT_SHADER_FILENAME];
+    [self.frame compileCoreMesh];
     
     // Setting the asteroid mesh
 //    settings = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -452,24 +459,29 @@
     self.cameraManager.cameraForTranslucentObjects = [[NGLCamera alloc] initWithMeshes:nil];
 //	[self.camera autoAdjustAspectRatio:YES animated:YES];
     
-    // Setting initial asteroids
-//    Asteroid *asteroid;
-//    for (float z = -4.0f; z > ASTEROIDS_SPAWN_Z; z -= 1 / ASTEROIDS_DENSITY) {
-//        asteroid = [[Asteroid alloc] initWithCollisionWorld:self.physCollisionWorld];
-//        asteroid.mesh.x = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_X_VARIANCE;
-//        asteroid.mesh.y = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_Y_VARIANCE;
-//        asteroid.mesh.z = z;
-//        asteroid.translationSpeed = ASTEROID_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_SPEED_VARIANCE;
-//        asteroid.rotationSpeed = ASTEROID_ROTATION_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_ROTATION_SPEED_VARIANCE;
-//        asteroid.motionPropertiesInitialized = TRUE;
-//        [self.gameObjects addObject:asteroid];
-//    }
-//    [self addInitialAsteroids];
-//    [self hideGameObjects];
-    [self addTutorialAsteroid];
+    // Set first asteroid to shoot
+    if (APP_PREVIEW) {
+        [self addPreviewAsteroids];
+    } else {
+        [self addTutorialAsteroid];
+    }
     
 	// Starts the debug monitor.
 //	[[NGLDebug debugMonitor] startWithView:(NGLView *)self.view];
+}
+
+- (void)addTutorialAsteroid {
+    Asteroid *asteroid;
+    asteroid = [[Asteroid alloc] initWithCollisionWorld:self.physCollisionWorld];
+    // position
+    asteroid.mesh.x =  3.0f * WINDOW_SCALE / 4.0f;
+    asteroid.mesh.y = - 3.0f * WINDOW_SCALE / (4.0f * WINDOW_ASPECT_RATIO);
+    asteroid.mesh.z = -2.5f;
+    // rotation
+    asteroid.rotationAxis = nglVec3Normalize(nglVec3Make(RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1()));
+    asteroid.rotationSpeed = ASTEROID_ROTATION_SPEED_MEAN;
+    asteroid.motionPropertiesInitialized = TRUE;
+    [self.gameObjects addObject:asteroid];
 }
 
 - (void)addInitialAsteroids {
@@ -509,18 +521,30 @@
     }
 }
 
-- (void)addTutorialAsteroid {
+- (void)addPreviewAsteroids {
     Asteroid *asteroid;
-    asteroid = [[Asteroid alloc] initWithCollisionWorld:self.physCollisionWorld];
-    // position
-    asteroid.mesh.x =  3.0f * WINDOW_SCALE / 4.0f;
-    asteroid.mesh.y = - 3.0f * WINDOW_SCALE / (4.0f * WINDOW_ASPECT_RATIO);
-    asteroid.mesh.z = -2.5f;
-    // rotation
-    asteroid.rotationAxis = nglVec3Normalize(nglVec3Make(RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1()));
-    asteroid.rotationSpeed = ASTEROID_ROTATION_SPEED_MEAN;
-    asteroid.motionPropertiesInitialized = TRUE;
-    [self.gameObjects addObject:asteroid];
+    for (float z = 0.8f; z > ASTEROIDS_SPAWN_Z; z -= 1 / ASTEROIDS_DENSITY) {
+        asteroid = [[Asteroid alloc] initWithCollisionWorld:self.physCollisionWorld];
+        asteroid.mesh.z = z;
+        // position
+        if (z > 0) {
+            asteroid.mesh.x = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_X_VARIANCE * 2.0f / 3.0f;
+            asteroid.mesh.y = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_Y_VARIANCE * 2.0f / 3.0f;
+        }
+        asteroid.mesh.x = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_X_VARIANCE;
+        asteroid.mesh.y = RANDOM_MINUS_1_TO_1() * ASTEROIDS_SPAWN_Y_VARIANCE;
+        NSLog(@"x, y, z: %f, %f, %f", asteroid.mesh.x, asteroid.mesh.y, asteroid.mesh.z);
+        // translation
+//        asteroid.translationDirection = nglVec3Normalize(nglVec3Make(RANDOM_MINUS_1_TO_1(),
+//                                                                     RANDOM_MINUS_1_TO_1(),
+//                                                                     RANDOM_MINUS_1_TO_1()));
+//        asteroid.translationSpeed = ASTEROID_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_SPEED_VARIANCE;
+        // rotation
+        asteroid.rotationAxis = nglVec3Normalize(nglVec3Make(RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1(), RANDOM_MINUS_1_TO_1()));
+        asteroid.rotationSpeed = ASTEROID_ROTATION_SPEED_MEAN + RANDOM_MINUS_1_TO_1() * ASTEROID_ROTATION_SPEED_VARIANCE;
+        asteroid.motionPropertiesInitialized = TRUE;
+        [self.gameObjects addObject:asteroid];
+    }
 }
 
 - (void)hideGameObjects {
@@ -581,16 +605,35 @@ static const float sqrt_2 = sqrtf(2);
                 [self.cameraManager updateMatricesWithQMatrix:qMatrix targetScale:scale];
                 
                 // update the rebase matrices of the camera and the light
-                [self.cameraManager.camera rebaseWithMatrix:qMatrix.data
+                [self.cameraManager.camera rebaseWithMatrix:self.cameraManager.qMatrixDataSmoothed
                                                       scale:scale
                                               compatibility:NGLRebaseQualcommAR];
-                [self.cameraManager.cameraForTranslucentObjects rebaseWithMatrix:qMatrix.data
+                [self.cameraManager.cameraForTranslucentObjects rebaseWithMatrix:self.cameraManager.qMatrixDataSmoothed
                                                                            scale:scale
                                                                    compatibility:NGLRebaseQualcommAR];
-                [[NGLLight defaultLight] rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
-                [self.skydome rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
-                [self.wall rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
-                [self.destinationPlanet rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
+                [[NGLLight defaultLight] rebaseWithMatrix:self.cameraManager.qMatrixDataSmoothed
+                                                    scale:scale
+                                            compatibility:NGLRebaseQualcommAR];
+                [self.skydome rebaseWithMatrix:self.cameraManager.qMatrixDataSmoothed
+                                         scale:scale
+                                 compatibility:NGLRebaseQualcommAR];
+                [self.wall rebaseWithMatrix:self.cameraManager.qMatrixDataSmoothed
+                                      scale:scale
+                              compatibility:NGLRebaseQualcommAR];
+                [self.destinationPlanet rebaseWithMatrix:self.cameraManager.qMatrixDataSmoothed
+                                                   scale:scale
+                                           compatibility:NGLRebaseQualcommAR];
+
+//                [self.cameraManager.camera rebaseWithMatrix:qMatrix.data
+//                                                      scale:scale
+//                                              compatibility:NGLRebaseQualcommAR];
+//                [self.cameraManager.cameraForTranslucentObjects rebaseWithMatrix:qMatrix.data
+//                                                                           scale:scale
+//                                                                   compatibility:NGLRebaseQualcommAR];
+//                [[NGLLight defaultLight] rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
+//                [self.skydome rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
+//                [self.wall rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
+//                [self.destinationPlanet rebaseWithMatrix:qMatrix.data scale:scale compatibility:NGLRebaseQualcommAR];
                 // move skydome with camera to give illusion of infinity, but make sure that skydome covers the whole window
                 NGLvec3 cameraPosition = self.cameraManager.cameraPosition;
                 self.skydome.x = ABS(cameraPosition.x) < (SKYDOME_DISTANCE * sqrt_2 / 4 - WINDOW_SCALE / 2)?
@@ -1203,6 +1246,7 @@ int signf(float f) {
         
         // by default, we try to set the continuous auto focus mode
         // and we update menu to reflect the state of continuous auto-focus
+//        bool isContinuousAutofocus = QCAR::CameraDevice::getInstance().setFocusMode(QCAR::CameraDevice::FOCUS_MODE_TRIGGERAUTO);
         bool isContinuousAutofocus = QCAR::CameraDevice::getInstance().setFocusMode(QCAR::CameraDevice::FOCUS_MODE_CONTINUOUSAUTO);
         if (!isContinuousAutofocus) {
             NSLog(@"ERROR: Could not set continuous autofocus");

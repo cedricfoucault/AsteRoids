@@ -8,9 +8,11 @@
 
 #import "PoseMatrixMathHelper.h"
 
-void getTargetFromCameraMatrix(QCAR::Matrix44F qMatrix, float scale, NGLmat4 result) {
+void getTargetFromCameraMatrix(float qMatrixData[], float scale, NGLmat4 result) {
     NGLmat4 matrix, myRebase;
-    nglMatrixCopy(qMatrix.data, matrix);
+    nglMatrixCopy(qMatrixData, matrix);
+    
+//    nglMatrixDescribe(qMatrixData);
     
     // Reduces the position by size to fit the NinevehGL/OpenGL sytem [0.0, 1.0].
     // By default, the rebase assumes the rotation matrix is already in the NinevehGL format/orientation.

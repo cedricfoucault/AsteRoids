@@ -6,5 +6,5 @@ Ks 0.0 0.0 0.0
 Ni 1.000000
 d 0.000000
 illum 0
-map_Kd planet_earth_billboard.png
-map_d planet_earth_billboard.png
+map_Kd planet_earth_billboard_1024.png
+map_d planet_earth_billboard_1024.png

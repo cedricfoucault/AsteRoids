@@ -16,8 +16,9 @@
 
 @property (strong, nonatomic) NGLCamera *camera;
 @property (strong, nonatomic) NGLCamera *cameraForTranslucentObjects;
-@property (nonatomic) float *targetFromCameraMatrix;
-@property (nonatomic) float *cameraFromTargetMatrix;
+@property (nonatomic, readonly) float *targetFromCameraMatrix;
+@property (nonatomic, readonly) float *cameraFromTargetMatrix;
+@property (nonatomic, readonly) float *qMatrixDataSmoothed;
 
 - (void)updateMatricesWithQMatrix:(QCAR::Matrix44F)qMatrix targetScale:(float)scale;
 - (NGLvec3)cameraPosition;

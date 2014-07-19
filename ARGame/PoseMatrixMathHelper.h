@@ -9,7 +9,7 @@
 #import <NinevehGL/NinevehGL.h>
 #import <QCAR/Tool.h>
 
-void getTargetFromCameraMatrix(QCAR::Matrix44F qMatrix, float scale, NGLmat4 result);
+void getTargetFromCameraMatrix(float qMatrixData[], float scale, NGLmat4 result);
 
 void getCameraFromTargetMatrix(NGLmat4 targetFromCameraMatrix, NGLmat4 result);
 NGLvec3 getCameraPosition(NGLmat4 cameraFromTargetMatrix);
