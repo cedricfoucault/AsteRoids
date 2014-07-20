@@ -290,7 +290,7 @@
         self.hudInstructions.hidden = YES;
         float r = arc4random_uniform(45);
         float speed = r / 10.0f;
-        float scale = (arc4random_uniform(400 - 50) + 50) / 1000.0f;
+        float scale = (arc4random_uniform(7500 - 50) + 50) / 1000.0f;
         int asteroids = arc4random_uniform(r);
         int life = arc4random_uniform(LIFE_MAX - 3) + 3;
         self.speedLabel.text = [NSString stringWithFormat:@"%.1f", speed];
@@ -523,7 +523,7 @@
 
 - (void)addPreviewAsteroids {
     Asteroid *asteroid;
-    for (float z = 0.8f; z > ASTEROIDS_SPAWN_Z; z -= 1 / ASTEROIDS_DENSITY) {
+    for (float z = 0.35f; z > ASTEROIDS_SPAWN_Z; z -= 1 / ASTEROIDS_DENSITY) {
         asteroid = [[Asteroid alloc] initWithCollisionWorld:self.physCollisionWorld];
         asteroid.mesh.z = z;
         // position

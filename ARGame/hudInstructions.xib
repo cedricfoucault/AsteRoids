@@ -70,10 +70,10 @@
                     <color key="trackTintColor" white="1" alpha="0.69999999999999996" colorSpace="calibratedWhite"/>
                 </progressView>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OIZ-py-Ngo" userLabel="TapMiddleOverlay">
-                    <rect key="frame" x="133" y="98" width="303" height="24"/>
+                    <rect key="frame" x="135" y="98" width="299" height="24"/>
                     <subviews>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You don't have to tap in the middle" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jhK-Jr-2C6">
-                            <rect key="frame" x="38" y="3" width="226" height="18"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You don't have to tap in the center" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jhK-Jr-2C6">
+                            <rect key="frame" x="38" y="3" width="223" height="18"/>
                             <fontDescription key="fontDescription" name="Exo2.0-Light" family="Exo 2.0" pointSize="26"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
