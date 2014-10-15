@@ -287,20 +287,26 @@
     [[NSBundle mainBundle] loadNibNamed:@"hudGame" owner:self options:nil];
     [self.view addSubview:self.hudOverlayView];
     if (APP_PREVIEW) {
-        self.hudInstructions.hidden = YES;
         float r = arc4random_uniform(45);
         float speed = r / 10.0f;
         float scale = (arc4random_uniform(7500 - 50) + 50) / 1000.0f;
         int asteroids = arc4random_uniform(r);
         int life = arc4random_uniform(LIFE_MAX - 3) + 3;
-        self.speedLabel.text = [NSString stringWithFormat:@"%.1f", speed];
-        self.asteroidsLabel.text = [NSString stringWithFormat:@"%d", asteroids];
-        self.lifebarWidthConstraint.constant = self.maxLifebarWidthConstraint.constant * life / (CGFloat)LIFE_MAX;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // Code to run on the main queue
+            self.hudInstructions.hidden = YES;
+            self.speedLabel.text = [NSString stringWithFormat:@"%.1f", speed];
+            self.asteroidsLabel.text = [NSString stringWithFormat:@"%d", asteroids];
+            self.lifebarWidthConstraint.constant = self.maxLifebarWidthConstraint.constant * life / (CGFloat)LIFE_MAX;
+        });
         self.destinationPlanet.scaleX = scale;
         self.destinationPlanet.scaleY = scale;
         [self.lifebarView layoutIfNeeded];
     } else {
-        self.hudOverlayView.hidden = YES;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // Code to run on the main queue/thread
+            self.hudOverlayView.hidden = YES;
+        });
     }
     // Set layout constraints
     [self.hudInstructions setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -333,8 +339,10 @@
                                                views:views]];
     // Update text
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        self.labelMoveDevice.text = [self.labelMoveDevice.text stringByReplacingOccurrencesOfString:@"iPhone"
-                                                                                         withString:@"iPad"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.labelMoveDevice.text = [self.labelMoveDevice.text stringByReplacingOccurrencesOfString:@"iPhone"
+                                                                                             withString:@"iPad"];
+        });
     }
     
     // Set OpenGL parameters
@@ -711,7 +719,10 @@ int signf(float f) {
         [self spawnBeam];
         // consume one load and start reload timer
         self.gunIsLoaded = NO;
-        [self.gunViewfinder setImage:imageUnloadedGunViewfinder];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // Code to run on the main queue/thread
+            [self.gunViewfinder setImage:imageUnloadedGunViewfinder];
+        });
         [NSTimer scheduledTimerWithTimeInterval:RELOAD_DELAY target:self selector:@selector(reload) userInfo:nil repeats:NO];
         [NSTimer scheduledTimerWithTimeInterval:RELOAD_PROGRESS_TIMER_DELAY
                                                  target: self
@@ -719,8 +730,11 @@ int signf(float f) {
                                                userInfo: nil
                                                 repeats: YES];
         // init progress bar
-        self.reloadProgressView.progress = 0;
-        self.reloadProgressView.hidden = NO;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // Code to run on the main queue/thread
+            self.reloadProgressView.progress = 0;
+            self.reloadProgressView.hidden = NO;
+        });
         
         // get touch location and show feedback if user keeps tapping in the middle
         CGPoint touchLocation = [sender locationInView:self.view];
@@ -731,21 +745,24 @@ int signf(float f) {
         }
         if (self.consecutiveMiddleTaps >= 3) {
             // show middle tap feedback
-            self.tapMiddleIngame.hidden = false;
-            self.tapMiddleIngame.alpha = 0;
-            [UIView animateWithDuration:SHOWHIDE_ANIMATION_DURATION
-                             animations:^(){
-                self.tapMiddleIngame.alpha = 1;
-            }
-                             completion:^(BOOL finished1){
-                [UIView animateWithDuration:SHOWHIDE_ANIMATION_DURATION delay:2.0 options:0
-                                 animations:^() {
-                                     self.tapMiddleIngame.alpha = 0;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // Your code to run on the main queue/thread
+                self.tapMiddleIngame.hidden = false;
+                self.tapMiddleIngame.alpha = 0;
+                [UIView animateWithDuration:SHOWHIDE_ANIMATION_DURATION
+                                 animations:^(){
+                                     self.tapMiddleIngame.alpha = 1;
                                  }
-                                 completion:^(BOOL finished2) {
-//                                     self.tapMiddleIngame.hidden = true;
+                                 completion:^(BOOL finished1){
+                                     [UIView animateWithDuration:SHOWHIDE_ANIMATION_DURATION delay:2.0 options:0
+                                                      animations:^() {
+                                                          self.tapMiddleIngame.alpha = 0;
+                                                      }
+                                                      completion:^(BOOL finished2) {
+                                                          //                                     self.tapMiddleIngame.hidden = true;
+                                                      }];
                                  }];
-            }];
+            });
             // reset consecutiveMiddleTaps counter
             self.consecutiveMiddleTaps = 0;
         }
@@ -757,16 +774,19 @@ int signf(float f) {
         [self spawnBeam];
         // consume one load and start reload timer
         self.gunIsLoaded = NO;
-        [self.gunViewfinderInstruction setImage:imageUnloadedGunViewfinder];
-        [NSTimer scheduledTimerWithTimeInterval:RELOAD_DELAY target:self selector:@selector(reloadInstruction) userInfo:nil repeats:NO];
-        [NSTimer scheduledTimerWithTimeInterval:RELOAD_PROGRESS_TIMER_DELAY
-                                         target: self
-                                       selector: @selector(updateReloadProgressTimerInstruction:)
-                                       userInfo: nil
-                                        repeats: YES];
-        // init progress bar
-        self.reloadProgressViewInstruction.progress = 0;
-        self.reloadProgressViewInstruction.hidden = NO;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // Code to run on the main queue/thread
+            [self.gunViewfinderInstruction setImage:imageUnloadedGunViewfinder];
+            [NSTimer scheduledTimerWithTimeInterval:RELOAD_DELAY target:self selector:@selector(reloadInstruction) userInfo:nil repeats:NO];
+            [NSTimer scheduledTimerWithTimeInterval:RELOAD_PROGRESS_TIMER_DELAY
+                                             target: self
+                                           selector: @selector(updateReloadProgressTimerInstruction:)
+                                           userInfo: nil
+                                            repeats: YES];
+            // init progress bar
+            self.reloadProgressViewInstruction.progress = 0;
+            self.reloadProgressViewInstruction.hidden = NO;
+        });
         
         // get touch location and show feedback if user keeps tapping in the middle
         CGPoint touchLocation = [sender locationInView:self.view];
@@ -777,21 +797,24 @@ int signf(float f) {
         }
         if (self.consecutiveMiddleTaps >= 3) {
             // show middle tap feedback
-            self.tapMiddleInstruction.hidden = false;
-            self.tapMiddleInstruction.alpha = 0;
-            [UIView animateWithDuration:SHOWHIDE_ANIMATION_DURATION
-                             animations:^(){
-                                 self.tapMiddleInstruction.alpha = 1;
-                             }
-                             completion:^(BOOL finished1){
-                                 [UIView animateWithDuration:SHOWHIDE_ANIMATION_DURATION delay:2.0 options:0
-                                                  animations:^() {
-                                                      self.tapMiddleInstruction.alpha = 0;
-                                                  }
-                                                  completion:^(BOOL finished2) {
-//                                                      self.tapMiddleInstruction.hidden = true;
-                                                  }];
-                             }];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // Code to run on the main queue
+                self.tapMiddleInstruction.hidden = false;
+                self.tapMiddleInstruction.alpha = 0;
+                [UIView animateWithDuration:SHOWHIDE_ANIMATION_DURATION
+                                 animations:^(){
+                                     self.tapMiddleInstruction.alpha = 1;
+                                 }
+                                 completion:^(BOOL finished1){
+                                     [UIView animateWithDuration:SHOWHIDE_ANIMATION_DURATION delay:2.0 options:0
+                                                      animations:^() {
+                                                          self.tapMiddleInstruction.alpha = 0;
+                                                      }
+                                                      completion:^(BOOL finished2) {
+                                                          //                                                      self.tapMiddleInstruction.hidden = true;
+                                                      }];
+                                 }];
+            });
             // reset consecutiveMiddleTaps counter
             self.consecutiveMiddleTaps = 0;
         }
@@ -827,10 +850,12 @@ int signf(float f) {
     if (imageLoadedGunViewfinder == nil) {
         imageLoadedGunViewfinder = [UIImage imageNamed:LOADED_VIEWFINDER_FILENAME];
     }
-    [self.gunViewfinder setImage:imageLoadedGunViewfinder];
     
-    // reset progress bar
-    self.reloadProgressView.hidden = YES;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.gunViewfinder setImage:imageLoadedGunViewfinder];
+        // reset progress bar
+        self.reloadProgressView.hidden = YES;
+    });
 }
 
 - (void)reloadInstruction {
@@ -839,10 +864,11 @@ int signf(float f) {
     if (imageLoadedGunViewfinder == nil) {
         imageLoadedGunViewfinder = [UIImage imageNamed:LOADED_VIEWFINDER_FILENAME];
     }
-    [self.gunViewfinderInstruction setImage:imageLoadedGunViewfinder];
-    
-    // reset progress bar
-    self.reloadProgressViewInstruction.hidden = YES;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.gunViewfinderInstruction setImage:imageLoadedGunViewfinder];
+        // reset progress bar
+        self.reloadProgressViewInstruction.hidden = YES;
+    });
 }
 
 //- (void)shotHitTest {
@@ -897,7 +923,10 @@ int signf(float f) {
     // only count asteroids destroyed once ship is started
     if (self.shipIsStarted) {
         self.score++;
-        self.asteroidsLabel.text = [NSString stringWithFormat:@"%d", self.score];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // Code to run on the main queue
+            self.asteroidsLabel.text = [NSString stringWithFormat:@"%d", self.score];
+        });
     } else if (!self.firstShotDone) {
         self.firstShotDone = YES;
         [self displayInstruction3];
@@ -914,17 +943,20 @@ int signf(float f) {
     self.gunIsLoaded = YES;
 //    self.instruction1CenterXConstraint.constant = 640;
 //    self.instruction2CenterXConstraint.constant = 0;
-    [self.hudInstructions removeConstraints:@[
-                                              self.instruction1CenterXConstraint,
-                                              self.instruction2CenterXConstraint
-                                              ]];
-    [self.targetViewfinder removeFromSuperview];
-    self.gunViewfinderInstruction.hidden = NO;
-    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-//        [self.instruction1 layoutIfNeeded];
-//        [self.instruction2 layoutIfNeeded];
-        [self.hudInstructions layoutIfNeeded];
-    }];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Code runs in main queue
+        [self.hudInstructions removeConstraints:@[
+                                                  self.instruction1CenterXConstraint,
+                                                  self.instruction2CenterXConstraint
+                                                  ]];
+        [self.targetViewfinder removeFromSuperview];
+        self.gunViewfinderInstruction.hidden = NO;
+        [UIView animateWithDuration:ANIMATION_DURATION animations:^{
+            //        [self.instruction1 layoutIfNeeded];
+            //        [self.instruction2 layoutIfNeeded];
+            [self.hudInstructions layoutIfNeeded];
+        }];
+    });
 }
 
 - (void)displayInstruction3 {
@@ -932,91 +964,103 @@ int signf(float f) {
 //    self.instruction2CenterXConstraint.constant = 640;
 //    self.startButtonCenterYConstraint.constant = 0;
 //    self.startButtonCenterXConstraint.constant = 0;
-    [self.hudInstructions removeConstraints:@[
-                                              self.overlayProportionalHeightConstraint,
-                                              self.instruction2CenterXConstraint2,
-                                              self.instruction3CenterXConstraint,
-                                              self.instruction3CenterYConstraint,
-                                              self.startButtonCenterXConstraint,
-                                              self.startButtonCenterYConstraint
-                                              ]];
-    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-//        [self.overlay layoutIfNeeded];
-//        [self.instruction2 layoutIfNeeded];
-//        [self.startButton layoutIfNeeded];
-        [self.hudInstructions layoutIfNeeded];
-    }];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Code runs on the main queue
+        [self.hudInstructions removeConstraints:@[
+                                                  self.overlayProportionalHeightConstraint,
+                                                  self.instruction2CenterXConstraint2,
+                                                  self.instruction3CenterXConstraint,
+                                                  self.instruction3CenterYConstraint,
+                                                  self.startButtonCenterXConstraint,
+                                                  self.startButtonCenterYConstraint
+                                                  ]];
+        [UIView animateWithDuration:ANIMATION_DURATION animations:^{
+            //        [self.overlay layoutIfNeeded];
+            //        [self.instruction2 layoutIfNeeded];
+            //        [self.startButton layoutIfNeeded];
+            [self.hudInstructions layoutIfNeeded];
+        }];
+    });
     // music
     self.playerMenu.currentTime = 0.0;
     [self.playerMenu playAtTime:(self.playerMenu.deviceCurrentTime + ANIMATION_DURATION)];
 }
 
 - (void)displayGameOver {
-    self.gameoverOverlay.hidden = FALSE;
-    [self.hudOverlayView removeConstraints:@[
-                                             self.gameoverTopAlignConstraint,
-                                             self.gameoverBottomAlignConstraint
-                                             ]];
-    [self.hudOverlayView removeConstraints:@[
-                                             self.asteroidsLabelLeftAlignConstraint,
-                                             self.asteroidsLabelRightAlignConstraint,
-                                             self.asteroidsIconLeftAlignConstraint,
-                                             self.asteroidsIconBottomAlignConstraint
-                                             ]];
-    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-        [self.hudOverlayView layoutIfNeeded];
-        self.ingameOverlay.alpha = 0;
-    } completion:^(BOOL finished) {
-        self.ingameOverlay.hidden = TRUE;
-    }];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Code to run on the main queue/thread
+        self.gameoverOverlay.hidden = FALSE;
+        [self.hudOverlayView removeConstraints:@[
+                                                 self.gameoverTopAlignConstraint,
+                                                 self.gameoverBottomAlignConstraint
+                                                 ]];
+        [self.hudOverlayView removeConstraints:@[
+                                                 self.asteroidsLabelLeftAlignConstraint,
+                                                 self.asteroidsLabelRightAlignConstraint,
+                                                 self.asteroidsIconLeftAlignConstraint,
+                                                 self.asteroidsIconBottomAlignConstraint
+                                                 ]];
+        [UIView animateWithDuration:ANIMATION_DURATION animations:^{
+            [self.hudOverlayView layoutIfNeeded];
+            self.ingameOverlay.alpha = 0;
+        } completion:^(BOOL finished) {
+            self.ingameOverlay.hidden = TRUE;
+        }];
+    });
 }
 
 - (void)displayEndGame {
-    // update overlay to take the whole view
-    self.endgameOverlay.hidden = FALSE;
-    [self.hudOverlayView removeConstraints:@[
-                                             self.endgameTopAlignConstraint,
-                                             self.endgameBottomAlignConstraint
-                                             ]];
-    [self.hudOverlayView removeConstraints:@[
-         self.asteroidsLabelLeftAlignConstraint,
-         self.asteroidsLabelRightAlignConstraint,
-         self.asteroidsIconLeftAlignConstraint,
-         self.asteroidsIconBottomAlignConstraint
-    ]];
-    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-        [self.hudOverlayView layoutIfNeeded];
-        self.ingameOverlay.alpha = 0;
-    } completion:^(BOOL finished) {
-        self.ingameOverlay.hidden = TRUE;
-    }];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Code to run on the main queue/thread
+        // update overlay to take the whole view
+        self.endgameOverlay.hidden = FALSE;
+        [self.hudOverlayView removeConstraints:@[
+                                                 self.endgameTopAlignConstraint,
+                                                 self.endgameBottomAlignConstraint
+                                                 ]];
+        [self.hudOverlayView removeConstraints:@[
+                                                 self.asteroidsLabelLeftAlignConstraint,
+                                                 self.asteroidsLabelRightAlignConstraint,
+                                                 self.asteroidsIconLeftAlignConstraint,
+                                                 self.asteroidsIconBottomAlignConstraint
+                                                 ]];
+        [UIView animateWithDuration:ANIMATION_DURATION animations:^{
+            [self.hudOverlayView layoutIfNeeded];
+            self.ingameOverlay.alpha = 0;
+        } completion:^(BOOL finished) {
+            self.ingameOverlay.hidden = TRUE;
+        }];
+    });
 }
 
 - (void)displayIngame {
-    [self.hudOverlayView addConstraints:@[
-         self.asteroidsLabelLeftAlignConstraint,
-         self.asteroidsLabelRightAlignConstraint,
-         self.asteroidsIconLeftAlignConstraint,
-         self.asteroidsIconBottomAlignConstraint
-    ]];
-    [self.hudOverlayView layoutIfNeeded];
-    self.ingameOverlay.hidden = FALSE;
-    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-        self.gameoverOverlay.alpha = 0;
-        self.endgameOverlay.alpha = 0;
-        self.ingameOverlay.alpha = 1;
-    } completion:^(BOOL finished) {
-        self.gameoverOverlay.hidden = TRUE;
-        self.endgameOverlay.hidden = TRUE;
-        self.endgameOverlay.alpha = 1;
-        self.gameoverOverlay.alpha = 1;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Code to run on the main queue/thread
         [self.hudOverlayView addConstraints:@[
-                                              self.gameoverTopAlignConstraint,
-                                              self.gameoverBottomAlignConstraint,
-                                              self.endgameTopAlignConstraint,
-                                              self.endgameBottomAlignConstraint
-                                            ]];
-    }];
+                                              self.asteroidsLabelLeftAlignConstraint,
+                                              self.asteroidsLabelRightAlignConstraint,
+                                              self.asteroidsIconLeftAlignConstraint,
+                                              self.asteroidsIconBottomAlignConstraint
+                                              ]];
+        [self.hudOverlayView layoutIfNeeded];
+        self.ingameOverlay.hidden = FALSE;
+        [UIView animateWithDuration:ANIMATION_DURATION animations:^{
+            self.gameoverOverlay.alpha = 0;
+            self.endgameOverlay.alpha = 0;
+            self.ingameOverlay.alpha = 1;
+        } completion:^(BOOL finished) {
+            self.gameoverOverlay.hidden = TRUE;
+            self.endgameOverlay.hidden = TRUE;
+            self.endgameOverlay.alpha = 1;
+            self.gameoverOverlay.alpha = 1;
+            [self.hudOverlayView addConstraints:@[
+                                                  self.gameoverTopAlignConstraint,
+                                                  self.gameoverBottomAlignConstraint,
+                                                  self.endgameTopAlignConstraint,
+                                                  self.endgameBottomAlignConstraint
+                                                  ]];
+        }];
+    });
 }
 
 
@@ -1061,15 +1105,18 @@ int signf(float f) {
     // set scene
     [self addInitialAsteroids];
     // transition views
-    [UIView transitionFromView:self.hudInstructions
-                        toView:self.hudOverlayView
-                      duration:SHOWHIDE_ANIMATION_DURATION options:UIViewAnimationOptionShowHideTransitionViews|UIViewAnimationOptionTransitionCrossDissolve
-                    completion:^(BOOL finished){
-                        self.shipIsStarted = YES;
-                        self.shipSpeed = 0.1f;
-                        self.timeShipStarted = CFAbsoluteTimeGetCurrent();
-//                        [self stopShip];
-                    }];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Code to run on the main queue
+        [UIView transitionFromView:self.hudInstructions
+                            toView:self.hudOverlayView
+                          duration:SHOWHIDE_ANIMATION_DURATION options:UIViewAnimationOptionShowHideTransitionViews|UIViewAnimationOptionTransitionCrossDissolve
+                        completion:^(BOOL finished){
+                            self.shipIsStarted = YES;
+                            self.shipSpeed = 0.1f;
+                            self.timeShipStarted = CFAbsoluteTimeGetCurrent();
+                            //                        [self stopShip];
+                        }];
+    });
     // music
     if (self.playerMenu.playing) {
         [self.playerMenu stop];
@@ -1127,7 +1174,10 @@ int signf(float f) {
 
 - (void)resetScore {
     self.score = 0;
-    self.asteroidsLabel.text = [NSString stringWithFormat:@"%d", self.score];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Code to run on the main queue/thread
+        self.asteroidsLabel.text = [NSString stringWithFormat:@"%d", self.score];
+    });
 }
 
 - (void)resetLife {
@@ -1175,34 +1225,40 @@ int signf(float f) {
     if (self.hitTimer) {
         [self.hitTimer invalidate];
     }
-    self.hitOverlayView.hidden = NO;
-    self.hitOverlayView.alpha = 0.8;
-    [self.view setNeedsDisplay];
-    NSTimeInterval secondsShown = 1.0;
-//    self.hitTimer = [NSTimer scheduledTimerWithTimeInterval:secondsShown target:self selector:@selector(hideHitOverlay) userInfo:nil repeats:NO];
-    if (self.life == 0) {
-        // display game over if life is 0
-        [UIView animateWithDuration:secondsShown animations:^{
-            self.hitOverlayView.alpha = 0;
-        } completion:^(BOOL finished) {
-            //        self.hitOverlayView.hidden = TRUE;
-            [self gameOver];
-        }];
-    } else {
-        // otherwise just give feedback that player was hit
-        [UIView animateWithDuration:secondsShown animations:^{
-            self.hitOverlayView.alpha = 0;
-        } completion:^(BOOL finished) {
-            //        self.hitOverlayView.hidden = TRUE;
-        }];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Code to run on the main queue
+        self.hitOverlayView.hidden = NO;
+        self.hitOverlayView.alpha = 0.8;
+        [self.view setNeedsDisplay];
+        NSTimeInterval secondsShown = 1.0;
+        //    self.hitTimer = [NSTimer scheduledTimerWithTimeInterval:secondsShown target:self selector:@selector(hideHitOverlay) userInfo:nil repeats:NO];
+        if (self.life == 0) {
+            // display game over if life is 0
+            [UIView animateWithDuration:secondsShown animations:^{
+                self.hitOverlayView.alpha = 0;
+            } completion:^(BOOL finished) {
+                //        self.hitOverlayView.hidden = TRUE;
+                [self gameOver];
+            }];
+        } else {
+            // otherwise just give feedback that player was hit
+            [UIView animateWithDuration:secondsShown animations:^{
+                self.hitOverlayView.alpha = 0;
+            } completion:^(BOOL finished) {
+                //        self.hitOverlayView.hidden = TRUE;
+            }];
+        }
+    });
     // play sound effect
     AudioServicesPlaySystemSound(self.soundHit);
 }
 
 - (void)refreshLifebar {
-    self.lifebarWidthConstraint.constant = self.maxLifebarWidthConstraint.constant * self.life / (CGFloat)LIFE_MAX;
-    [self.lifebarView layoutIfNeeded];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Code to run on the main queue/thread
+        self.lifebarWidthConstraint.constant = self.maxLifebarWidthConstraint.constant * self.life / (CGFloat)LIFE_MAX;
+        [self.lifebarView layoutIfNeeded];
+    });
 }
 
 - (void)gameOver {
@@ -1229,7 +1285,10 @@ int signf(float f) {
 }
 
  - (void)hideHitOverlay {
-     self.hitOverlayView.hidden = YES;
+     dispatch_async(dispatch_get_main_queue(), ^{
+         // Code to run on the main queue
+          self.hitOverlayView.hidden = YES;
+     });
      self.hitTimer = nil;
  }
 
@@ -1494,7 +1553,10 @@ int signf(float f) {
         NSLog(@"PAUSE");
     }
     self.gameIsPlaying = NO;
-    self.pausedOverlay.hidden = NO;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Code to run on the main queue/thread
+        self.pausedOverlay.hidden = NO;
+    });
     if (self.playerMusic.playing) {
         [self.playerMusic pause];
     }
@@ -1508,7 +1570,10 @@ int signf(float f) {
         NSLog(@"RESUME");
     }
     self.gameIsPlaying = YES;
-    self.pausedOverlay.hidden = YES;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Code to run on the main queue
+        self.pausedOverlay.hidden = YES;
+    });
     if (self.shipIsStarted && !self.playerMusic.playing) {
         [self.playerMusic play];
     } else if (self.firstShotDone && !self.playerMenu.playing) {
@@ -1543,7 +1608,10 @@ int signf(float f) {
         // Update ship speed
         if (self.shipSpeed < SHIP_SPEED_MAX) {
             self.shipSpeed = shipSpeed(self.timeTraveled);
-            self.speedLabel.text = [NSString stringWithFormat:@"%.1f", self.shipSpeed];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // Code to run on the main queue/thread
+                self.speedLabel.text = [NSString stringWithFormat:@"%.1f", self.shipSpeed];
+            });
         }
     }
     
